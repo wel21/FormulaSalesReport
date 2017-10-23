@@ -35,6 +35,7 @@ namespace Test
             SR.Dock = DockStyle.Fill;
             SR.StoreName = "Papa's Pizza To Go";
             SR.ParamDate.Add(new ParamDate(Convert.ToDateTime("09/01/2017"), ParameterCondition.AND));
+            SR.ParamDate.Add(new ParamDate(Convert.ToDateTime("09/03/2017"), ParameterCondition.AND));
             SR.ShowPrintButton = true;
             SR.LoadReport(LoadReportType.NetSalesByServiceType);
 
