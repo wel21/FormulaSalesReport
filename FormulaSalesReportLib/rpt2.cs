@@ -14,15 +14,17 @@ namespace FormulaSalesReportLib
             InitializeComponent();
         }
 
-        public string StoreName { get; set; }
+        public StoreInfo StoreInformation { get; set; }
+
         public List<ParamDate> ParamDate { get; set; }
         public double TotalAmt { get; set; }
         public string BestHour { get; set; }
 
         private void rpt2_BeforePrint(object sender, System.Drawing.Printing.PrintEventArgs e)
         {
-            if (StoreName != null)
-                xrLabel3.Text = StoreName;
+            xrLabel3.Text = StoreInformation.StoreName;
+            xrLabel10.Text = "Address: " + StoreInformation.StoreAddress;
+            xrLabel26.Text = "Phone Number: " + StoreInformation.StoreNumber;
 
             string _Date = "";
             if (ParamDate.Count == 2)
@@ -32,7 +34,7 @@ namespace FormulaSalesReportLib
                 for (int i = 0; i < ParamDate.Count; i++)
                 { _Date += Helpers.ConvertMyDate(ParamDate[i].date) + (i == ParamDate.Count - 1 ? "" : ", "); }
             }
-            xrLabel2.Text = "Report generated with date range of " + _Date;
+            xrLabel2.Text = _Date;
 
             //FindControl("xrLabel21", true).DataBindings.Add("Text", this.DataSource, "Name");
             //FindControl("xrLabel22", true).DataBindings.Add("Text", this.DataSource, "Quantity");

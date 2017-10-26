@@ -21,6 +21,8 @@ namespace Test
         SalesReportControl SR = new SalesReportControl();
         private void Form1_Load(object sender, EventArgs e)
         {
+            WindowState = FormWindowState.Maximized;
+
             // #### USAGE ####
 
             //optional : update connection string
@@ -33,11 +35,12 @@ namespace Test
             //add document viewer to the form
             this.Controls.Add(SR);
             SR.Dock = DockStyle.Fill;
-            SR.StoreName = "Papa's Pizza To Go";
+            //SR.StoreName = "Papa's Pizza To Go";
             SR.ParamDate.Add(new ParamDate(Convert.ToDateTime("09/01/2017"), ParameterCondition.AND));
             SR.ParamDate.Add(new ParamDate(Convert.ToDateTime("09/03/2017"), ParameterCondition.AND));
             SR.ShowPrintButton = true;
             SR.LoadReport(LoadReportType.NetSalesByServiceType);
+            //SR.ShowPreview(LoadReportType.NetSalesByServiceType);
 
 
             ////show report preview dialog

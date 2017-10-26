@@ -254,4 +254,43 @@ namespace FormulaSalesReportLib
         }
     }
 
+    public class CRStoreData : DatabaseConnection
+    {
+        public MySqlCommand command;
+        public MySqlDataReader Reader;
+        public StoreInfo StoreInformation = new StoreInfo();
+        
+        public void StoreInfoPopulate()
+        {
+            DatabaseConnection con = new DatabaseConnection();
+            connection = con.connectToDB();
+            string commandString;
+            //commandString = "SELECT * FROM employeejobs" + (param == "" ? "" : " WHERE " + param);
+
+            commandString = "SELECT * FROM storeinformation";
+
+            command = connection.CreateCommand();
+            command.CommandText = commandString;
+            //command.Parameters.Add(new MySqlParameter("employee", employee));
+            //for (int i = 0; i < paramfields.Count(); i++)
+            //{
+            //    command.Parameters.Add(new MySqlParameter(paramfields[i].Replace("@", ""), paramvalues[i]));
+            //}
+            MySqlDataReader Reader = command.ExecuteReader();
+
+            while (Reader.Read())
+            {
+                StoreInformation.StoreName = Reader["Name"].ToString();
+                StoreInformation.StoreAddress = Reader["Address1"].ToString() + " " + Reader["Address2"].ToString();
+                StoreInformation.StoreNumber = Reader["PhoneNumber"].ToString();
+            }
+        }
+    }
+
+    public struct StoreInfo
+    {
+        public string StoreName { get; set; }
+        public string StoreAddress { get; set; }
+        public string StoreNumber { get; set; }
+    }
 }

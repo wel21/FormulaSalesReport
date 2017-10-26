@@ -22,6 +22,7 @@ namespace FormulaSalesReportLib
         public List<ParamDate> ParamDate = new List<ParamDate>();
         //public List<ParamString> ParamString = new List<ParamString>();
         //public List<ParamNumbers> ParamNumbers = new List<ParamNumbers>();
+        CRStoreData StoreData = new CRStoreData();
         LoadReportType reportType;
         DataTable DTDiscounts;
         DataTable DTNetSales;
@@ -45,7 +46,9 @@ namespace FormulaSalesReportLib
         rpt3 Rpt3;
         rpt4 Rpt4;
 
-        public string StoreName { get; set; }
+        //public string StoreName { get; set; }
+        //public string StoreAddress { get; set; }
+        //public string StoreNumber { get; set; }
 
         private bool _ShowPrintButton = true;
         public bool ShowPrintButton
@@ -82,6 +85,8 @@ namespace FormulaSalesReportLib
             btnPrint.BackColor = Color.FromArgb(235, 236, 239);
             btnPrint.Click += btnPrint_Click;
             DV.Dock = DockStyle.Fill;
+
+            StoreData.StoreInfoPopulate();
         }
 
         private void btnPrint_Click(object sender, EventArgs e)
@@ -495,7 +500,8 @@ namespace FormulaSalesReportLib
                 report.TotalQty = DTotalQty;// RptSalesTotals.TotalQty;
                 report.TotalAmt = DTotalAmt;//RptSalesTotals.TotalAmt;
 
-                report.StoreName = StoreName;
+                //MessageBox.Show(StoreData.StoreInformation.StoreName);
+                report.StoreInformation = StoreData.StoreInformation;
                 report.ParamDate = ParamDate;
 
                 report.DeliveryCharge = DDeliveryChrge;
@@ -523,7 +529,7 @@ namespace FormulaSalesReportLib
                 
                 report.TotalAmt = DTotalAmt;//RptSalesTotals.TotalAmt;
 
-                report.StoreName = StoreName;
+                report.StoreInformation = StoreData.StoreInformation;
                 report.ParamDate = ParamDate;
 
                 report.BestHour = SBestHour;
@@ -548,7 +554,7 @@ namespace FormulaSalesReportLib
                 report.TotalQty = DTotalQty;// RptSalesTotals.TotalQty;
                 report.TotalAmt = DTotalAmt;//RptSalesTotals.TotalAmt;
 
-                report.StoreName = StoreName;
+                report.StoreInformation = StoreData.StoreInformation;
                 report.ParamDate = ParamDate;
 
                 report.TotalPercent = DTotalPercent;
@@ -574,7 +580,7 @@ namespace FormulaSalesReportLib
                 report.TotalQty = DTotalQty;// RptSalesTotals.TotalQty;
                 report.TotalAmt = DTotalAmt;//RptSalesTotals.TotalAmt;
 
-                report.StoreName = StoreName;
+                report.StoreInformation = StoreData.StoreInformation;
                 report.ParamDate = ParamDate;
 
                 report.TotalPercent = DTotalPercent;

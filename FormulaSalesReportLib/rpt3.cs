@@ -14,7 +14,8 @@ namespace FormulaSalesReportLib
             InitializeComponent();
         }
 
-        public string StoreName { get; set; }
+        public StoreInfo StoreInformation { get; set; }
+
         public List<ParamDate> ParamDate { get; set; }
         public double TotalQty { get; set; }
         public double TotalAmt { get; set; }
@@ -24,8 +25,9 @@ namespace FormulaSalesReportLib
         private void rpt3_BeforePrint(object sender, System.Drawing.Printing.PrintEventArgs e)
         {
 
-            if (StoreName != null)
-                xrLabel3.Text = StoreName;
+            xrLabel3.Text = StoreInformation.StoreName;
+            xrLabel4.Text = "Address: " + StoreInformation.StoreAddress;
+            xrLabel26.Text = "Phone Number: " + StoreInformation.StoreNumber;
 
             string _Date = "";
             if (ParamDate.Count == 2)
