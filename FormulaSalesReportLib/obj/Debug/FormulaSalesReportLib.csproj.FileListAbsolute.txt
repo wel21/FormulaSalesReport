@@ -357,7 +357,6 @@ C:\Users\RCARRASCAL\Documents\GitHub\FormulaSalesReport\FormulaSalesReportLib\bi
 C:\Users\RCARRASCAL\Documents\GitHub\FormulaSalesReport\FormulaSalesReportLib\bin\Debug\es\DevExpress.XtraNavBar.v17.1.resources.dll
 C:\Users\RCARRASCAL\Documents\GitHub\FormulaSalesReport\FormulaSalesReportLib\bin\Debug\ja\DevExpress.XtraNavBar.v17.1.resources.dll
 C:\Users\RCARRASCAL\Documents\GitHub\FormulaSalesReport\FormulaSalesReportLib\bin\Debug\ru\DevExpress.XtraNavBar.v17.1.resources.dll
-C:\Users\RCARRASCAL\Documents\GitHub\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaSalesReportLib.csprojResolveAssemblyReference.cache
 C:\Users\RCARRASCAL\Documents\GitHub\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaSalesReportLib.rpt1.resources
 C:\Users\RCARRASCAL\Documents\GitHub\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaSalesReportLib.rpt2.resources
 C:\Users\RCARRASCAL\Documents\GitHub\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaSalesReportLib.rpt3.resources
@@ -367,3 +366,12 @@ C:\Users\RCARRASCAL\Documents\GitHub\FormulaSalesReport\FormulaSalesReportLib\ob
 C:\Users\RCARRASCAL\Documents\GitHub\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaSalesReportLib.dll.licenses
 C:\Users\RCARRASCAL\Documents\GitHub\FormulaSalesReport\FormulaSalesReportLib\bin\Debug\DevExpress.RichEdit.v17.1.Export.dll
 C:\Users\RCARRASCAL\Documents\GitHub\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaSalesReportLib.rpt4.resources
+C:\Users\RCARRASCAL\Documents\GitHub\FormulaSalesReport\FormulaSalesReportLib\bin\Debug\FormulaSalesReportLib.dll.config
+C:\Users\RCARRASCAL\Documents\GitHub\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaSalesReportLib.rpt_Sales_CreditCardTrans.resources
+C:\Users\RCARRASCAL\Documents\GitHub\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaSalesReportLib.XtraReport1.resources
+C:\Users\RCARRASCAL\Documents\GitHub\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaSalesReportLib.rpt_Sales_OverShortByBusinessDay.resources
+C:\Users\RCARRASCAL\Documents\GitHub\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaSalesReportLib.rpt_Sales_SalesBySrvcType.resources
+C:\Users\RCARRASCAL\Documents\GitHub\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaSalesReportLib.frmMessage.resources
+C:\Users\RCARRASCAL\Documents\GitHub\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaSalesReportLib.rpt_Sales_Voids.resources
+C:\Users\RCARRASCAL\Documents\GitHub\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaSalesReportLib.rpt_History_CardPaymentsByType.resources
+C:\Users\RCARRASCAL\Documents\GitHub\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaSalesReportLib.csprojResolveAssemblyReference.cache

@@ -70,6 +70,24 @@
     <Compile Include="Class1.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="CSales_Reports.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="frmMessage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmMessage.Designer.cs">
+      <DependentUpon>frmMessage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="rpt_History_CardPaymentsByType.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="rpt_History_CardPaymentsByType.Designer.cs">
+      <DependentUpon>rpt_History_CardPaymentsByType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="rpt_Sales1.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Data.cs" />
     <Compile Include="Helpers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -97,8 +115,41 @@
     <Compile Include="rpt4.Designer.cs">
       <DependentUpon>rpt4.cs</DependentUpon>
     </Compile>
+    <Compile Include="rpt_Sales_CreditCardTrans.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="rpt_Sales_CreditCardTrans.Designer.cs">
+      <DependentUpon>rpt_Sales_CreditCardTrans.cs</DependentUpon>
+    </Compile>
+    <Compile Include="rpt_Sales_OverShortByBusinessDay.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="rpt_Sales_OverShortByBusinessDay.Designer.cs">
+      <DependentUpon>rpt_Sales_OverShortByBusinessDay.cs</DependentUpon>
+    </Compile>
+    <Compile Include="rpt_Sales_SalesBySrvcType.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="rpt_Sales_SalesBySrvcType.Designer.cs">
+      <DependentUpon>rpt_Sales_SalesBySrvcType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="rpt_Sales_Voids.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="rpt_Sales_Voids.Designer.cs">
+      <DependentUpon>rpt_Sales_Voids.cs</DependentUpon>
+    </Compile>
+    <Compile Include="XtraReport1.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="XtraReport1.Designer.cs">
+      <DependentUpon>XtraReport1.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="frmMessage.resx">
+      <DependentUpon>frmMessage.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="rpt1.resx">
       <DependentUpon>rpt1.cs</DependentUpon>
@@ -112,6 +163,27 @@
     <EmbeddedResource Include="rpt4.resx">
       <DependentUpon>rpt4.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="rpt_History_CardPaymentsByType.resx">
+      <DependentUpon>rpt_History_CardPaymentsByType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="rpt_Sales_CreditCardTrans.resx">
+      <DependentUpon>rpt_Sales_CreditCardTrans.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="rpt_Sales_OverShortByBusinessDay.resx">
+      <DependentUpon>rpt_Sales_OverShortByBusinessDay.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="rpt_Sales_SalesBySrvcType.resx">
+      <DependentUpon>rpt_Sales_SalesBySrvcType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="rpt_Sales_Voids.resx">
+      <DependentUpon>rpt_Sales_Voids.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="XtraReport1.resx">
+      <DependentUpon>XtraReport1.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

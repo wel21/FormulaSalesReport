@@ -107,28 +107,28 @@ namespace FormulaSalesReportLib
                 switch (ReportType)
                 {
                     case LoadReportType.NetSalesByServiceType:
-                        if (Rpt1 == null) Rpt1 = CreateReport1();
+                        Rpt1 = CreateReport1();
                         DV.DocumentSource = Rpt1;
                         Rpt1.CreateDocument();
 
                         break;
 
                     case LoadReportType.GrossSalesSummarybyHours:
-                        if (Rpt2 == null) Rpt2 = CreateReport2();
+                        Rpt2 = CreateReport2();
                         DV.DocumentSource = Rpt2;
                         Rpt2.CreateDocument();
 
                         break;
 
                     case LoadReportType.NetSalesByCategory:
-                        if (Rpt3 == null) Rpt3 = CreateReport3();
+                        Rpt3 = CreateReport3();
                         DV.DocumentSource = Rpt3;
                         Rpt3.CreateDocument();
 
                         break;
 
                     case LoadReportType.DiscountSummary:
-                        if (Rpt4 == null) Rpt4 = CreateReport4();
+                        Rpt4 = CreateReport4();
                         DV.DocumentSource = Rpt4;
                         Rpt4.CreateDocument();
 
@@ -149,25 +149,25 @@ namespace FormulaSalesReportLib
                 switch (ReportType)
                 {
                     case LoadReportType.NetSalesByServiceType:
-                        if (Rpt1 == null) Rpt1 = CreateReport1();
+                        Rpt1 = CreateReport1();
                         Rpt1.ShowPreview();
 
                         break;
 
                     case LoadReportType.GrossSalesSummarybyHours:
-                        if (Rpt2 == null) Rpt2 = CreateReport2();
+                        Rpt2 = CreateReport2();
                         Rpt2.ShowPreview();
 
                         break;
 
                     case LoadReportType.NetSalesByCategory:
-                        if (Rpt3 == null) Rpt3 = CreateReport3();
+                        Rpt3 = CreateReport3();
                         Rpt3.ShowPreview();
 
                         break;
 
                     case LoadReportType.DiscountSummary:
-                        if (Rpt4 == null) Rpt4 = CreateReport4();
+                        Rpt4 = CreateReport4();
                         Rpt4.ShowPreview();
 
                         break;
@@ -187,25 +187,25 @@ namespace FormulaSalesReportLib
                 switch (ReportType)
                 {
                     case LoadReportType.NetSalesByServiceType:
-                        if (Rpt1 == null) Rpt1 = CreateReport1();
+                        Rpt1 = CreateReport1();
                         Rpt1.ShowPreviewDialog();
 
                         break;
 
                     case LoadReportType.GrossSalesSummarybyHours:
-                        if (Rpt2 == null) Rpt2 = CreateReport2();
+                        Rpt2 = CreateReport2();
                         Rpt2.ShowPreviewDialog();
 
                         break;
 
                     case LoadReportType.NetSalesByCategory:
-                        if (Rpt3 == null) Rpt3 = CreateReport3();
+                        Rpt3 = CreateReport3();
                         Rpt3.ShowPreviewDialog();
 
                         break;
 
                     case LoadReportType.DiscountSummary:
-                        if (Rpt4 == null) Rpt4 = CreateReport4();
+                        Rpt4 = CreateReport4();
                         Rpt4.ShowPreviewDialog();
 
                         break;
@@ -234,7 +234,7 @@ namespace FormulaSalesReportLib
                     }
                     else
                     {
-                        _ParamDate += "DateFormatConvert(A.date) = " + "@date" + i.ToString() + " " + (i == ParamDate.Count - 1 ? "" : ParamDate[i].paramCondition.ToString() + "");
+                        _ParamDate += "DateFormatConvert(A.date) = " + "@date" + i.ToString() + " " + (i == ParamDate.Count - 1 ? "" : ParamDate[i].paramCondition.ToString() + " ");
                     }
 
                     sfield.Add("@date" + i.ToString());
@@ -311,6 +311,9 @@ namespace FormulaSalesReportLib
                                     "WHERE " + _ParamDate + " " + sparamticketnotmp +
                                     "GROUP BY A.CouponName";
 
+                    //frmMessage frm = new frmMessage();
+                    //frm.ShowForm(querydiscount);
+
                     DTotalDiscountQty = 0;
                     DTotalDiscountAmt = 0;
                     DTDiscounts = reportdata.ProcessReportData(querydiscount, sfield, svalue);
@@ -331,6 +334,9 @@ namespace FormulaSalesReportLib
                                     "FROM tickethistory A INNER JOIN servicetypes B on A.serviceTypeID = B.id " +
                                     "WHERE " + _ParamDate + " " + sparamticketnotmp +
                                     "GROUP BY B.serviceTypeName";
+
+                    //frmMessage frm = new frmMessage();
+                    //frm.ShowForm(querynet);
 
                     DNetSales = 0;
                     DTNetSales = reportdata.ProcessReportData(querynet, sfield, svalue);
@@ -617,6 +623,196 @@ namespace FormulaSalesReportLib
 
     }
 
+    public static class ReportHelper
+    {
+        public static ReportType ActiveReport;
+    }
+
+    public class ReportsControl : Control
+    {
+        //CReportTotals RptSalesTotals = new CReportTotals();
+        DevExpress.XtraPrinting.Preview.DocumentViewer DV = new DevExpress.XtraPrinting.Preview.DocumentViewer();
+        public List<ParamDate> ParamDate = new List<ParamDate>();
+        //public List<ParamString> ParamString = new List<ParamString>();
+        //public List<ParamNumbers> ParamNumbers = new List<ParamNumbers>();
+        CRStoreData StoreData = new CRStoreData();
+         
+        Panel pnlHead = new Panel();
+        Button btnPrint = new Button();
+        
+        public CSales_CreditCardTrans Sales_CreditCardTrans;
+        public CSales_OverShortByBusinessDay Sales_OverShortByBusinessDay;
+        public CSales_SalesBySrvcType Sales_SalesBySrvcType;
+        public CSales_Voids Sales_Voids;
+        public CHistory_CardPaymentsByType History_CardPaymentsByType;
+
+        private bool _ShowPrintButton = true;
+        public bool ShowPrintButton
+        {
+            get
+            {
+                return _ShowPrintButton;
+            }
+            set
+            {
+                _ShowPrintButton = value;
+                pnlHead.Visible = value;
+                btnPrint.Visible = value;
+            }
+        }
+
+        private string GetPrintIcon()
+        { return "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"; }
+        
+        public ReportsControl()
+        {
+            this.Controls.Add(DV);
+            this.Controls.Add(pnlHead);
+            pnlHead.Height = 50;
+            pnlHead.Dock = DockStyle.Top;
+            pnlHead.Controls.Add(btnPrint);
+            pnlHead.BackColor = Color.FromArgb(235, 236, 239);
+            btnPrint.Location = new Point(pnlHead.Width - 44-3, 3);
+            btnPrint.FlatStyle = FlatStyle.Flat;
+            btnPrint.FlatAppearance.BorderSize = 0;
+            btnPrint.BackgroundImage = Helpers.ConvBase64ToImage(GetPrintIcon());
+            btnPrint.BackgroundImageLayout = ImageLayout.Zoom;
+            btnPrint.Size = new Size(44, 44);
+            btnPrint.Anchor = (AnchorStyles.Top | AnchorStyles.Right);
+            btnPrint.BackColor = Color.FromArgb(235, 236, 239);
+            btnPrint.Click += btnPrint_Click;
+            DV.Dock = DockStyle.Fill;
+
+            StoreData.StoreInfoPopulate();
+
+            InitializeReports();
+        }
+
+        private void InitializeReports()
+        {
+            Sales_CreditCardTrans = new CSales_CreditCardTrans(DV, 
+                                                               StoreData, 
+                                                               ParamDate,
+                                                               new rpt_Sales_CreditCardTrans(),
+                                                               ReportType.Sales_CreditCardTrans);
+
+            Sales_OverShortByBusinessDay = new CSales_OverShortByBusinessDay(DV, 
+                                                                             StoreData, 
+                                                                             ParamDate, 
+                                                                             new rpt_Sales_OverShortByBusinessDay(),
+                                                                             ReportType.Sales_OverShortByBusinessDay);
+
+            Sales_SalesBySrvcType = new CSales_SalesBySrvcType(DV, 
+                                                               StoreData, 
+                                                               ParamDate, 
+                                                               new rpt_Sales_SalesBySrvcType(), 
+                                                               ReportType.Sales_SalesBySrvcType);
+
+            Sales_Voids = new CSales_Voids(DV, 
+                                           StoreData, 
+                                           ParamDate, 
+                                           new rpt_Sales_Voids(), 
+                                           ReportType.Sales_Voids);
+
+            History_CardPaymentsByType = new CHistory_CardPaymentsByType(DV, 
+                                                                         StoreData, 
+                                                                         ParamDate, 
+                                                                         new rpt_History_CardPaymentsByType(), 
+                                                                         ReportType.History_CardPaymentsByType);
+
+        }
+
+        private void btnPrint_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(ReportHelper.ActiveReport.ToString());
+            switch (ReportHelper.ActiveReport)
+            {
+                case ReportType.Sales_CreditCardTrans:
+                    Sales_CreditCardTrans.Print();
+                    break;
+                case ReportType.Sales_OverShortByBusinessDay:
+                    Sales_OverShortByBusinessDay.Print();
+                    break;
+                case ReportType.Sales_SalesBySrvcType:
+                    Sales_SalesBySrvcType.Print();
+                    break;
+                case ReportType.Sales_SalesSummary:
+                    break;
+                case ReportType.Sales_Voids:
+                    Sales_Voids.Print();
+                    break;
+                case ReportType.History_CardPaymentsByType:
+                    History_CardPaymentsByType.Print();
+                    break;
+                case ReportType.History_PaymentsBySrvcType:
+                    break;
+                case ReportType.History_SalesBySrvcType:
+                    break;
+                case ReportType.History_SalesOverview:
+                    break;
+                case ReportType.History_SalesUnitQty:
+                    break;
+                case ReportType.History_Voids:
+                    break;
+                case ReportType.History_EndOfDaySalesNumbers:
+                    break;
+                case ReportType.History_SalesByDay:
+                    break;
+                case ReportType.Employee_PayrollReport:
+                    break;
+                case ReportType.Employee_ActivityLog:
+                    break;
+                case ReportType.Employee_CashDrawerActivity:
+                    break;
+                case ReportType.Employee_DriverReimbursement:
+                    break;
+                case ReportType.Employee_LaborReport:
+                    break;
+                case ReportType.Customer_306090DaysSinceLastOrder:
+                    break;
+                case ReportType.Customer_CustomerCredits:
+                    break;
+                case ReportType.Customer_Customers:
+                    break;
+                case ReportType.Customer_NewCustomers:
+                    break;
+                case ReportType.Items_ItemSalesSummary:
+                    break;
+                case ReportType.Items_SalesByGroup:
+                    break;
+            }
+        }
+        
+
+    }
+
+    public enum ReportType
+    {
+        Sales_CreditCardTrans,
+        Sales_OverShortByBusinessDay,
+        Sales_SalesBySrvcType,
+        Sales_SalesSummary,
+        Sales_Voids,
+        History_CardPaymentsByType,
+        History_PaymentsBySrvcType,
+        History_SalesBySrvcType,
+        History_SalesOverview,
+        History_SalesUnitQty,
+        History_Voids,
+        History_EndOfDaySalesNumbers,
+        History_SalesByDay,
+        Employee_PayrollReport,
+        Employee_ActivityLog,
+        Employee_CashDrawerActivity,
+        Employee_DriverReimbursement,
+        Employee_LaborReport,
+        Customer_306090DaysSinceLastOrder,
+        Customer_CustomerCredits,
+        Customer_Customers,
+        Customer_NewCustomers,
+        Items_ItemSalesSummary,
+        Items_SalesByGroup
+    }
     public enum LoadReportType
     {
         NetSalesByServiceType,

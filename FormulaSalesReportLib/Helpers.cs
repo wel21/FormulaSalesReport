@@ -249,7 +249,7 @@ namespace FormulaSalesReportLib
             }
             else
             {
-                return null;
+                return null;                
             }
         }
     }
