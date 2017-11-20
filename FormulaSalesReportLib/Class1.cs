@@ -7,13 +7,108 @@ using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Reflection;
+using System.ComponentModel;
 
 using DevExpress.DataAccess.ConnectionParameters;
 using DevExpress.DataAccess.Sql;
 using DevExpress.XtraReports.UI;
+using DevExpress.XtraPrinting.Preview;
 
 namespace FormulaSalesReportLib
 {
+
+    #region Base Class
+
+    public class rpt : DevExpress.XtraReports.UI.XtraReport
+    {
+        public StoreInfo StoreInformation { get; set; }
+
+        public List<ParamDate> ParamDate { get; set; }
+
+        public List<ColumnHeader> OptionalColumnsToSomeReports = new List<ColumnHeader>();
+
+    }
+
+    public class CReport
+    {
+        public DevExpress.XtraPrinting.Preview.DocumentViewer DV { get; set; }
+        public CRStoreData StoreData { get; set; }
+        public List<ParamDate> ParamDate { get; set; }
+        public ReportType MyType { get; set; }
+        public rpt rpt { get; set; }
+        public rpt report { get; set; }
+        public List<ColumnHeader> OptionalColumnsToSomeReports = new List<ColumnHeader>();
+
+        public CReport(DocumentViewer DV, CRStoreData StoreData, List<ParamDate> ParamDate, rpt ReportInstance, ReportType ReportType)
+        {
+            this.DV = DV;
+            this.StoreData = StoreData;
+            this.ParamDate = ParamDate;
+            this.report = ReportInstance;
+            this.MyType = ReportType;
+        }
+
+        #region Report Action
+        public void ShowReport()
+        {
+            ReportHelper.ActiveReport = MyType;
+            rpt = CreateReport();
+            DV.DocumentSource = rpt;
+            rpt.CreateDocument();
+        }
+
+        public void ShowPreviewReport()
+        {
+            ReportHelper.ActiveReport = MyType;
+            rpt = CreateReport();
+            rpt.ShowPreview();
+        }
+
+        public void ShowPreviewReportDialog()
+        {
+            ReportHelper.ActiveReport = MyType;
+            rpt = CreateReport();
+            rpt.ShowPreviewDialog();
+        }
+
+        public void Print()
+        {
+            try { rpt.PrintDialog(); }
+            catch { }
+        }
+
+        #endregion
+
+
+        public virtual List<ReportData> DataSourceToBind()
+        {
+            return null;
+        }
+
+        public virtual rpt CreateReport()
+        {
+            try
+            {
+                // Assign the data source to the report. 
+                report.DataSource = DataSourceToBind();
+                //report.DataMember = "customQuery";
+
+                //MessageBox.Show(StoreData.StoreInformation.StoreName);
+                report.StoreInformation = StoreData.StoreInformation;
+                report.OptionalColumnsToSomeReports = OptionalColumnsToSomeReports;
+                //MessageBox.Show(ParamDate[0].date.ToString());
+                report.ParamDate = ParamDate;
+
+            }
+            catch (Exception ex)
+            { MessageBox.Show(ex.Message); }
+
+            return report;
+        }
+    }
+
+    #endregion
 
     public class SalesReportControl : Control
     {
@@ -626,12 +721,14 @@ namespace FormulaSalesReportLib
     public static class ReportHelper
     {
         public static ReportType ActiveReport;
+        
+        public static CReport MyActiveReport;
     }
 
     public class ReportsControl : Control
     {
         //CReportTotals RptSalesTotals = new CReportTotals();
-        DevExpress.XtraPrinting.Preview.DocumentViewer DV = new DevExpress.XtraPrinting.Preview.DocumentViewer();
+        DocumentViewer DV = new DocumentViewer();
         public List<ParamDate> ParamDate = new List<ParamDate>();
         //public List<ParamString> ParamString = new List<ParamString>();
         //public List<ParamNumbers> ParamNumbers = new List<ParamNumbers>();
@@ -643,8 +740,15 @@ namespace FormulaSalesReportLib
         public CSales_CreditCardTrans Sales_CreditCardTrans;
         public CSales_OverShortByBusinessDay Sales_OverShortByBusinessDay;
         public CSales_SalesBySrvcType Sales_SalesBySrvcType;
+        public CSales_SalesSummary Sales_SalesSummary;
         public CSales_Voids Sales_Voids;
+
         public CHistory_CardPaymentsByType History_CardPaymentsByType;
+        public CHistory_PaymentsBySrvcType History_PaymentsBySrvcType;
+        public CHistory_SalesBySrvcType History_SalesBySrvcType;
+        public CHistory_SalesUnitQty History_SalesUnitQty;
+        public CHistory_Voids History_Voids;
+        public CHistory_SalesByDay History_SalesByDay;
 
         private bool _ShowPrintButton = true;
         public bool ShowPrintButton
@@ -690,73 +794,162 @@ namespace FormulaSalesReportLib
 
         private void InitializeReports()
         {
-            Sales_CreditCardTrans = new CSales_CreditCardTrans(DV, 
-                                                               StoreData, 
-                                                               ParamDate,
-                                                               new rpt_Sales_CreditCardTrans(),
-                                                               ReportType.Sales_CreditCardTrans);
+            InitializeSales();
 
-            Sales_OverShortByBusinessDay = new CSales_OverShortByBusinessDay(DV, 
-                                                                             StoreData, 
-                                                                             ParamDate, 
-                                                                             new rpt_Sales_OverShortByBusinessDay(),
-                                                                             ReportType.Sales_OverShortByBusinessDay);
-
-            Sales_SalesBySrvcType = new CSales_SalesBySrvcType(DV, 
-                                                               StoreData, 
-                                                               ParamDate, 
-                                                               new rpt_Sales_SalesBySrvcType(), 
-                                                               ReportType.Sales_SalesBySrvcType);
-
-            Sales_Voids = new CSales_Voids(DV, 
-                                           StoreData, 
-                                           ParamDate, 
-                                           new rpt_Sales_Voids(), 
-                                           ReportType.Sales_Voids);
-
-            History_CardPaymentsByType = new CHistory_CardPaymentsByType(DV, 
-                                                                         StoreData, 
-                                                                         ParamDate, 
-                                                                         new rpt_History_CardPaymentsByType(), 
-                                                                         ReportType.History_CardPaymentsByType);
+            InitializeHistory();
 
         }
 
-        private void btnPrint_Click(object sender, EventArgs e)
+        private void InitializeSales()
+        {
+            // Sales ------------------------------------------------------------------------------
+
+            Sales_CreditCardTrans = new CSales_CreditCardTrans(DV,
+                                                            StoreData,
+                                                            ParamDate,
+                                                            new rpt_Sales_CreditCardTrans(),
+                                                            ReportType.Sales_CreditCardTrans);
+
+            Sales_OverShortByBusinessDay = new CSales_OverShortByBusinessDay(DV,
+                                                            StoreData,
+                                                            ParamDate,
+                                                            new rpt_Sales_OverShortByBusinessDay(),
+                                                            ReportType.Sales_OverShortByBusinessDay);
+
+            Sales_SalesBySrvcType = new CSales_SalesBySrvcType(DV,
+                                                            StoreData,
+                                                            ParamDate,
+                                                            new rpt_Sales_SalesBySrvcType(),
+                                                            ReportType.Sales_SalesBySrvcType);
+
+            Sales_SalesSummary = new CSales_SalesSummary(DV,
+                                                            StoreData,
+                                                            ParamDate,
+                                                            new rpt_Sales_SalesSummary(),
+                                                            ReportType.Sales_SalesSummary);
+
+            Sales_Voids = new CSales_Voids(DV,
+                                                            StoreData,
+                                                            ParamDate,
+                                                            new rpt_Sales_Voids(),
+                                                            ReportType.Sales_Voids);
+
+            // Sales ------------------------------------------------------------------------------
+        }
+
+        private void InitializeHistory()
+        {
+            // History ----------------------------------------------------------------------------
+
+            History_CardPaymentsByType = new CHistory_CardPaymentsByType(DV,
+                                                            StoreData,
+                                                            ParamDate,
+                                                            new rpt_History_CardPaymentsByType(), 
+                                                            ReportType.History_CardPaymentsByType);
+
+            History_PaymentsBySrvcType = new CHistory_PaymentsBySrvcType(DV,
+                                                            StoreData,
+                                                            ParamDate,
+                                                            new rpt_History_PaymentsBySrvcType(), 
+                                                            ReportType.History_PaymentsBySrvcType);
+
+            History_SalesBySrvcType = new CHistory_SalesBySrvcType(DV,
+                                                            StoreData,
+                                                            ParamDate,
+                                                            new rpt_History_SalesBySrvcType(),
+                                                            ReportType.History_SalesBySrvcType);
+
+            History_SalesUnitQty = new CHistory_SalesUnitQty(DV,
+                                                            StoreData,
+                                                            ParamDate,
+                                                            new rpt_History_SalesUnitQty(),
+                                                            ReportType.History_SalesUnitQty);
+
+            History_Voids = new CHistory_Voids(DV,
+                                                            StoreData,
+                                                            ParamDate,
+                                                            new rpt_History_Voids(),
+                                                            ReportType.History_Voids);
+
+            History_SalesByDay = new CHistory_SalesByDay(DV,
+                                                            StoreData,
+                                                            ParamDate,
+                                                            new rpt_History_SalesByDay(),
+                                                            ReportType.History_SalesByDay);
+
+            // History ----------------------------------------------------------------------------
+        }
+
+    private void btnPrint_Click(object sender, EventArgs e)
         {
             MessageBox.Show(ReportHelper.ActiveReport.ToString());
+            //CReport rptclass;
+
+            //System.Reflection.PropertyInfo propertyInfo = typeof(T).GetProperty(fieldName);
+            //Type propertyType = propertyInfo.PropertyType;
+
+            //TypeConverter converter = TypeDescriptor.GetConverter(type);
+            //if (converter.CanConvertFrom(typeof(string)))
+            //{
+            //    var a = converter.ConvertFrom(fieldValue, type);
+
+            //}
+
+            ////System.Reflection.PropertyInfo pinfo = typeof(CReport).GetProperty(ReportHelper.ActiveReport.ToString());
+            ////CReport value = pinfo.GetValue(new rptclass(), null);
+            //Assembly assembly = Assembly.GetExecutingAssembly();
+            //rptclass = assembly.CreateInstance("C" + ReportHelper.ActiveReport.ToString()) as CReport;
+            ////rptclass = (CReport)Convert.ChangeType(ReportHelper.ActiveReport.ToString(), typeof(CReport));
+            
+            //rptclass = (CReport)TypeDescriptor.GetConverter(typeof(CReport)).ConvertFromString("C" + ReportHelper.ActiveReport.ToString());
+            //("C" + ReportHelper.ActiveReport.ToString()).ToDictionary();
+            //rptclass.Print();
+
+
             switch (ReportHelper.ActiveReport)
             {
+                //0
                 case ReportType.Sales_CreditCardTrans:
                     Sales_CreditCardTrans.Print();
                     break;
                 case ReportType.Sales_OverShortByBusinessDay:
                     Sales_OverShortByBusinessDay.Print();
                     break;
+                //2
                 case ReportType.Sales_SalesBySrvcType:
                     Sales_SalesBySrvcType.Print();
                     break;
                 case ReportType.Sales_SalesSummary:
+                    Sales_SalesSummary.Print();
                     break;
+                //4
                 case ReportType.Sales_Voids:
                     Sales_Voids.Print();
                     break;
                 case ReportType.History_CardPaymentsByType:
                     History_CardPaymentsByType.Print();
                     break;
+                //6
                 case ReportType.History_PaymentsBySrvcType:
+                    History_PaymentsBySrvcType.Print();
                     break;
                 case ReportType.History_SalesBySrvcType:
+                    History_SalesBySrvcType.Print();
                     break;
+                //8
                 case ReportType.History_SalesOverview:
                     break;
                 case ReportType.History_SalesUnitQty:
+                    History_SalesUnitQty.Print();
                     break;
+                //10
                 case ReportType.History_Voids:
+                    History_Voids.Print();
                     break;
                 case ReportType.History_EndOfDaySalesNumbers:
                     break;
                 case ReportType.History_SalesByDay:
+                    History_SalesByDay.Print();
                     break;
                 case ReportType.Employee_PayrollReport:
                     break;
@@ -785,7 +978,7 @@ namespace FormulaSalesReportLib
         
 
     }
-
+    
     public enum ReportType
     {
         Sales_CreditCardTrans,

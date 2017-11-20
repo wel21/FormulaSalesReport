@@ -375,3 +375,9 @@ C:\Users\RCARRASCAL\Documents\GitHub\FormulaSalesReport\FormulaSalesReportLib\ob
 C:\Users\RCARRASCAL\Documents\GitHub\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaSalesReportLib.rpt_Sales_Voids.resources
 C:\Users\RCARRASCAL\Documents\GitHub\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaSalesReportLib.rpt_History_CardPaymentsByType.resources
 C:\Users\RCARRASCAL\Documents\GitHub\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaSalesReportLib.csprojResolveAssemblyReference.cache
+C:\Users\RCARRASCAL\Documents\GitHub\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaSalesReportLib.rpt_History_PaymentsBySrvcType.resources
+C:\Users\RCARRASCAL\Documents\GitHub\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaSalesReportLib.rpt_History_SalesBySrvcType.resources
+C:\Users\RCARRASCAL\Documents\GitHub\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaSalesReportLib.rpt_History_Voids.resources
+C:\Users\RCARRASCAL\Documents\GitHub\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaSalesReportLib.rpt_Sales_SalesSummary.resources
+C:\Users\RCARRASCAL\Documents\GitHub\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaSalesReportLib.rpt_History_SalesUnitQty.resources
+C:\Users\RCARRASCAL\Documents\GitHub\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaSalesReportLib.rpt_History_SalesByDay.resources

@@ -22,16 +22,18 @@ namespace Test
         ReportsControl SR1 = new ReportsControl();
         private void Form1_Load(object sender, EventArgs e)
         {
+            comboBox3.SelectedIndex = 0;
+
             WindowState = FormWindowState.Maximized;
-            dtpFrom.Value = Convert.ToDateTime("08/02/2017");
-            dtpTo.Value = Convert.ToDateTime("08/02/2017");
+            dtpFrom.Value = Convert.ToDateTime("11/14/2017");
+            dtpTo.Value = Convert.ToDateTime("11/14/2017");
 
             // #### USAGE ####
 
             //optional : update connection string
             SalesReportDatabaseConnectionSettings.User = "root";
             SalesReportDatabaseConnectionSettings.Password = "root";
-            SalesReportDatabaseConnectionSettings.Database = "purepos";
+            SalesReportDatabaseConnectionSettings.Database = comboBox3.SelectedItem.ToString();
             SalesReportDatabaseConnectionSettings.Port = "3306";
 
 
@@ -40,7 +42,8 @@ namespace Test
             SR.Dock = DockStyle.Fill;
             //SR.StoreName = "Papa's Pizza To Go";
             SR.ParamDate.Add(new ParamDate(dtpFrom.Value, ParameterCondition.AND));
-            if(dtpFrom.Value != dtpTo.Value) SR.ParamDate.Add(new ParamDate(dtpTo.Value, ParameterCondition.AND));
+            if(dtpFrom.Value.ToShortDateString() != dtpTo.Value.ToShortDateString())
+                SR.ParamDate.Add(new ParamDate(dtpTo.Value, ParameterCondition.AND));
             SR.ShowPrintButton = true;
             //SR.LoadReport(LoadReportType.NetSalesByServiceType);
 
@@ -48,7 +51,8 @@ namespace Test
             SR1.Dock = DockStyle.Fill;
             //SR.StoreName = "Papa's Pizza To Go";
             SR1.ParamDate.Add(new ParamDate(dtpFrom.Value, ParameterCondition.AND));
-            if (dtpFrom.Value != dtpTo.Value) SR1.ParamDate.Add(new ParamDate(dtpTo.Value, ParameterCondition.AND));
+            if (dtpFrom.Value.ToShortDateString() != dtpTo.Value.ToShortDateString())
+                SR1.ParamDate.Add(new ParamDate(dtpTo.Value, ParameterCondition.AND));
             SR1.ShowPrintButton = true;
             //SR1.Sales_CreditCardTrans.ShowReport();
             
@@ -77,39 +81,62 @@ namespace Test
         {
             SR1.ParamDate.Clear();
             SR1.ParamDate.Add(new ParamDate(dtpFrom.Value, ParameterCondition.AND));
-            SR1.ParamDate.Add(new ParamDate(dtpTo.Value, ParameterCondition.AND));
+            if (dtpFrom.Value.ToShortDateString() != dtpTo.Value.ToShortDateString())
+                SR1.ParamDate.Add(new ParamDate(dtpTo.Value, ParameterCondition.AND));
             switch (comboBox1.SelectedIndex)
             {
                 case 0:
                     SR1.Sales_CreditCardTrans.ShowReport();
+                    //custom query format
+                    //SR1.Sales_CreditCardTrans.Query = "SELECT field1 AS data, field2 AS data1, field3 AS data2, ... , field9 AS data8 FROM table WHERE @myparam";
                     break;
                 case 1:
                     SR1.Sales_OverShortByBusinessDay.ShowReport();
+                    //custom query format
+                    //SR1.Sales_OverShortByBusinessDay.Query = "SELECT field1 AS data, field2 AS data1, field3 AS data2, ... , field9 AS data8 FROM table WHERE @myparam";
                     break;
                 case 2:
                     SR1.Sales_SalesBySrvcType.ShowReport();
+                    //custom query format
+                    //SR1.Sales_SalesBySrvcType.Query = "SELECT field1 AS data, field2 AS data1, field3 AS data2, field4 AS data3 FROM table WHERE @myparam";
                     break;
                 case 3:
+                    SR1.Sales_SalesSummary.ShowReport();
                     break;
                 case 4:
                     SR1.Sales_Voids.ShowReport();
+                    //custom query format
+                    //SR1.Sales_Voids.Query = "SELECT field1 AS data, field2 AS data1, field3 AS data2, ... , field6 AS data5 FROM table WHERE @myparam";
                     break;
                 case 5:
                     SR1.History_CardPaymentsByType.ShowReport();
+                    //custom query format
+                    //SR1.History_CardPaymentsByType.Query = "SELECT field1 AS data, field2 AS data1, field3 AS data2, field4 AS data3 FROM table WHERE @myparam";
                     break;
                 case 6:
+                    SR1.History_PaymentsBySrvcType.ShowReport();
+                    //custom query format
+                    //SR1.History_PaymentsBySrvcType.Query = "SELECT field1 AS data, field2 AS data1, field3 AS data2, field4 AS data3, field5 AS data4 FROM table WHERE @myparam";
                     break;
                 case 7:
+                    SR1.History_SalesBySrvcType.ShowReport();
+                    //custom query format
+                    //SR1.History_SalesBySrvcType.Query = "SELECT field1 AS data, field2 AS data1, field3 AS data2, ... , field6 AS data5 FROM table WHERE @myparam";
                     break;
                 case 8:
                     break;
                 case 9:
+                    SR1.History_SalesUnitQty.ShowReport();
                     break;
                 case 10:
+                    SR1.History_Voids.ShowReport();
+                    //custom query format
+                    //SR1.History_SalesBySrvcType.Query = "SELECT field1 AS data, field2 AS data1, field3 AS data2, ... , field7 AS data6 FROM table WHERE @myparam";
                     break;
                 case 11:
                     break;
                 case 12:
+                    SR1.History_SalesByDay.ShowReport();
                     break;
                 case 13:
                     break;
@@ -158,5 +185,9 @@ namespace Test
             }
         }
 
+        private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            SalesReportDatabaseConnectionSettings.Database = comboBox3.SelectedItem.ToString();
+        }
     }
 }

@@ -102,13 +102,131 @@ namespace FormulaSalesReportLib
             xrLabel11.Summary = XrSummaryTtl;
 
             List<ReportData> DT = (List<ReportData>)this.DataSource;
-            foreach (ReportData dtr in DT)
+            List<ReportData> DTTotal = new List<ReportData>();
+            if (DT != null)
             {
+                foreach (ReportData dtr in DT)
+                {
+                    if (DTTotal.Count == 0)
+                    {
+                        //                        Data, Data1,     Data2,     Data3,     Data4
+                        DTTotal.Add(new ReportData("1", dtr.Data1, dtr.Data7, dtr.Data8, dtr.Data9));
+                        DTTotal[0].SubData.Add(new ReportData("1", dtr.Data2, dtr.Data7, dtr.Data8, dtr.Data9));
+                    }
+                    else
+                    {
+                        int ipos = -1;
+                        for (int i = 0; i < DTTotal.Count; i++)
+                        {
+                            if (DTTotal[i].Data1 == dtr.Data1)
+                            {
+                                ipos = i;
+                                break;
+                            }
+                        }
+                        if (ipos > -1)
+                        {
+                            DTTotal[ipos].Data = (Helpers.NullToFlt(DTTotal[ipos].Data) + 1).ToString();
+                            DTTotal[ipos].Data2 = (Helpers.NullToFlt(DTTotal[ipos].Data2) + Helpers.NullToFlt(dtr.Data7)).ToString();
+                            DTTotal[ipos].Data3 = (Helpers.NullToFlt(DTTotal[ipos].Data3) + Helpers.NullToFlt(dtr.Data8)).ToString();
+                            DTTotal[ipos].Data4 = (Helpers.NullToFlt(DTTotal[ipos].Data4) + Helpers.NullToFlt(dtr.Data9)).ToString();
 
+                            // sub data
+                            int ipossub = -1;
+                            for (int i = 0; i < DTTotal[ipos].SubData.Count; i++)
+                            {
+                                if (DTTotal[ipos].SubData[i].Data1 == dtr.Data2)
+                                {
+                                    ipossub = i;
+                                    break;
+                                }
+                            }
+                            if (ipossub > -1)
+                            {
+                                DTTotal[ipos].SubData[ipossub].Data = (Helpers.NullToFlt(DTTotal[ipos].SubData[ipossub].Data) + 1).ToString();
+                                DTTotal[ipos].SubData[ipossub].Data2 = (Helpers.NullToFlt(DTTotal[ipos].SubData[ipossub].Data2) + Helpers.NullToFlt(dtr.Data7)).ToString();
+                                DTTotal[ipos].SubData[ipossub].Data3 = (Helpers.NullToFlt(DTTotal[ipos].SubData[ipossub].Data3) + Helpers.NullToFlt(dtr.Data8)).ToString();
+                                DTTotal[ipos].SubData[ipossub].Data4 = (Helpers.NullToFlt(DTTotal[ipos].SubData[ipossub].Data4) + Helpers.NullToFlt(dtr.Data9)).ToString();
+                            }
+                            else
+                            {
+                                DTTotal[ipos].SubData.Add(new ReportData("1", dtr.Data2, dtr.Data7, dtr.Data8, dtr.Data9));
+                            }
+                            // sub data
+
+                        }
+                        else
+                        {
+                            DTTotal.Add(new ReportData("1", dtr.Data1, dtr.Data7, dtr.Data8, dtr.Data9));
+                            DTTotal[DTTotal.Count - 1].SubData.Add(new ReportData("1", dtr.Data2, dtr.Data7, dtr.Data8, dtr.Data9));
+                        }
+                    }
+                }
+
+                if (DTTotal.Count > 0)
+                {
+                    //lblR1C1.Text = DTTotal[0].Data;
+                    //lblR1C2.Text = DTTotal[0].Data1;
+                    //lblR1C3.Text = DTTotal[0].Data2;
+                    //lblR1C4.Text = DTTotal[0].Data3;
+                    //lblR1C5.Text = DTTotal[0].Data4;
+
+                    float y = lblR1C1.TopF;
+                    float[] width = new float[] { lblR1C1.WidthF,
+                                              lblR1C2.WidthF,
+                                              lblR1C3.WidthF,
+                                              lblR1C4.WidthF,
+                                              lblR1C5.WidthF };
+                    float[] left = new float[] { lblR1C1.LeftF,
+                                              lblR1C2.LeftF,
+                                              lblR1C3.LeftF,
+                                              lblR1C4.LeftF,
+                                              lblR1C5.LeftF };
+                    for (int i = 0; i < DTTotal.Count; i++)
+                    {
+                        for (int j = 1; j <= 5; j++)
+                        {
+                            XRLabel lbl = new XRLabel();
+                            lbl.Name = "lblR" + (i + 1) + "C" + j;
+                            lbl.LocationF = new PointF(left[j - 1], y);
+                            lbl.SizeF = new SizeF(width[j - 1], lblR1C1.HeightF);
+                            lbl.Text = DTTotal[i].DataIndex(j - 1);
+                            lbl.Font = lblR1C1.Font;
+                            lbl.TextAlignment = (j == 2 ? DevExpress.XtraPrinting.TextAlignment.MiddleLeft : DevExpress.XtraPrinting.TextAlignment.MiddleRight);
+                            lbl.XlsxFormatString = lblR1C1.XlsxFormatString;
+                            lbl.Padding = new DevExpress.XtraPrinting.PaddingInfo(6, 6, 0, 0);
+                            GroupFooter4.Controls.Add(lbl);
+                        }
+                        y += lblR1C1.HeightF;
+
+                        // sub data
+                        for (int m = 0; m < DTTotal[i].SubData.Count; m++)
+                        {
+                            for (int j = 1; j <= 5; j++)
+                            {
+                                XRLabel lblsub = new XRLabel();
+                                lblsub.Name = "lblR" + (i + 1) + "C" + j + "_Sub" + m;
+                                lblsub.LocationF = new PointF(left[j - 1], y);
+                                lblsub.SizeF = new SizeF(width[j - 1], lblR1C1.HeightF);
+                                lblsub.Text = DTTotal[i].SubData[m].DataIndex(j - 1);
+                                lblsub.Font = new Font(lblR1C1.Font.FontFamily, lblR1C1.Font.Size, FontStyle.Regular);
+                                lblsub.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleRight;
+                                lblsub.XlsxFormatString = lblR1C1.XlsxFormatString;
+                                lblsub.Padding = new DevExpress.XtraPrinting.PaddingInfo(6, 6, 0, 0);
+                                GroupFooter4.Controls.Add(lblsub);
+                            }
+                            y += lblR1C1.HeightF + (m == DTTotal[i].SubData.Count - 1 ? 5 : 0);
+                        }
+                        // sub data
+
+                        //total
+                        lblT3.Text = (Helpers.NullToFlt(lblT3.Text) + Helpers.NullToFlt(DTTotal[i].Data2)).ToString();
+                        lblT4.Text = (Helpers.NullToFlt(lblT4.Text) + Helpers.NullToFlt(DTTotal[i].Data3)).ToString();
+                        lblT5.Text = (Helpers.NullToFlt(lblT5.Text) + Helpers.NullToFlt(DTTotal[i].Data4)).ToString();
+                        xrPanel1.TopF = y;
+                    }
+                }
             }
-
-            
         }
-
     }
 }

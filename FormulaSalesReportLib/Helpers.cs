@@ -7,6 +7,8 @@ using System.Data;
 using System.Threading.Tasks;
 using System.Drawing;
 using MySql.Data.MySqlClient;
+using System.Reflection;
+using System.ComponentModel;
 
 namespace FormulaSalesReportLib
 {
@@ -42,6 +44,87 @@ namespace FormulaSalesReportLib
             //    r = value;
             //_ParameterDate = r;
             return date.ToString("yyyy/MM/dd");
+        }
+
+        public static string NullToStr(object s, bool ReturnZero = false)
+        {
+            try
+            {
+                if (s != null)
+                    return s.ToString();
+                else
+                {
+                    if (ReturnZero)
+                        return "0";
+                    else
+                        return "";
+                }
+            }
+            catch
+            {
+                if (ReturnZero)
+                    return "0";
+                else
+                    return "";
+            }
+        }
+
+        public static float NullToFlt(object s)
+        {
+            try
+            {
+                if (s != null)
+                    return (float)Convert.ToDouble(s);
+                else
+                {
+                    return 0;
+                }
+            }
+            catch
+            {
+                return 0;
+            }
+        }
+
+        public static string LookUpDataTable(DataTable LookIn, string FieldToLook, string Param)
+        {
+            DataRow[] drarray = null;
+            drarray = LookIn.Select(Param);
+            return NullToStr(drarray[0][FieldToLook]);
+        }
+
+        public static List<string> LookUpDataTable(DataTable LookIn, List<string> FieldToLook, string Param)
+        {
+            List<string> s = new List<string>();
+            DataRow[] drarray = null;
+            drarray = LookIn.Select(Param);
+            for (int i = 0; i < FieldToLook.Count; i++)
+            {
+                if(drarray.Count() == 0)
+                    s.Add("");
+                else
+                    s.Add(NullToStr(drarray[0][FieldToLook[i]]));
+            }
+            return s;
+        }
+
+        public static T ToClass<T>(this IDictionary<string, string> source) where T : class, new()
+        {
+            Type type = typeof(T);
+            T ret = new T();
+
+            foreach (var keyValue in source)
+            {
+                var propertyInfo = type.GetProperty(keyValue.Key);
+                propertyInfo.SetValue(ret, keyValue.Value.ToString().TestParse(propertyInfo.PropertyType), null);
+            }
+
+            return ret;
+        }
+
+        public static object TestParse(this string value, Type type)
+        {
+            return TypeDescriptor.GetConverter(type).ConvertFromString(value);
         }
     }
 
@@ -154,75 +237,12 @@ namespace FormulaSalesReportLib
             return connection;
         }
     }
-
-    public class CReportTotals : DatabaseConnection
-    {
-        public MySqlCommand command;
-        public MySqlDataReader Reader;
-
-        public float TotalQty{ get; set; }
-
-        public float TotalOrders { get; set; }
-
-        public float TotalAmt { get; set; }
-
-        public void ProcessReportTotals(string query = "", bool useOrdersInsteadOfQty = false)
-        {
-            DatabaseConnection con = new DatabaseConnection();
-            connection = con.connectToDB();
-            string commandString;
-            //commandString = "SELECT * FROM employeejobs" + (param == "" ? "" : " WHERE " + param);
-
-            commandString = query;
-
-            command = connection.CreateCommand();
-            command.CommandText = commandString;
-            //command.Parameters.Add(new MySqlParameter("employee", employee));
-            MySqlDataReader Reader = command.ExecuteReader();
-
-            try
-            { 
-                if (Reader.HasRows)
-                {
-                    float fTotalQty = 0;
-                    float fTotalOrders = 0;
-                    float fTotalAmt = 0;
-
-                    while (Reader.Read())
-                    {
-                        if (useOrdersInsteadOfQty == true)
-                            fTotalOrders += (float)Convert.ToDouble(Reader["Orders"]);
-                        else
-                            fTotalQty += (float)Convert.ToDouble(Reader["Quantity"]);
-
-                        fTotalAmt += (float)Convert.ToDouble(Reader["Amount"]);
-                    }
-                    TotalQty = fTotalQty;
-                    TotalOrders = fTotalOrders;
-                    TotalAmt = fTotalAmt;
-                }
-
-                command.Dispose();
-                connection.Close();
-            }
-            catch(Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-        }
-    }
-
+    
     public class CReportData : DatabaseConnection
     {
         public MySqlCommand command;
         public MySqlDataReader Reader;
-
-        public float TotalQty { get; set; }
-
-        public float TotalOrders { get; set; }
-
-        public float TotalAmt { get; set; }
-
+        
         public DataTable ProcessReportData(string query, List<string> paramfields, List<string> paramvalues)
         {
             DatabaseConnection con = new DatabaseConnection();
@@ -287,10 +307,4 @@ namespace FormulaSalesReportLib
         }
     }
 
-    public struct StoreInfo
-    {
-        public string StoreName { get; set; }
-        public string StoreAddress { get; set; }
-        public string StoreNumber { get; set; }
-    }
 }

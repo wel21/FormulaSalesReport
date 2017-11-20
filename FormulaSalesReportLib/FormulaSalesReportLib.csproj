@@ -67,12 +67,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CReports_History.cs" />
     <Compile Include="Class1.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="CSales_Reports.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="CReports_Sales.cs" />
     <Compile Include="frmMessage.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -84,6 +83,36 @@
     </Compile>
     <Compile Include="rpt_History_CardPaymentsByType.Designer.cs">
       <DependentUpon>rpt_History_CardPaymentsByType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="rpt_History_PaymentsBySrvcType.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="rpt_History_PaymentsBySrvcType.Designer.cs">
+      <DependentUpon>rpt_History_PaymentsBySrvcType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="rpt_History_SalesByDay.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="rpt_History_SalesByDay.Designer.cs">
+      <DependentUpon>rpt_History_SalesByDay.cs</DependentUpon>
+    </Compile>
+    <Compile Include="rpt_History_SalesBySrvcType.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="rpt_History_SalesBySrvcType.Designer.cs">
+      <DependentUpon>rpt_History_SalesBySrvcType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="rpt_History_SalesUnitQty.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="rpt_History_SalesUnitQty.Designer.cs">
+      <DependentUpon>rpt_History_SalesUnitQty.cs</DependentUpon>
+    </Compile>
+    <Compile Include="rpt_History_Voids.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="rpt_History_Voids.Designer.cs">
+      <DependentUpon>rpt_History_Voids.cs</DependentUpon>
     </Compile>
     <Compile Include="rpt_Sales1.cs">
       <SubType>Component</SubType>
@@ -133,6 +162,12 @@
     <Compile Include="rpt_Sales_SalesBySrvcType.Designer.cs">
       <DependentUpon>rpt_Sales_SalesBySrvcType.cs</DependentUpon>
     </Compile>
+    <Compile Include="rpt_Sales_SalesSummary.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="rpt_Sales_SalesSummary.Designer.cs">
+      <DependentUpon>rpt_Sales_SalesSummary.cs</DependentUpon>
+    </Compile>
     <Compile Include="rpt_Sales_Voids.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -166,6 +201,21 @@
     <EmbeddedResource Include="rpt_History_CardPaymentsByType.resx">
       <DependentUpon>rpt_History_CardPaymentsByType.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="rpt_History_PaymentsBySrvcType.resx">
+      <DependentUpon>rpt_History_PaymentsBySrvcType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="rpt_History_SalesByDay.resx">
+      <DependentUpon>rpt_History_SalesByDay.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="rpt_History_SalesBySrvcType.resx">
+      <DependentUpon>rpt_History_SalesBySrvcType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="rpt_History_SalesUnitQty.resx">
+      <DependentUpon>rpt_History_SalesUnitQty.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="rpt_History_Voids.resx">
+      <DependentUpon>rpt_History_Voids.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="rpt_Sales_CreditCardTrans.resx">
       <DependentUpon>rpt_Sales_CreditCardTrans.cs</DependentUpon>
     </EmbeddedResource>
@@ -174,6 +224,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="rpt_Sales_SalesBySrvcType.resx">
       <DependentUpon>rpt_Sales_SalesBySrvcType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="rpt_Sales_SalesSummary.resx">
+      <DependentUpon>rpt_Sales_SalesSummary.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="rpt_Sales_Voids.resx">
       <DependentUpon>rpt_Sales_Voids.cs</DependentUpon>
