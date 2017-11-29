@@ -107,28 +107,72 @@ namespace FormulaSalesReportLib
             }
             return s;
         }
-
-        public static T ToClass<T>(this IDictionary<string, string> source) where T : class, new()
+        
+        public enum eReturnTime
         {
-            Type type = typeof(T);
-            T ret = new T();
-
-            foreach (var keyValue in source)
+            Hours,
+            Minutes,
+            Seconds
+        }
+        public static string GetDurationInterval(string startTime, string endTime, eReturnTime ReturnTime)
+        {
+            try
             {
-                var propertyInfo = type.GetProperty(keyValue.Key);
-                propertyInfo.SetValue(ret, keyValue.Value.ToString().TestParse(propertyInfo.PropertyType), null);
+                if (endTime == "  :" | string.IsNullOrEmpty(endTime))
+                    return "";
+                if (startTime == "  :" | string.IsNullOrEmpty(startTime))
+                    return "";
+
+                int iStart = Convert.ToInt32(startTime.Substring(0, startTime.IndexOf(':')));
+                int iEnd = Convert.ToInt32(endTime.Substring(0, endTime.IndexOf(':')));
+
+                if (iStart > iEnd)
+                {
+                    //if istart > iend then subtract istart with iend to compute the duration
+                    //ie: 22:00 - 02:00 (10:00pm - 02:00am); to; 20:00 - 24:00
+                    //the TimeSpan will read it as 02:00 - 22:00 and will return 20:00 instead of 04:00
+                    startTime = (iStart - iEnd - 1).ToString("00") + startTime.Substring(2);
+                    endTime = "23" + endTime.Substring(2);
+                }
+
+                TimeSpan duration = DateTime.Parse(endTime).Subtract(DateTime.Parse(startTime));
+
+                if (ReturnTime == eReturnTime.Hours)
+                    return duration.TotalHours.ToString("0.##");
+                else if (ReturnTime == eReturnTime.Minutes)
+                    return duration.TotalMinutes.ToString("0.##");
+                else
+                    return duration.TotalSeconds.ToString();
+                //return duration.ToString().Substring(0, 5);
             }
-
-            return ret;
+            catch (Exception ex)
+            {
+                return "";
+            }
         }
 
-        public static object TestParse(this string value, Type type)
-        {
-            return TypeDescriptor.GetConverter(type).ConvertFromString(value);
-        }
+
+        //public static T ToClass<T>(this IDictionary<string, string> source) where T : class, new()
+        //{
+        //    Type type = typeof(T);
+        //    T ret = new T();
+
+        //    foreach (var keyValue in source)
+        //    {
+        //        var propertyInfo = type.GetProperty(keyValue.Key);
+        //        propertyInfo.SetValue(ret, keyValue.Value.ToString().TestParse(propertyInfo.PropertyType), null);
+        //    }
+
+        //    return ret;
+        //}
+
+        //public static object TestParse(this string value, Type type)
+        //{
+        //    return TypeDescriptor.GetConverter(type).ConvertFromString(value);
+        //}
     }
 
-    public static class SalesReportDatabaseConnectionSettings
+    public static class DatabaseConnectionSettings
     {
         public static string GetConnectionString()
         {
@@ -221,7 +265,7 @@ namespace FormulaSalesReportLib
 
         public MySql.Data.MySqlClient.MySqlConnection connectToDB()
         {
-            MyConString = SalesReportDatabaseConnectionSettings.GetConnectionString();
+            MyConString = DatabaseConnectionSettings.GetConnectionString();
             try
             {
                 connection = new MySqlConnection();
@@ -306,5 +350,188 @@ namespace FormulaSalesReportLib
             }
         }
     }
+
+    #region Extensions
+
+    public static class DecimalExtensions
+    {
+
+        public static string AddComma(this decimal d, int DecimalPlaces = 2)
+        {
+            string sDec = "";
+            for (int i = 1; i <= DecimalPlaces; i++)
+            {
+                if (string.IsNullOrEmpty(sDec))
+                    sDec = ".";
+                sDec = sDec + "0";
+            }
+            if (d.ToString().Contains("."))
+            {
+                //decimal d1 = d.ToString().Substring(d.ToString().IndexOf(".") + 1).ToDecimal();
+                if (d.ToString().Substring(d.ToString().IndexOf(".") + 1).ToDecimal() == 0)
+                {
+                    sDec = "";
+                }
+            }
+            if (d.ToString().Contains("."))
+            {
+                string s = d.ToString("#,###,##0" + sDec);
+                decimal tmpD = Convert.ToDecimal(s); //String.Format(d.ToString(), "#,###,##0" + sDec);
+                if (Convert.ToDecimal(tmpD.ToString().Substring(tmpD.ToString().IndexOf(".") + 1)) == 0)
+                    sDec = "";
+            }
+            else
+            {
+                sDec = "";
+            }
+
+            return d.ToString("#,###,##0" + sDec);
+        }
+
+        public static string RemoveComma(this decimal d)
+        {
+            return d.ToString().Replace(",", "");
+        }
+
+        public static string DecimalPlace(this decimal d, int DecimalPlaces = 2)
+        {
+            string sDec = "";
+            for (int i = 1; i <= DecimalPlaces; i++)
+            {
+                if (string.IsNullOrEmpty(sDec))
+                    sDec = ".";
+                sDec = sDec + "0";
+            }
+            if (d.ToString().Contains("."))
+            {
+                if (d.ToString().Substring(d.ToString().IndexOf(".") + 1).ToDecimal() == 0)
+                {
+                    sDec = "";
+                }
+            }
+            if (d.ToString().Contains("."))
+            {
+                string s = d.ToString("#" + sDec);
+                decimal tmpD = Convert.ToDecimal(s);
+                if (Convert.ToDecimal(tmpD.ToString().Substring(tmpD.ToString().IndexOf(".") + 1)) == 0)
+                    sDec = "";
+            }
+            else
+            {
+                sDec = "";
+            }
+
+            return d.ToString("#" + sDec);
+        }
+
+    }
+
+    public static class FloatExtensions
+    {
+        public static string AddComma(this float d, int DecimalPlaces = 2)
+        {
+            string sDec = "";
+            for (int i = 1; i <= DecimalPlaces; i++)
+            {
+                if (string.IsNullOrEmpty(sDec))
+                    sDec = ".";
+                sDec = sDec + "0";
+            }
+            if (d.ToString().Contains("."))
+            {
+                //decimal d1 = d.ToString().Substring(d.ToString().IndexOf(".") + 1).ToDecimal();
+                if (d.ToString().Substring(d.ToString().IndexOf(".") + 1).ToDecimal() == 0)
+                {
+                    sDec = "";
+                }
+            }
+            if (d.ToString().Contains("."))
+            {
+                string s = d.ToString("#,###,##0" + sDec);
+                float tmpD = (float)Convert.ToDecimal(s); //String.Format(d.ToString(), "#,###,##0" + sDec);
+                if (Convert.ToDecimal(tmpD.ToString().Substring(tmpD.ToString().IndexOf(".") + 1)) == 0)
+                    sDec = "";
+            }
+            else
+            {
+                sDec = "";
+            }
+
+            return d.ToString("#,###,##0" + sDec);
+        }
+
+        public static string RemoveComma(this float d)
+        {
+            return d.ToString().Replace(",", "");
+        }
+
+        public static string DecimalPlace(this float d, int DecimalPlaces = 2)
+        {
+            string sDec = "";
+            for (int i = 1; i <= DecimalPlaces; i++)
+            {
+                if (string.IsNullOrEmpty(sDec))
+                    sDec = ".";
+                sDec = sDec + "0";
+            }
+            if (d.ToString().Contains("."))
+            {
+                if (d.ToString().Substring(d.ToString().IndexOf(".") + 1).ToDecimal() == 0)
+                {
+                    sDec = "";
+                }
+            }
+            if (d.ToString().Contains("."))
+            {
+                string s = d.ToString("#" + sDec);
+                float tmpD = (float)Convert.ToDecimal(s);
+                if (Convert.ToDecimal(tmpD.ToString().Substring(tmpD.ToString().IndexOf(".") + 1)) == 0)
+                    sDec = "";
+            }
+            else
+            {
+                sDec = "";
+            }
+
+            return d.ToString("#" + sDec);// String.Format(d.ToString(), "0" + sDec);
+        }
+
+    }
+
+    public static class StringExtensions
+    {
+        public static string RemoveComma(this string s)
+        {
+            s = s.Replace("%", "");
+            return s.Replace(",", "");
+        }
+
+        public static decimal ToDecimal(this string s)
+        {
+            if (s == null)
+                s = "0";
+            if (string.IsNullOrEmpty(s))
+                s = "0";
+            return Convert.ToDecimal(s);
+        }
+
+        public static bool IsNumeric(this string s)
+        {
+            float output;
+            return float.TryParse(s, out output);
+        }
+    }
+
+    public static class IntegerExtensions
+    {
+
+        public static string AddComma(this int d)
+        {
+            return d.ToString("#,###,##0");
+        }
+
+    }
+
+    #endregion
 
 }

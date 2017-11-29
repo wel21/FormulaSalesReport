@@ -52,6 +52,7 @@ namespace FormulaSalesReportLib
 
     public class ReportData
     {
+        #region Method
         public ReportData(string data)
         {
             this.Data = data;
@@ -481,7 +482,169 @@ namespace FormulaSalesReportLib
             this.Data24 = data24;
             this.Data25 = data25;
         }
+        public ReportData(string data, string data1, string data2, string data3, string data4, string data5, string data6, string data7, string data8, string data9, string data10, string data11, string data12, string data13, string data14, string data15, string data16, string data17, string data18, string data19, string data20, string data21, string data22, string data23, string data24, string data25, string data26)
+        {
+            this.Data = data;
+            this.Data1 = data1;
+            this.Data2 = data2;
+            this.Data3 = data3;
+            this.Data4 = data4;
+            this.Data5 = data5;
+            this.Data6 = data6;
+            this.Data7 = data7;
+            this.Data8 = data8;
+            this.Data9 = data9;
+            this.Data10 = data10;
+            this.Data11 = data11;
+            this.Data12 = data12;
+            this.Data13 = data13;
+            this.Data14 = data14;
+            this.Data15 = data15;
+            this.Data16 = data16;
+            this.Data17 = data17;
+            this.Data18 = data18;
+            this.Data19 = data19;
+            this.Data20 = data20;
+            this.Data21 = data21;
+            this.Data22 = data22;
+            this.Data23 = data23;
+            this.Data24 = data24;
+            this.Data25 = data25;
+            this.Data26 = data26;
+        }
+        public ReportData(string data, string data1, string data2, string data3, string data4, string data5, string data6, string data7, string data8, string data9, string data10, string data11, string data12, string data13, string data14, string data15, string data16, string data17, string data18, string data19, string data20, string data21, string data22, string data23, string data24, string data25, string data26, string data27)
+        {
+            this.Data = data;
+            this.Data1 = data1;
+            this.Data2 = data2;
+            this.Data3 = data3;
+            this.Data4 = data4;
+            this.Data5 = data5;
+            this.Data6 = data6;
+            this.Data7 = data7;
+            this.Data8 = data8;
+            this.Data9 = data9;
+            this.Data10 = data10;
+            this.Data11 = data11;
+            this.Data12 = data12;
+            this.Data13 = data13;
+            this.Data14 = data14;
+            this.Data15 = data15;
+            this.Data16 = data16;
+            this.Data17 = data17;
+            this.Data18 = data18;
+            this.Data19 = data19;
+            this.Data20 = data20;
+            this.Data21 = data21;
+            this.Data22 = data22;
+            this.Data23 = data23;
+            this.Data24 = data24;
+            this.Data25 = data25;
+            this.Data26 = data26;
+            this.Data27 = data27;
+        }
+        public ReportData(string data, string data1, string data2, string data3, string data4, string data5, string data6, string data7, string data8, string data9, string data10, string data11, string data12, string data13, string data14, string data15, string data16, string data17, string data18, string data19, string data20, string data21, string data22, string data23, string data24, string data25, string data26, string data27, string data28)
+        {
+            this.Data = data;
+            this.Data1 = data1;
+            this.Data2 = data2;
+            this.Data3 = data3;
+            this.Data4 = data4;
+            this.Data5 = data5;
+            this.Data6 = data6;
+            this.Data7 = data7;
+            this.Data8 = data8;
+            this.Data9 = data9;
+            this.Data10 = data10;
+            this.Data11 = data11;
+            this.Data12 = data12;
+            this.Data13 = data13;
+            this.Data14 = data14;
+            this.Data15 = data15;
+            this.Data16 = data16;
+            this.Data17 = data17;
+            this.Data18 = data18;
+            this.Data19 = data19;
+            this.Data20 = data20;
+            this.Data21 = data21;
+            this.Data22 = data22;
+            this.Data23 = data23;
+            this.Data24 = data24;
+            this.Data25 = data25;
+            this.Data26 = data26;
+            this.Data27 = data27;
+            this.Data28 = data28;
+        }
+        public ReportData(string data, string data1, string data2, string data3, string data4, string data5, string data6, string data7, string data8, string data9, string data10, string data11, string data12, string data13, string data14, string data15, string data16, string data17, string data18, string data19, string data20, string data21, string data22, string data23, string data24, string data25, string data26, string data27, string data28, string data29)
+        {
+            this.Data = data;
+            this.Data1 = data1;
+            this.Data2 = data2;
+            this.Data3 = data3;
+            this.Data4 = data4;
+            this.Data5 = data5;
+            this.Data6 = data6;
+            this.Data7 = data7;
+            this.Data8 = data8;
+            this.Data9 = data9;
+            this.Data10 = data10;
+            this.Data11 = data11;
+            this.Data12 = data12;
+            this.Data13 = data13;
+            this.Data14 = data14;
+            this.Data15 = data15;
+            this.Data16 = data16;
+            this.Data17 = data17;
+            this.Data18 = data18;
+            this.Data19 = data19;
+            this.Data20 = data20;
+            this.Data21 = data21;
+            this.Data22 = data22;
+            this.Data23 = data23;
+            this.Data24 = data24;
+            this.Data25 = data25;
+            this.Data26 = data26;
+            this.Data27 = data27;
+            this.Data28 = data28;
+            this.Data29 = data29;
+        }
+        public ReportData(string data, string data1, string data2, string data3, string data4, string data5, string data6, string data7, string data8, string data9, string data10, string data11, string data12, string data13, string data14, string data15, string data16, string data17, string data18, string data19, string data20, string data21, string data22, string data23, string data24, string data25, string data26, string data27, string data28, string data29, string data30)
+        {
+            this.Data = data;
+            this.Data1 = data1;
+            this.Data2 = data2;
+            this.Data3 = data3;
+            this.Data4 = data4;
+            this.Data5 = data5;
+            this.Data6 = data6;
+            this.Data7 = data7;
+            this.Data8 = data8;
+            this.Data9 = data9;
+            this.Data10 = data10;
+            this.Data11 = data11;
+            this.Data12 = data12;
+            this.Data13 = data13;
+            this.Data14 = data14;
+            this.Data15 = data15;
+            this.Data16 = data16;
+            this.Data17 = data17;
+            this.Data18 = data18;
+            this.Data19 = data19;
+            this.Data20 = data20;
+            this.Data21 = data21;
+            this.Data22 = data22;
+            this.Data23 = data23;
+            this.Data24 = data24;
+            this.Data25 = data25;
+            this.Data26 = data26;
+            this.Data27 = data27;
+            this.Data28 = data28;
+            this.Data29 = data29;
+            this.Data30 = data30;
+        }
+        #endregion
 
+        #region Property
         public string Data { get; set; }
         public string Data1 { get; set; }
         public string Data2 { get; set; }
@@ -508,6 +671,12 @@ namespace FormulaSalesReportLib
         public string Data23 { get; set; }
         public string Data24 { get; set; }
         public string Data25 { get; set; }
+        public string Data26 { get; set; }
+        public string Data27 { get; set; }
+        public string Data28 { get; set; }
+        public string Data29 { get; set; }
+        public string Data30 { get; set; }
+        #endregion Property
 
         public string DataIndex(int Index)
         {
@@ -565,6 +734,16 @@ namespace FormulaSalesReportLib
                     return Data24;
                 case 25:
                     return Data25;
+                case 26:
+                    return Data26;
+                case 27:
+                    return Data27;
+                case 28:
+                    return Data28;
+                case 29:
+                    return Data29;
+                case 30:
+                    return Data30;
             }
             return "";
         }
@@ -650,6 +829,21 @@ namespace FormulaSalesReportLib
                     break;
                 case 25:
                     Data25 = (Additional ? (Helpers.NullToFlt(Data25) + Helpers.NullToFlt(Value)).ToString() : Value);
+                    break;
+                case 26:
+                    Data26 = (Additional ? (Helpers.NullToFlt(Data26) + Helpers.NullToFlt(Value)).ToString() : Value);
+                    break;
+                case 27:
+                    Data27 = (Additional ? (Helpers.NullToFlt(Data27) + Helpers.NullToFlt(Value)).ToString() : Value);
+                    break;
+                case 28:
+                    Data28 = (Additional ? (Helpers.NullToFlt(Data28) + Helpers.NullToFlt(Value)).ToString() : Value);
+                    break;
+                case 29:
+                    Data29 = (Additional ? (Helpers.NullToFlt(Data29) + Helpers.NullToFlt(Value)).ToString() : Value);
+                    break;
+                case 30:
+                    Data30 = (Additional ? (Helpers.NullToFlt(Data30) + Helpers.NullToFlt(Value)).ToString() : Value);
                     break;
             }
         }

@@ -24,20 +24,20 @@ namespace FormulaSalesReportLib
 
             ReportHelper.MyActiveReport = this;
 
-            if (SalesReportDatabaseConnectionSettings.Database == "purepos")
+            if (DatabaseConnectionSettings.Database == "purepos")
             {
-                Query = "SELECT DateFormatconvert(a.date) AS DATA, a.paymenttype AS data1, SUBSTRING(a.tendertype,8) AS data2, SUBSTRING(c.Account,LENGTH(c.Account)-3) AS data3, a.time AS data4, a.ticketnumber AS data5, a.refno AS data6, a.subtotal AS data7, b.tipsAdded AS data8 " +
+                Query = "SELECT FormatDate(a.date,0) AS DATA, a.paymenttype AS data1, SUBSTRING(a.tendertype,8) AS data2, SUBSTRING(c.Account,LENGTH(c.Account)-3) AS data3, a.time AS data4, a.ticketnumber AS data5, a.refno AS data6, a.subtotal AS data7, b.tipsAdded AS data8 " +
                         "FROM paymenthistory AS a " +
-                        "INNER JOIN tickethistory AS b ON a.ticketNumber = b.TicketNumber AND DateFormatconvert(a.date) = DateFormatconvert(b.date) " +
-                        "INNER JOIN ccreceipts AS c ON a.uniqueid = c.PaymentID " +
+                        "INNER JOIN tickethistory AS b ON a.ticketNumber = b.TicketNumber AND FormatDate(a.date,0) = FormatDate(b.date,0) " +
+                        "LEFT JOIN ccreceipts AS c ON a.uniqueid = c.PaymentID " +
                         "WHERE @myparam AND a.tenderType LIKE 'CREDIT%' " +
                         "GROUP BY a.ticketnumber, a.paymentType, a.time, a.subtotal, b.tipsadded";
             }
             else
             {
-                Query = "SELECT DateFormatconvert(a.date) AS DATA, a.paymenttype AS data1, SUBSTRING(a.tendertype,8) AS data2, a.time AS data3, a.time AS data4, a.ticketnumber AS data5, a.refno AS data6, a.subtotal AS data7, b.tipsAdded AS data8 " +
+                Query = "SELECT FormatDate(a.date,0) AS DATA, a.paymenttype AS data1, SUBSTRING(a.tendertype,8) AS data2, a.time AS data3, a.time AS data4, a.ticketnumber AS data5, a.refno AS data6, a.subtotal AS data7, b.tipsAdded AS data8 " +
                         "FROM paymenthistory AS a " +
-                        "INNER JOIN tickethistory AS b ON a.ticketNumber = b.TicketNumber AND DateFormatconvert(a.date) = DateFormatconvert(b.date) " +
+                        "INNER JOIN tickethistory AS b ON a.ticketNumber = b.TicketNumber AND FormatDate(a.date,0) = FormatDate(b.date,0) " +
                         "WHERE @myparam AND a.tenderType LIKE 'CREDIT%' " +
                         "GROUP BY a.ticketnumber, a.paymentType, a.time, a.subtotal, b.tipsadded";
             }
@@ -64,33 +64,33 @@ namespace FormulaSalesReportLib
                     if (ParamDate.Count == 2)
                     {
                         if (i == 0)
-                            _ParamDate += "DateFormatConvert(A.date) >= " + "@date" + i.ToString() + " AND ";
+                            _ParamDate += "FormatDate(a.date,0) >= " + "@date" + i.ToString() + " AND ";
                         else
-                            _ParamDate += "DateFormatConvert(A.date) <= " + "@date" + i.ToString() + " ";
+                            _ParamDate += "FormatDate(a.date,0) <= " + "@date" + i.ToString() + " ";
                     }
                     else
                     {
-                        _ParamDate += "DateFormatConvert(A.date) = " + "@date" + i.ToString() + " " + (i == ParamDate.Count - 1 ? "" : ParamDate[i].paramCondition.ToString() + "");
+                        _ParamDate += "FormatDate(a.date,0) = " + "@date" + i.ToString() + " " + (i == ParamDate.Count - 1 ? "" : ParamDate[i].paramCondition.ToString() + "");
                     }
 
                     sfield.Add("@date" + i.ToString());
                     svalue.Add(Helpers.ConvertMyDate(ParamDate[i].date));
                 }
 
-                if (SalesReportDatabaseConnectionSettings.Database == "purepos")
+                if (DatabaseConnectionSettings.Database == "purepos")
                 {
-                    Query = "SELECT DateFormatconvert(a.date) AS DATA, a.paymenttype AS data1, SUBSTRING(a.tendertype,8) AS data2, SUBSTRING(c.Account,LENGTH(c.Account)-3) AS data3, a.time AS data4, a.ticketnumber AS data5, a.refno AS data6, a.subtotal AS data7, b.tipsAdded AS data8 " +
+                    Query = "SELECT FormatDate(a.date,0) AS DATA, a.paymenttype AS data1, SUBSTRING(a.tendertype,8) AS data2, SUBSTRING(c.Account,LENGTH(c.Account)-3) AS data3, a.time AS data4, a.ticketnumber AS data5, a.refno AS data6, a.subtotal AS data7, b.tipsAdded AS data8 " +
                             "FROM paymenthistory AS a " +
-                            "INNER JOIN tickethistory AS b ON a.ticketNumber = b.TicketNumber AND DateFormatconvert(a.date) = DateFormatconvert(b.date) " +
-                            "INNER JOIN ccreceipts AS c ON a.uniqueid = c.PaymentID " +
+                            "INNER JOIN tickethistory AS b ON a.ticketNumber = b.TicketNumber AND FormatDate(a.date,0) = FormatDate(b.date,0) " +
+                            "LEFT JOIN ccreceipts AS c ON a.uniqueid = c.PaymentID " +
                             "WHERE @myparam AND a.tenderType LIKE 'CREDIT%' " +
                             "GROUP BY a.ticketnumber, a.paymentType, a.time, a.subtotal, b.tipsadded";
                 }
                 else
                 {
-                    Query = "SELECT DateFormatconvert(a.date) AS DATA, a.paymenttype AS data1, SUBSTRING(a.tendertype,8) AS data2, a.time AS data3, a.time AS data4, a.ticketnumber AS data5, a.refno AS data6, a.subtotal AS data7, b.tipsAdded AS data8 " +
+                    Query = "SELECT FormatDate(a.date,0) AS DATA, a.paymenttype AS data1, SUBSTRING(a.tendertype,8) AS data2, a.time AS data3, a.time AS data4, a.ticketnumber AS data5, a.refno AS data6, a.subtotal AS data7, b.tipsAdded AS data8 " +
                             "FROM paymenthistory AS a " +
-                            "INNER JOIN tickethistory AS b ON a.ticketNumber = b.TicketNumber AND DateFormatconvert(a.date) = DateFormatconvert(b.date) " +
+                            "INNER JOIN tickethistory AS b ON a.ticketNumber = b.TicketNumber AND FormatDate(a.date,0) = FormatDate(b.date,0) " +
                             "WHERE @myparam AND a.tenderType LIKE 'CREDIT%' " +
                             "GROUP BY a.ticketnumber, a.paymentType, a.time, a.subtotal, b.tipsadded";
                 }
@@ -293,13 +293,13 @@ namespace FormulaSalesReportLib
                     if (ParamDate.Count == 2)
                     {
                         if (i == 0)
-                            _ParamDate += "DateFormatConvert(a.date) >= " + "@date" + i.ToString() + " AND ";
+                            _ParamDate += "FormatDate(a.date,0) >= " + "@date" + i.ToString() + " AND ";
                         else
-                            _ParamDate += "DateFormatConvert(a.date) <= " + "@date" + i.ToString() + " ";
+                            _ParamDate += "FormatDate(a.date,0) <= " + "@date" + i.ToString() + " ";
                     }
                     else
                     {
-                        _ParamDate += "DateFormatConvert(a.date) = " + "@date" + i.ToString() + " " + (i == ParamDate.Count - 1 ? "" : ParamDate[i].paramCondition.ToString() + "");
+                        _ParamDate += "FormatDate(a.date,0) = " + "@date" + i.ToString() + " " + (i == ParamDate.Count - 1 ? "" : ParamDate[i].paramCondition.ToString() + "");
                     }
 
                     sfield.Add("@date" + i.ToString());
@@ -404,13 +404,13 @@ namespace FormulaSalesReportLib
                     if (ParamDate.Count == 2)
                     {
                         if (i == 0)
-                            _ParamDate += "DateFormatConvert(date) >= " + "@date" + i.ToString() + " AND ";
+                            _ParamDate += "FormatDate(date,0) >= " + "@date" + i.ToString() + " AND ";
                         else
-                            _ParamDate += "DateFormatConvert(date) <= " + "@date" + i.ToString() + " ";
+                            _ParamDate += "FormatDate(date,0) <= " + "@date" + i.ToString() + " ";
                     }
                     else
                     {
-                        _ParamDate += "DateFormatConvert(date) = " + "@date" + i.ToString() + " " + (i == ParamDate.Count - 1 ? "" : ParamDate[i].paramCondition.ToString() + "");
+                        _ParamDate += "FormatDate(date,0) = " + "@date" + i.ToString() + " " + (i == ParamDate.Count - 1 ? "" : ParamDate[i].paramCondition.ToString() + "");
                     }
 
                     sfield.Add("@date" + i.ToString());
@@ -422,18 +422,19 @@ namespace FormulaSalesReportLib
                 CReportData reportdata = new CReportData();
                 DataTable data1 = new DataTable();
                 DataTable data2 = new DataTable();
-                DataTable data3 = new DataTable();
+                //DataTable data3 = new DataTable();
 
                 string Query1 = "SELECT SUM(payin) AS PayIn, SUM(ccsales) AS CCPayment, SUM(OverShort) AS OverShort, SUM(cctips) AS CCTips, SUM(payouts) AS PayOuts, SUM(expectedcash) AS Expected, SUM(totalcashcounted) AS Actual " +
                                 "FROM bankhistory " +
                                 "WHERE @myparam";
                 Query1 = Query1.Replace("@myparam", _ParamDate.Replace("date","closed"));
 
-                string Query2 = "SELECT SUM(tenderamount) AS Total FROM paymenthistory WHERE tendertype='HOUSEACCOUNT'";
+                //string Query2 = "SELECT SUM(tenderamount) AS Total FROM paymenthistory WHERE tendertype='HOUSEACCOUNT'";
+                string Query2 = "SELECT tenderamount, tendertype FROM paymenthistory WHERE @myparam";
                 Query2 = Query2.Replace("@myparam", _ParamDate);
 
-                string Query3 = "SELECT SUM(tenderamount) AS Total FROM paymenthistory WHERE tendertype='GC'";
-                Query3 = Query3.Replace("@myparam", _ParamDate);
+                //string Query3 = "SELECT SUM(tenderamount) AS Total FROM paymenthistory WHERE tendertype='GC'";
+                //Query3 = Query3.Replace("@myparam", _ParamDate);
 
                 //// table
                 //if (ParamDate.Count == 1 && ParamDate[0].date.ToShortDateString() == DateTime.Now.ToShortDateString())
@@ -443,7 +444,7 @@ namespace FormulaSalesReportLib
 
                 data1 = reportdata.ProcessReportData(Query1, sfield1, svalue);
                 data2 = reportdata.ProcessReportData(Query2, sfield, svalue);
-                data3 = reportdata.ProcessReportData(Query3, sfield, svalue);
+                //data3 = reportdata.ProcessReportData(Query3, sfield, svalue);
 
                 float fpayins = 0;
                 float fccpay = 0;
@@ -467,10 +468,13 @@ namespace FormulaSalesReportLib
                 }
 
                 if (data2 != null)
-                    fhouse = 0;//(data2.Rows[0]["Total"] != null ? (float)Convert.ToDouble(data2.Rows[0]["Total"]) : 0);
+                {
+                    fhouse = GetHouseAccount(data2);// 0;//(data2.Rows[0]["Total"] != null ? (float)Convert.ToDouble(data2.Rows[0]["Total"]) : 0);
+                    fgc = GetGC(data2);// 0;//(data3.Rows[0]["Total"] != null ? (float)Convert.ToDouble(data3.Rows[0]["Total"]) : 0);
+                }
 
-                if (data3 != null)
-                    fgc = 0;//(data3.Rows[0]["Total"] != null ? (float)Convert.ToDouble(data3.Rows[0]["Total"]) : 0);
+                //if (data3 != null)
+                //    fgc = GetGC(data2);// 0;//(data3.Rows[0]["Total"] != null ? (float)Convert.ToDouble(data3.Rows[0]["Total"]) : 0);
 
                 list.Add(new ReportData("Total Sales", (fpayins + fccpay + fcctip + fpayout + fexp + fact + fhouse + fgc).ToString()));
                 list.Add(new ReportData("Total Payins (+)", fpayins.ToString()));
@@ -493,25 +497,32 @@ namespace FormulaSalesReportLib
             return null;
         }
 
-        //public override rpt CreateReport()
-        //{
-        //    try
-        //    {
-        //        // Assign the data source to the report. 
-        //        report.DataSource = DataSourceToBind();
-        //        //report.DataMember = "customQuery";
+        private float GetHouseAccount(DataTable DT)
+        {
+            float ftotal = 0;
+            DataRow[] drarray = null;
+            drarray = DT.Select("tendertype='GC'");
+            for (int i = 0; i < drarray.Count(); i++)
+            {
+                ftotal += Helpers.NullToFlt(drarray[0]["tenderamount"]);
+            }
 
-        //        //MessageBox.Show(StoreData.StoreInformation.StoreName);
-        //        report.StoreInformation = StoreData.StoreInformation;
-        //        //MessageBox.Show(ParamDate[0].date.ToString());
-        //        report.ParamDate = ParamDate;
+            return ftotal;
+        }
 
-        //    }
-        //    catch (Exception ex)
-        //    { MessageBox.Show(ex.Message); }
+        private float GetGC(DataTable DT)
+        {
+            float ftotal = 0;
+            DataRow[] drarray = null;
+            drarray = DT.Select("tendertype='HOUSEACCOUNT'");
+            for (int i = 0; i < drarray.Count(); i++)
+            {
+                ftotal += Helpers.NullToFlt(drarray[0]["tenderamount"]);
+            }
 
-        //    return report;
-        //}
+            return ftotal;
+        }
+
     }
 
     public class CSales_Voids : CReport
@@ -525,7 +536,9 @@ namespace FormulaSalesReportLib
             this.report = ReportInstance;
             this.MyType = ReportType;
 
-            //Query = "SELECT b.TicketNumber, DateFormatconvert(a.date) AS data, a.voidreason AS data1, b.itemname AS data2, b.itemname AS data3, CONCAT(c.firstname, ' ', c.lastname) AS data4, b.ItemPrice AS data5 " +
+            ReportHelper.MyActiveReport = this;
+
+            //Query = "SELECT b.TicketNumber, FormatDate(a.date,0) AS data, a.voidreason AS data1, b.itemname AS data2, b.itemname AS data3, CONCAT(c.firstname, ' ', c.lastname) AS data4, b.ItemPrice AS data5 " +
             //        "FROM tickethistory AS a INNER JOIN ticketitemshistory AS b ON a.ticketnumber = b.ticketnumber " +
             //        "INNER JOIN employees AS c ON a.employeeID = c.id " +
             //        "WHERE @myparam AND a.status = 'VOIDED' " +
@@ -560,13 +573,13 @@ namespace FormulaSalesReportLib
                     if (ParamDate.Count == 2)
                     {
                         if (i == 0)
-                            _ParamDate += "DateFormatConvert(a.date) >= " + "@date" + i.ToString() + " AND ";
+                            _ParamDate += "FormatDate(a.date,0) >= " + "@date" + i.ToString() + " AND ";
                         else
-                            _ParamDate += "DateFormatConvert(a.date) <= " + "@date" + i.ToString() + " ";
+                            _ParamDate += "FormatDate(a.date,0) <= " + "@date" + i.ToString() + " ";
                     }
                     else
                     {
-                        _ParamDate += "DateFormatConvert(a.date) = " + "@date" + i.ToString() + " " + (i == ParamDate.Count - 1 ? "" : ParamDate[i].paramCondition.ToString() + "");
+                        _ParamDate += "FormatDate(a.date,0) = " + "@date" + i.ToString() + " " + (i == ParamDate.Count - 1 ? "" : ParamDate[i].paramCondition.ToString() + "");
                     }
 
                     sfield.Add("@date" + i.ToString());

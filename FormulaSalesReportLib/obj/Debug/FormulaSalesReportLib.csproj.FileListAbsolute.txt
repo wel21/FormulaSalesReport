@@ -381,3 +381,8 @@ C:\Users\RCARRASCAL\Documents\GitHub\FormulaSalesReport\FormulaSalesReportLib\ob
 C:\Users\RCARRASCAL\Documents\GitHub\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaSalesReportLib.rpt_Sales_SalesSummary.resources
 C:\Users\RCARRASCAL\Documents\GitHub\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaSalesReportLib.rpt_History_SalesUnitQty.resources
 C:\Users\RCARRASCAL\Documents\GitHub\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaSalesReportLib.rpt_History_SalesByDay.resources
+C:\Users\RCARRASCAL\Documents\GitHub\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaSalesReportLib.rpt_History_SalesOverview.resources
+C:\Users\RCARRASCAL\Documents\GitHub\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaSalesReportLib.rpt_Employee_ActivityLog.resources
+C:\Users\RCARRASCAL\Documents\GitHub\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaSalesReportLib.rpt_Employee_ActivityLog1.resources
+C:\Users\RCARRASCAL\Documents\GitHub\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaSalesReportLib.rpt_Employee_LaborReport.resources
+C:\Users\RCARRASCAL\Documents\GitHub\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaSalesReportLib.rpt_Employee_DriverReimbursement.resources

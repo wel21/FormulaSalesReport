@@ -26,7 +26,10 @@ namespace FormulaSalesReportLib
 
         public List<ParamDate> ParamDate { get; set; }
 
+        public object MyObject { get; set; }
+
         public List<ColumnHeader> OptionalColumnsToSomeReports = new List<ColumnHeader>();
+
 
     }
 
@@ -38,7 +41,10 @@ namespace FormulaSalesReportLib
         public ReportType MyType { get; set; }
         public rpt rpt { get; set; }
         public rpt report { get; set; }
+        public rpt_Employee_ActivityLog1 reportEmpAct { get; set; }
         public List<ColumnHeader> OptionalColumnsToSomeReports = new List<ColumnHeader>();
+
+        public bool EmpActivity { get; set; }
 
         public CReport(DocumentViewer DV, CRStoreData StoreData, List<ParamDate> ParamDate, rpt ReportInstance, ReportType ReportType)
         {
@@ -47,28 +53,57 @@ namespace FormulaSalesReportLib
             this.ParamDate = ParamDate;
             this.report = ReportInstance;
             this.MyType = ReportType;
+            //if (ReportType == ReportType.Employee_ActivityLog) EmpActivity = true;
         }
+
+        //public CReport(DocumentViewer DV, CRStoreData StoreData, List<ParamDate> ParamDate, bool empactivity, ReportType ReportType)
+        //{
+        //    this.DV = DV;
+        //    this.StoreData = StoreData;
+        //    this.ParamDate = ParamDate;
+        //    this.MyType = ReportType;
+        //    EmpActivity = empactivity;
+        //}
 
         #region Report Action
         public void ShowReport()
         {
             ReportHelper.ActiveReport = MyType;
-            rpt = CreateReport();
+            if (EmpActivity)
+                rpt = CreateReportEmpAct();
+            else
+                rpt = CreateReport();
             DV.DocumentSource = rpt;
             rpt.CreateDocument();
+        }
+
+        public void ShowReportDesigner()
+        {
+            ReportHelper.ActiveReport = MyType;
+            if (EmpActivity)
+                rpt = CreateReportEmpAct();
+            else
+                rpt = CreateReport();
+            rpt.ShowDesigner();
         }
 
         public void ShowPreviewReport()
         {
             ReportHelper.ActiveReport = MyType;
-            rpt = CreateReport();
+            if (EmpActivity)
+                rpt = CreateReportEmpAct();
+            else
+                rpt = CreateReport();
             rpt.ShowPreview();
         }
 
         public void ShowPreviewReportDialog()
         {
             ReportHelper.ActiveReport = MyType;
-            rpt = CreateReport();
+            if (EmpActivity)
+                rpt = CreateReportEmpAct();
+            else
+                rpt = CreateReport();
             rpt.ShowPreviewDialog();
         }
 
@@ -81,7 +116,19 @@ namespace FormulaSalesReportLib
         #endregion
 
 
-        public virtual List<ReportData> DataSourceToBind()
+        public virtual List<ReportData>  DataSourceToBind()
+        {
+            return null;
+        }
+
+        public string DataMember1 { get; set; }
+        public string DataMember2 { get; set; }
+        public virtual SqlDataSource DataSourceToBindDS()
+        {
+            return null;
+        }
+
+        public virtual SqlDataSource DataSourceToBind2()
         {
             return null;
         }
@@ -105,6 +152,34 @@ namespace FormulaSalesReportLib
             { MessageBox.Show(ex.Message); }
 
             return report;
+        }
+
+        public virtual rpt_Employee_ActivityLog1 CreateReportEmpAct()
+        {
+            try
+            {
+                SqlDataSource ds = DataSourceToBindDS();
+                reportEmpAct = new rpt_Employee_ActivityLog1();
+
+                // Assign the data source to the report. 
+                reportEmpAct.DataSource = ds;
+                reportEmpAct.DataMember = DataMember1;
+
+                DetailBand detail = (DetailBand)reportEmpAct.Bands["Detail"];
+                DetailReportBand detailreport1 = (DetailReportBand)reportEmpAct.Bands["DetailReport"];
+
+                detailreport1.DataSource = ds;
+                detailreport1.DataMember = DataMember2;
+                
+                reportEmpAct.StoreInformation = StoreData.StoreInformation;
+                reportEmpAct.OptionalColumnsToSomeReports = OptionalColumnsToSomeReports;
+                reportEmpAct.ParamDate = ParamDate;
+
+            }
+            catch (Exception ex)
+            { MessageBox.Show(ex.Message); }
+
+            return reportEmpAct;
         }
     }
 
@@ -377,7 +452,7 @@ namespace FormulaSalesReportLib
 
                     case LoadReportType.NetSalesByCategory:
                         query = "SELECT B.name as Category, COUNT(A.ItemName) as Quantity, SUM(A.ItemPrice) AS Amount , DateFormatConvert(A.date) as mdate " +
-                                    "FROM " + _Table + " A INNER JOIN menucategories B ON A.ItemCategory = B.id  " +
+                                    "FROM " + _Table + " A INNER JOIN menucategories B ON A.ItemCategory = B.id " +
                                     "WHERE " + _ParamDate + " " + sparamticketnotmp +
                                     "GROUP BY B.name";
 
@@ -746,9 +821,15 @@ namespace FormulaSalesReportLib
         public CHistory_CardPaymentsByType History_CardPaymentsByType;
         public CHistory_PaymentsBySrvcType History_PaymentsBySrvcType;
         public CHistory_SalesBySrvcType History_SalesBySrvcType;
+        public CHistory_SalesOverview History_SalesOverview;
         public CHistory_SalesUnitQty History_SalesUnitQty;
         public CHistory_Voids History_Voids;
         public CHistory_SalesByDay History_SalesByDay;
+
+        public CEmployee_ActivityLog Employee_ActivityLog;
+        public CEmployee_LaborReport Employee_LaborReport;
+
+        public List<CReport> MyReports = new List<CReport>();
 
         private bool _ShowPrintButton = true;
         public bool ShowPrintButton
@@ -789,6 +870,7 @@ namespace FormulaSalesReportLib
 
             StoreData.StoreInfoPopulate();
 
+            MyReports.Clear();
             InitializeReports();
         }
 
@@ -797,6 +879,8 @@ namespace FormulaSalesReportLib
             InitializeSales();
 
             InitializeHistory();
+
+            InitializeEmployee();
 
         }
 
@@ -835,6 +919,12 @@ namespace FormulaSalesReportLib
                                                             ReportType.Sales_Voids);
 
             // Sales ------------------------------------------------------------------------------
+
+            MyReports.Add(Sales_CreditCardTrans);
+            MyReports.Add(Sales_OverShortByBusinessDay);
+            MyReports.Add(Sales_SalesBySrvcType);
+            MyReports.Add(Sales_SalesSummary);
+            MyReports.Add(Sales_Voids);
         }
 
         private void InitializeHistory()
@@ -859,6 +949,12 @@ namespace FormulaSalesReportLib
                                                             new rpt_History_SalesBySrvcType(),
                                                             ReportType.History_SalesBySrvcType);
 
+            History_SalesOverview = new CHistory_SalesOverview(DV,
+                                                            StoreData,
+                                                            ParamDate,
+                                                            new rpt_History_SalesOverview(),
+                                                            ReportType.History_SalesOverview);
+
             History_SalesUnitQty = new CHistory_SalesUnitQty(DV,
                                                             StoreData,
                                                             ParamDate,
@@ -878,9 +974,59 @@ namespace FormulaSalesReportLib
                                                             ReportType.History_SalesByDay);
 
             // History ----------------------------------------------------------------------------
+
+            MyReports.Add(History_CardPaymentsByType);
+            MyReports.Add(History_PaymentsBySrvcType);
+            MyReports.Add(History_SalesBySrvcType);
+            MyReports.Add(History_SalesOverview);
+            MyReports.Add(History_SalesUnitQty);
+            MyReports.Add(History_Voids);
+            MyReports.Add(History_SalesByDay);
         }
 
-    private void btnPrint_Click(object sender, EventArgs e)
+        private void InitializeEmployee()
+        {
+            // Employee ------------------------------------------------------------------------------
+
+            Employee_ActivityLog = new CEmployee_ActivityLog(DV,
+                                                            StoreData,
+                                                            ParamDate,
+                                                            new rpt_Employee_ActivityLog(),
+                                                            ReportType.Employee_ActivityLog);
+
+            Employee_LaborReport = new CEmployee_LaborReport(DV,
+                                                            StoreData,
+                                                            ParamDate,
+                                                            new rpt_Employee_LaborReport(),
+                                                            ReportType.Employee_LaborReport);
+
+            // Employee ------------------------------------------------------------------------------
+
+            MyReports.Add(Employee_ActivityLog);
+            MyReports.Add(Employee_LaborReport);
+        }
+
+        public void ShowPreview(int Index)
+        {
+            ReportType rptype = (ReportType)Index;
+
+            for (int i = 0; i < MyReports.Count; i++)
+            {
+                if (MyReports[i].MyType == rptype)
+                    MyReports[i].ShowReport();
+            }
+        }
+
+        public void ShowPreview(ReportType ReportType)
+        {
+            for (int i = 0; i < MyReports.Count; i++)
+            {
+                if (MyReports[i].MyType == ReportType)
+                    MyReports[i].ShowReport();
+            }
+        }
+
+        private void btnPrint_Click(object sender, EventArgs e)
         {
             MessageBox.Show(ReportHelper.ActiveReport.ToString());
             //CReport rptclass;
@@ -900,9 +1046,9 @@ namespace FormulaSalesReportLib
             //Assembly assembly = Assembly.GetExecutingAssembly();
             //rptclass = assembly.CreateInstance("C" + ReportHelper.ActiveReport.ToString()) as CReport;
             ////rptclass = (CReport)Convert.ChangeType(ReportHelper.ActiveReport.ToString(), typeof(CReport));
-            
+
             //rptclass = (CReport)TypeDescriptor.GetConverter(typeof(CReport)).ConvertFromString("C" + ReportHelper.ActiveReport.ToString());
-            //("C" + ReportHelper.ActiveReport.ToString()).ToDictionary();
+            //rptclass = Convert.ChangeType()
             //rptclass.Print();
 
 
@@ -929,6 +1075,7 @@ namespace FormulaSalesReportLib
                 case ReportType.History_CardPaymentsByType:
                     History_CardPaymentsByType.Print();
                     break;
+                // ----------------------------------------------------------------------------
                 //6
                 case ReportType.History_PaymentsBySrvcType:
                     History_PaymentsBySrvcType.Print();
@@ -938,6 +1085,7 @@ namespace FormulaSalesReportLib
                     break;
                 //8
                 case ReportType.History_SalesOverview:
+                    History_SalesOverview.Print();
                     break;
                 case ReportType.History_SalesUnitQty:
                     History_SalesUnitQty.Print();
@@ -951,9 +1099,12 @@ namespace FormulaSalesReportLib
                 case ReportType.History_SalesByDay:
                     History_SalesByDay.Print();
                     break;
+                
+                // ----------------------------------------------------------------------------
                 case ReportType.Employee_PayrollReport:
                     break;
                 case ReportType.Employee_ActivityLog:
+                    Employee_ActivityLog.Print();
                     break;
                 case ReportType.Employee_CashDrawerActivity:
                     break;

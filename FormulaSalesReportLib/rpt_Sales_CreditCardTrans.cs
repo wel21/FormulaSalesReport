@@ -10,11 +10,18 @@ namespace FormulaSalesReportLib
 {
     public partial class rpt_Sales_CreditCardTrans : rpt
     {
+        bool bTotalLoaded = false;
         public rpt_Sales_CreditCardTrans()
         {
             InitializeComponent();
         }
-        
+
+        protected override void OnDataSourceChanging()
+        {
+            base.OnDataSourceChanging();
+            bTotalLoaded = false;
+        }
+
         private void rpt_Sales_CreditCardTrans_BeforePrint(object sender, System.Drawing.Printing.PrintEventArgs e)
         {
             lblStoreName.Text = StoreInformation.StoreName;
@@ -103,7 +110,7 @@ namespace FormulaSalesReportLib
 
             List<ReportData> DT = (List<ReportData>)this.DataSource;
             List<ReportData> DTTotal = new List<ReportData>();
-            if (DT != null)
+            if (DT != null && bTotalLoaded == false)
             {
                 foreach (ReportData dtr in DT)
                 {
@@ -182,6 +189,11 @@ namespace FormulaSalesReportLib
                                               lblR1C3.LeftF,
                                               lblR1C4.LeftF,
                                               lblR1C5.LeftF };
+                    DevExpress.XtraPrinting.BorderSide[] borders = new DevExpress.XtraPrinting.BorderSide[] { lblR1C1.Borders,
+                                              lblR1C2.Borders,
+                                              lblR1C3.Borders,
+                                              lblR1C4.Borders,
+                                              lblR1C5.Borders };
                     for (int i = 0; i < DTTotal.Count; i++)
                     {
                         for (int j = 1; j <= 5; j++)
@@ -195,6 +207,7 @@ namespace FormulaSalesReportLib
                             lbl.TextAlignment = (j == 2 ? DevExpress.XtraPrinting.TextAlignment.MiddleLeft : DevExpress.XtraPrinting.TextAlignment.MiddleRight);
                             lbl.XlsxFormatString = lblR1C1.XlsxFormatString;
                             lbl.Padding = new DevExpress.XtraPrinting.PaddingInfo(6, 6, 0, 0);
+                            //lbl.Borders = lblR1C1.Borders;
                             GroupFooter4.Controls.Add(lbl);
                         }
                         y += lblR1C1.HeightF;
@@ -213,6 +226,10 @@ namespace FormulaSalesReportLib
                                 lblsub.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleRight;
                                 lblsub.XlsxFormatString = lblR1C1.XlsxFormatString;
                                 lblsub.Padding = new DevExpress.XtraPrinting.PaddingInfo(6, 6, 0, 0);
+                                lblsub.Borders = borders[j-1];
+                                if (m == DTTotal[i].SubData.Count - 1)
+                                    lblsub.Borders = borders[j - 1] | DevExpress.XtraPrinting.BorderSide.Bottom;
+                                lblsub.BorderColor = lblR1C1.BorderColor;
                                 GroupFooter4.Controls.Add(lblsub);
                             }
                             y += lblR1C1.HeightF + (m == DTTotal[i].SubData.Count - 1 ? 5 : 0);
@@ -226,6 +243,8 @@ namespace FormulaSalesReportLib
                         xrPanel1.TopF = y;
                     }
                 }
+
+                bTotalLoaded = true;
             }
         }
     }

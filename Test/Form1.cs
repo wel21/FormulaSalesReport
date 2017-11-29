@@ -31,10 +31,10 @@ namespace Test
             // #### USAGE ####
 
             //optional : update connection string
-            SalesReportDatabaseConnectionSettings.User = "root";
-            SalesReportDatabaseConnectionSettings.Password = "root";
-            SalesReportDatabaseConnectionSettings.Database = comboBox3.SelectedItem.ToString();
-            SalesReportDatabaseConnectionSettings.Port = "3306";
+            DatabaseConnectionSettings.User = "root";
+            DatabaseConnectionSettings.Password = "root";
+            DatabaseConnectionSettings.Database = comboBox3.SelectedItem.ToString();
+            DatabaseConnectionSettings.Port = "3306";
 
 
             //add document viewer to the form
@@ -83,84 +83,88 @@ namespace Test
             SR1.ParamDate.Add(new ParamDate(dtpFrom.Value, ParameterCondition.AND));
             if (dtpFrom.Value.ToShortDateString() != dtpTo.Value.ToShortDateString())
                 SR1.ParamDate.Add(new ParamDate(dtpTo.Value, ParameterCondition.AND));
-            switch (comboBox1.SelectedIndex)
-            {
-                case 0:
-                    SR1.Sales_CreditCardTrans.ShowReport();
-                    //custom query format
-                    //SR1.Sales_CreditCardTrans.Query = "SELECT field1 AS data, field2 AS data1, field3 AS data2, ... , field9 AS data8 FROM table WHERE @myparam";
-                    break;
-                case 1:
-                    SR1.Sales_OverShortByBusinessDay.ShowReport();
-                    //custom query format
-                    //SR1.Sales_OverShortByBusinessDay.Query = "SELECT field1 AS data, field2 AS data1, field3 AS data2, ... , field9 AS data8 FROM table WHERE @myparam";
-                    break;
-                case 2:
-                    SR1.Sales_SalesBySrvcType.ShowReport();
-                    //custom query format
-                    //SR1.Sales_SalesBySrvcType.Query = "SELECT field1 AS data, field2 AS data1, field3 AS data2, field4 AS data3 FROM table WHERE @myparam";
-                    break;
-                case 3:
-                    SR1.Sales_SalesSummary.ShowReport();
-                    break;
-                case 4:
-                    SR1.Sales_Voids.ShowReport();
-                    //custom query format
-                    //SR1.Sales_Voids.Query = "SELECT field1 AS data, field2 AS data1, field3 AS data2, ... , field6 AS data5 FROM table WHERE @myparam";
-                    break;
-                case 5:
-                    SR1.History_CardPaymentsByType.ShowReport();
-                    //custom query format
-                    //SR1.History_CardPaymentsByType.Query = "SELECT field1 AS data, field2 AS data1, field3 AS data2, field4 AS data3 FROM table WHERE @myparam";
-                    break;
-                case 6:
-                    SR1.History_PaymentsBySrvcType.ShowReport();
-                    //custom query format
-                    //SR1.History_PaymentsBySrvcType.Query = "SELECT field1 AS data, field2 AS data1, field3 AS data2, field4 AS data3, field5 AS data4 FROM table WHERE @myparam";
-                    break;
-                case 7:
-                    SR1.History_SalesBySrvcType.ShowReport();
-                    //custom query format
-                    //SR1.History_SalesBySrvcType.Query = "SELECT field1 AS data, field2 AS data1, field3 AS data2, ... , field6 AS data5 FROM table WHERE @myparam";
-                    break;
-                case 8:
-                    break;
-                case 9:
-                    SR1.History_SalesUnitQty.ShowReport();
-                    break;
-                case 10:
-                    SR1.History_Voids.ShowReport();
-                    //custom query format
-                    //SR1.History_SalesBySrvcType.Query = "SELECT field1 AS data, field2 AS data1, field3 AS data2, ... , field7 AS data6 FROM table WHERE @myparam";
-                    break;
-                case 11:
-                    break;
-                case 12:
-                    SR1.History_SalesByDay.ShowReport();
-                    break;
-                case 13:
-                    break;
-                case 14:
-                    break;
-                case 15:
-                    break;
-                case 16:
-                    break;
-                case 17:
-                    break;
-                case 18:
-                    break;
-                case 19:
-                    break;
-                case 20:
-                    break;
-                case 21:
-                    break;
-                case 22:
-                    break;
-                case 23:
-                    break;
-            }
+
+            SR1.ShowPreview(comboBox1.SelectedIndex);
+            //switch (comboBox1.SelectedIndex)
+            //{
+            //    case 0:
+            //        SR1.Sales_CreditCardTrans.ShowReport();
+            //        //custom query format
+            //        //SR1.Sales_CreditCardTrans.Query = "SELECT field1 AS data, field2 AS data1, field3 AS data2, ... , field9 AS data8 FROM table WHERE @myparam";
+            //        break;
+            //    case 1:
+            //        SR1.Sales_OverShortByBusinessDay.ShowReport();
+            //        //custom query format
+            //        //SR1.Sales_OverShortByBusinessDay.Query = "SELECT field1 AS data, field2 AS data1, field3 AS data2, ... , field9 AS data8 FROM table WHERE @myparam";
+            //        break;
+            //    case 2:
+            //        SR1.Sales_SalesBySrvcType.ShowReport();
+            //        //custom query format
+            //        //SR1.Sales_SalesBySrvcType.Query = "SELECT field1 AS data, field2 AS data1, field3 AS data2, field4 AS data3 FROM table WHERE @myparam";
+            //        break;
+            //    case 3:
+            //        SR1.Sales_SalesSummary.ShowReport();
+            //        break;
+            //    case 4:
+            //        SR1.Sales_Voids.ShowReport();
+            //        //custom query format
+            //        //SR1.Sales_Voids.Query = "SELECT field1 AS data, field2 AS data1, field3 AS data2, ... , field6 AS data5 FROM table WHERE @myparam";
+            //        break;
+            //    case 5:
+            //        SR1.History_CardPaymentsByType.ShowReport();
+            //        //custom query format
+            //        //SR1.History_CardPaymentsByType.Query = "SELECT field1 AS data, field2 AS data1, field3 AS data2, field4 AS data3 FROM table WHERE @myparam";
+            //        break;
+            //    case 6:
+            //        SR1.History_PaymentsBySrvcType.ShowReport();
+            //        //custom query format
+            //        //SR1.History_PaymentsBySrvcType.Query = "SELECT field1 AS data, field2 AS data1, field3 AS data2, field4 AS data3, field5 AS data4 FROM table WHERE @myparam";
+            //        break;
+            //    case 7:
+            //        SR1.History_SalesBySrvcType.ShowReport();
+            //        //custom query format
+            //        //SR1.History_SalesBySrvcType.Query = "SELECT field1 AS data, field2 AS data1, field3 AS data2, ... , field6 AS data5 FROM table WHERE @myparam";
+            //        break;
+            //    case 8:
+            //        SR1.History_SalesOverview.ShowReport();
+            //        break;
+            //    case 9:
+            //        SR1.History_SalesUnitQty.ShowReport();
+            //        break;
+            //    case 10:
+            //        SR1.History_Voids.ShowReport();
+            //        //custom query format
+            //        //SR1.History_SalesBySrvcType.Query = "SELECT field1 AS data, field2 AS data1, field3 AS data2, ... , field7 AS data6 FROM table WHERE @myparam";
+            //        break;
+            //    case 11:
+            //        break;
+            //    case 12:
+            //        SR1.History_SalesByDay.ShowReport();
+            //        break;
+            //    case 13:
+            //        break;
+            //    case 14:
+            //        SR1.Employee_ActivityLog.ShowReport();
+            //        break;
+            //    case 15:
+            //        break;
+            //    case 16:
+            //        break;
+            //    case 17:
+            //        break;
+            //    case 18:
+            //        break;
+            //    case 19:
+            //        break;
+            //    case 20:
+            //        break;
+            //    case 21:
+            //        break;
+            //    case 22:
+            //        break;
+            //    case 23:
+            //        break;
+            //}
         }
 
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
@@ -187,7 +191,7 @@ namespace Test
 
         private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
         {
-            SalesReportDatabaseConnectionSettings.Database = comboBox3.SelectedItem.ToString();
+            DatabaseConnectionSettings.Database = comboBox3.SelectedItem.ToString();
         }
     }
 }

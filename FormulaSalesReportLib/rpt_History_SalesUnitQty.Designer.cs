@@ -31,8 +31,8 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(rpt_History_SalesUnitQty));
             this.Detail = new DevExpress.XtraReports.UI.DetailBand();
             this.lblDt2 = new DevExpress.XtraReports.UI.XRLabel();
-            this.lblData = new DevExpress.XtraReports.UI.XRLabel();
             this.lblDt1 = new DevExpress.XtraReports.UI.XRLabel();
+            this.lblData = new DevExpress.XtraReports.UI.XRLabel();
             this.TopMargin = new DevExpress.XtraReports.UI.TopMarginBand();
             this.BottomMargin = new DevExpress.XtraReports.UI.BottomMarginBand();
             this.xrPageInfo1 = new DevExpress.XtraReports.UI.XRPageInfo();
@@ -68,7 +68,7 @@
             this.lblDt2,
             this.lblDt1,
             this.lblData});
-            this.Detail.HeightF = 21.99999F;
+            this.Detail.HeightF = 22F;
             this.Detail.Name = "Detail";
             this.Detail.Padding = new DevExpress.XtraPrinting.PaddingInfo(0, 0, 0, 0, 100F);
             this.Detail.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopLeft;
@@ -79,7 +79,7 @@
             this.lblDt2.Borders = ((DevExpress.XtraPrinting.BorderSide)((DevExpress.XtraPrinting.BorderSide.Right | DevExpress.XtraPrinting.BorderSide.Bottom)));
             this.lblDt2.Font = new System.Drawing.Font("Tahoma", 8F);
             this.lblDt2.ForeColor = System.Drawing.Color.Black;
-            this.lblDt2.LocationFloat = new DevExpress.Utils.PointFloat(185.4059F, 0F);
+            this.lblDt2.LocationFloat = new DevExpress.Utils.PointFloat(121.8686F, 0F);
             this.lblDt2.Name = "lblDt2";
             this.lblDt2.Padding = new DevExpress.XtraPrinting.PaddingInfo(6, 6, 0, 0, 100F);
             this.lblDt2.SizeF = new System.Drawing.SizeF(59.99997F, 21.99999F);
@@ -93,32 +93,13 @@
             this.lblDt2.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
             this.lblDt2.Visible = false;
             // 
-            // lblData
-            // 
-            this.lblData.BorderColor = System.Drawing.Color.LightGray;
-            this.lblData.Borders = ((DevExpress.XtraPrinting.BorderSide)((DevExpress.XtraPrinting.BorderSide.Right | DevExpress.XtraPrinting.BorderSide.Bottom)));
-            this.lblData.Font = new System.Drawing.Font("Tahoma", 8F);
-            this.lblData.ForeColor = System.Drawing.Color.Black;
-            this.lblData.LocationFloat = new DevExpress.Utils.PointFloat(0.0002543131F, 0F);
-            this.lblData.Name = "lblData";
-            this.lblData.Padding = new DevExpress.XtraPrinting.PaddingInfo(6, 6, 0, 0, 100F);
-            this.lblData.SizeF = new System.Drawing.SizeF(135.4071F, 21.99999F);
-            this.lblData.StylePriority.UseBorderColor = false;
-            this.lblData.StylePriority.UseBorders = false;
-            this.lblData.StylePriority.UseFont = false;
-            this.lblData.StylePriority.UseForeColor = false;
-            this.lblData.StylePriority.UsePadding = false;
-            this.lblData.StylePriority.UseTextAlignment = false;
-            this.lblData.Text = "0";
-            this.lblData.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft;
-            // 
             // lblDt1
             // 
             this.lblDt1.BorderColor = System.Drawing.Color.LightGray;
             this.lblDt1.Borders = ((DevExpress.XtraPrinting.BorderSide)((DevExpress.XtraPrinting.BorderSide.Right | DevExpress.XtraPrinting.BorderSide.Bottom)));
             this.lblDt1.Font = new System.Drawing.Font("Tahoma", 8F);
             this.lblDt1.ForeColor = System.Drawing.Color.Black;
-            this.lblDt1.LocationFloat = new DevExpress.Utils.PointFloat(135.4075F, 0F);
+            this.lblDt1.LocationFloat = new DevExpress.Utils.PointFloat(71.87029F, 0F);
             this.lblDt1.Name = "lblDt1";
             this.lblDt1.Padding = new DevExpress.XtraPrinting.PaddingInfo(6, 6, 0, 0, 100F);
             this.lblDt1.SizeF = new System.Drawing.SizeF(49.99826F, 21.99999F);
@@ -131,6 +112,25 @@
             this.lblDt1.Text = "0";
             this.lblDt1.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
             this.lblDt1.Visible = false;
+            // 
+            // lblData
+            // 
+            this.lblData.BorderColor = System.Drawing.Color.LightGray;
+            this.lblData.Borders = ((DevExpress.XtraPrinting.BorderSide)((DevExpress.XtraPrinting.BorderSide.Right | DevExpress.XtraPrinting.BorderSide.Bottom)));
+            this.lblData.Font = new System.Drawing.Font("Tahoma", 8F);
+            this.lblData.ForeColor = System.Drawing.Color.Black;
+            this.lblData.LocationFloat = new DevExpress.Utils.PointFloat(0.0002543131F, 0F);
+            this.lblData.Name = "lblData";
+            this.lblData.Padding = new DevExpress.XtraPrinting.PaddingInfo(6, 6, 0, 0, 100F);
+            this.lblData.SizeF = new System.Drawing.SizeF(71.87F, 22F);
+            this.lblData.StylePriority.UseBorderColor = false;
+            this.lblData.StylePriority.UseBorders = false;
+            this.lblData.StylePriority.UseFont = false;
+            this.lblData.StylePriority.UseForeColor = false;
+            this.lblData.StylePriority.UsePadding = false;
+            this.lblData.StylePriority.UseTextAlignment = false;
+            this.lblData.Text = "00/00/0000";
+            this.lblData.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft;
             // 
             // TopMargin
             // 
@@ -371,7 +371,7 @@
             this.lblCt2.Borders = DevExpress.XtraPrinting.BorderSide.Right;
             this.lblCt2.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Bold);
             this.lblCt2.ForeColor = System.Drawing.Color.Black;
-            this.lblCt2.LocationFloat = new DevExpress.Utils.PointFloat(185.4074F, 21.99999F);
+            this.lblCt2.LocationFloat = new DevExpress.Utils.PointFloat(121.8703F, 21.99999F);
             this.lblCt2.Name = "lblCt2";
             this.lblCt2.Padding = new DevExpress.XtraPrinting.PaddingInfo(6, 6, 0, 0, 100F);
             this.lblCt2.SizeF = new System.Drawing.SizeF(60.00002F, 22F);
@@ -393,7 +393,7 @@
             this.lblCt1.Borders = DevExpress.XtraPrinting.BorderSide.Right;
             this.lblCt1.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Bold);
             this.lblCt1.ForeColor = System.Drawing.Color.Black;
-            this.lblCt1.LocationFloat = new DevExpress.Utils.PointFloat(135.4074F, 21.99999F);
+            this.lblCt1.LocationFloat = new DevExpress.Utils.PointFloat(71.87029F, 21.99999F);
             this.lblCt1.Name = "lblCt1";
             this.lblCt1.Padding = new DevExpress.XtraPrinting.PaddingInfo(6, 6, 0, 0, 100F);
             this.lblCt1.SizeF = new System.Drawing.SizeF(50F, 22F);
@@ -413,11 +413,11 @@
             this.xrTable1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(13)))), ((int)(((byte)(116)))), ((int)(((byte)(189)))));
             this.xrTable1.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
             this.xrTable1.ForeColor = System.Drawing.Color.White;
-            this.xrTable1.LocationFloat = new DevExpress.Utils.PointFloat(0.000222524F, 0F);
+            this.xrTable1.LocationFloat = new DevExpress.Utils.PointFloat(0.0002543131F, 0F);
             this.xrTable1.Name = "xrTable1";
             this.xrTable1.Rows.AddRange(new DevExpress.XtraReports.UI.XRTableRow[] {
             this.xrTableRow1});
-            this.xrTable1.SizeF = new System.Drawing.SizeF(135.4072F, 44F);
+            this.xrTable1.SizeF = new System.Drawing.SizeF(71.87004F, 44F);
             this.xrTable1.StylePriority.UseBackColor = false;
             this.xrTable1.StylePriority.UseFont = false;
             this.xrTable1.StylePriority.UseForeColor = false;
@@ -455,7 +455,7 @@
             this.lblCt0.Borders = ((DevExpress.XtraPrinting.BorderSide)((DevExpress.XtraPrinting.BorderSide.Right | DevExpress.XtraPrinting.BorderSide.Bottom)));
             this.lblCt0.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Bold);
             this.lblCt0.ForeColor = System.Drawing.Color.Black;
-            this.lblCt0.LocationFloat = new DevExpress.Utils.PointFloat(135.4074F, 0F);
+            this.lblCt0.LocationFloat = new DevExpress.Utils.PointFloat(71.87029F, 0F);
             this.lblCt0.Name = "lblCt0";
             this.lblCt0.Padding = new DevExpress.XtraPrinting.PaddingInfo(6, 6, 0, 0, 100F);
             this.lblCt0.SizeF = new System.Drawing.SizeF(110F, 22F);
@@ -481,14 +481,16 @@
             // 
             // lblTotalDt2
             // 
+            this.lblTotalDt2.BackColor = System.Drawing.Color.WhiteSmoke;
             this.lblTotalDt2.BorderColor = System.Drawing.Color.LightGray;
-            this.lblTotalDt2.Borders = DevExpress.XtraPrinting.BorderSide.Right;
+            this.lblTotalDt2.Borders = ((DevExpress.XtraPrinting.BorderSide)((DevExpress.XtraPrinting.BorderSide.Right | DevExpress.XtraPrinting.BorderSide.Bottom)));
             this.lblTotalDt2.Font = new System.Drawing.Font("Tahoma", 8F);
             this.lblTotalDt2.ForeColor = System.Drawing.Color.Black;
-            this.lblTotalDt2.LocationFloat = new DevExpress.Utils.PointFloat(185.4074F, 10F);
+            this.lblTotalDt2.LocationFloat = new DevExpress.Utils.PointFloat(121.8706F, 0F);
             this.lblTotalDt2.Name = "lblTotalDt2";
             this.lblTotalDt2.Padding = new DevExpress.XtraPrinting.PaddingInfo(6, 6, 0, 0, 100F);
-            this.lblTotalDt2.SizeF = new System.Drawing.SizeF(60.00005F, 19.37494F);
+            this.lblTotalDt2.SizeF = new System.Drawing.SizeF(60F, 22F);
+            this.lblTotalDt2.StylePriority.UseBackColor = false;
             this.lblTotalDt2.StylePriority.UseBorderColor = false;
             this.lblTotalDt2.StylePriority.UseBorders = false;
             this.lblTotalDt2.StylePriority.UseFont = false;
@@ -501,14 +503,16 @@
             // 
             // lblTotalDt1
             // 
+            this.lblTotalDt1.BackColor = System.Drawing.Color.WhiteSmoke;
             this.lblTotalDt1.BorderColor = System.Drawing.Color.LightGray;
-            this.lblTotalDt1.Borders = DevExpress.XtraPrinting.BorderSide.Right;
+            this.lblTotalDt1.Borders = ((DevExpress.XtraPrinting.BorderSide)((DevExpress.XtraPrinting.BorderSide.Right | DevExpress.XtraPrinting.BorderSide.Bottom)));
             this.lblTotalDt1.Font = new System.Drawing.Font("Tahoma", 8F);
             this.lblTotalDt1.ForeColor = System.Drawing.Color.Black;
-            this.lblTotalDt1.LocationFloat = new DevExpress.Utils.PointFloat(135.4091F, 10F);
+            this.lblTotalDt1.LocationFloat = new DevExpress.Utils.PointFloat(71.8722F, 0F);
             this.lblTotalDt1.Name = "lblTotalDt1";
             this.lblTotalDt1.Padding = new DevExpress.XtraPrinting.PaddingInfo(6, 6, 0, 0, 100F);
-            this.lblTotalDt1.SizeF = new System.Drawing.SizeF(49.99828F, 19.37494F);
+            this.lblTotalDt1.SizeF = new System.Drawing.SizeF(49.99632F, 22F);
+            this.lblTotalDt1.StylePriority.UseBackColor = false;
             this.lblTotalDt1.StylePriority.UseBorderColor = false;
             this.lblTotalDt1.StylePriority.UseBorders = false;
             this.lblTotalDt1.StylePriority.UseFont = false;
@@ -521,14 +525,17 @@
             // 
             // lblTotalData
             // 
+            this.lblTotalData.BackColor = System.Drawing.Color.WhiteSmoke;
             this.lblTotalData.BorderColor = System.Drawing.Color.LightGray;
-            this.lblTotalData.Borders = DevExpress.XtraPrinting.BorderSide.Right;
+            this.lblTotalData.Borders = ((DevExpress.XtraPrinting.BorderSide)(((DevExpress.XtraPrinting.BorderSide.Left | DevExpress.XtraPrinting.BorderSide.Right) 
+            | DevExpress.XtraPrinting.BorderSide.Bottom)));
             this.lblTotalData.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTotalData.ForeColor = System.Drawing.Color.Black;
-            this.lblTotalData.LocationFloat = new DevExpress.Utils.PointFloat(0F, 10F);
+            this.lblTotalData.LocationFloat = new DevExpress.Utils.PointFloat(0.0002543131F, 0F);
             this.lblTotalData.Name = "lblTotalData";
             this.lblTotalData.Padding = new DevExpress.XtraPrinting.PaddingInfo(6, 6, 0, 0, 100F);
-            this.lblTotalData.SizeF = new System.Drawing.SizeF(135.409F, 19.37494F);
+            this.lblTotalData.SizeF = new System.Drawing.SizeF(71.87F, 22F);
+            this.lblTotalData.StylePriority.UseBackColor = false;
             this.lblTotalData.StylePriority.UseBorderColor = false;
             this.lblTotalData.StylePriority.UseBorders = false;
             this.lblTotalData.StylePriority.UseFont = false;

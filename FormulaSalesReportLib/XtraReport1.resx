@@ -120,14 +120,12 @@
   <metadata name="sqlDataSource1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
-  <data name="customSqlQuery1.Sql" xml:space="preserve">
-    <value>SELECT DateFormatconvert(a.date) AS DATE, a.paymenttype, SUBSTRING(a.tendertype,8) AS CardType, a.time, a.ticketnumber, a.subtotal, b.`tipsAdded`
-FROM paymenthistory AS a
-INNER JOIN tickethistory AS b
-    ON a.`ticketNumber` = b.`TicketNumber`
-WHERE a.tenderType LIKE 'CREDIT%'</value>
+  <data name="customSqlQuery2.Sql" xml:space="preserve">
+    <value>SELECT b.empid AS DATA, CONCAT(FormatDate(b.date,0), CAST(' ' AS CHAR CHARACTER SET utf8), b.time) AS data2, CONCAT(b.action, ' - ', b.jobtype) AS data3 
+FROM employeetimeclockhistory AS b 
+WHERE FormatDate(b.date,0) = '2017/08/02' ORDER BY b.date, b.time;</value>
   </data>
   <data name="sqlDataSource1.ResultSchemaSerializable" xml:space="preserve">
-    <value>PERhdGFTZXQgTmFtZT0ic3FsRGF0YVNvdXJjZTEiPjxWaWV3IE5hbWU9InN0b3JlaW5mb3JtYXRpb24iPjxGaWVsZCBOYW1lPSJpZCIgVHlwZT0iSW50MzIiIC8+PEZpZWxkIE5hbWU9Ik5hbWUiIFR5cGU9IlN0cmluZyIgLz48RmllbGQgTmFtZT0iUGhvbmVOdW1iZXIiIFR5cGU9IlN0cmluZyIgLz48RmllbGQgTmFtZT0iQWRkcmVzczEiIFR5cGU9IlN0cmluZyIgLz48RmllbGQgTmFtZT0iQWRkcmVzczIiIFR5cGU9IlN0cmluZyIgLz48RmllbGQgTmFtZT0iQ2l0eSIgVHlwZT0iU3RyaW5nIiAvPjxGaWVsZCBOYW1lPSJTdGF0ZSIgVHlwZT0iU3RyaW5nIiAvPjxGaWVsZCBOYW1lPSJaaXAiIFR5cGU9IlN0cmluZyIgLz48L1ZpZXc+PFZpZXcgTmFtZT0iUXVlcnkiPjxGaWVsZCBOYW1lPSJEQVRFIiBUeXBlPSJTdHJpbmciIC8+PEZpZWxkIE5hbWU9InBheW1lbnR0eXBlIiBUeXBlPSJTdHJpbmciIC8+PEZpZWxkIE5hbWU9IkNhcmRUeXBlIiBUeXBlPSJTdHJpbmciIC8+PEZpZWxkIE5hbWU9InRpbWUiIFR5cGU9IlN0cmluZyIgLz48RmllbGQgTmFtZT0idGlja2V0bnVtYmVyIiBUeXBlPSJVSW50MzIiIC8+PEZpZWxkIE5hbWU9InN1YnRvdGFsIiBUeXBlPSJEZWNpbWFsIiAvPjxGaWVsZCBOYW1lPSJ0aXBzQWRkZWQiIFR5cGU9IlN0cmluZyIgLz48L1ZpZXc+PC9EYXRhU2V0Pg==</value>
+    <value>PERhdGFTZXQgTmFtZT0ic3FsRGF0YVNvdXJjZTEiPjxWaWV3IE5hbWU9ImVtcCI+PEZpZWxkIE5hbWU9IkRBVEEiIFR5cGU9IkludDMyIiAvPjxGaWVsZCBOYW1lPSJkYXRhMSIgVHlwZT0iU3RyaW5nIiAvPjwvVmlldz48VmlldyBOYW1lPSJhY3QiPjxGaWVsZCBOYW1lPSJEQVRBIiBUeXBlPSJJbnQzMiIgLz48RmllbGQgTmFtZT0iZGF0YTIiIFR5cGU9IlN0cmluZyIgLz48RmllbGQgTmFtZT0iZGF0YTMiIFR5cGU9IlN0cmluZyIgLz48L1ZpZXc+PFJlbGF0aW9uIE1hc3Rlcj0iZW1wIiBEZXRhaWw9ImFjdCI+PEtleUNvbHVtbiBNYXN0ZXI9IkRBVEEiIERldGFpbD0iREFUQSIgLz48S2V5Q29sdW1uIE1hc3Rlcj0iREFUQSIgRGV0YWlsPSJEQVRBIiAvPjwvUmVsYXRpb24+PC9EYXRhU2V0Pg==</value>
   </data>
 </root>
