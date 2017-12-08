@@ -41,10 +41,11 @@ namespace FormulaSalesReportLib
         public ReportType MyType { get; set; }
         public rpt rpt { get; set; }
         public rpt report { get; set; }
-        public rpt_Employee_ActivityLog1 reportEmpAct { get; set; }
+        //public rpt_Employee_ActivityLog1 reportEmpAct { get; set; }
+        public rpt_AllSalesReport reportAllSales { get; set; }
         public List<ColumnHeader> OptionalColumnsToSomeReports = new List<ColumnHeader>();
 
-        public bool EmpActivity { get; set; }
+        //public bool EmpActivity { get; set; }
 
         public CReport(DocumentViewer DV, CRStoreData StoreData, List<ParamDate> ParamDate, rpt ReportInstance, ReportType ReportType)
         {
@@ -69,8 +70,8 @@ namespace FormulaSalesReportLib
         public void ShowReport()
         {
             ReportHelper.ActiveReport = MyType;
-            if (EmpActivity)
-                rpt = CreateReportEmpAct();
+            if (MyType == ReportType.AllSalesReport)
+                rpt = CreateReportAllSales();
             else
                 rpt = CreateReport();
             DV.DocumentSource = rpt;
@@ -80,8 +81,8 @@ namespace FormulaSalesReportLib
         public void ShowReportDesigner()
         {
             ReportHelper.ActiveReport = MyType;
-            if (EmpActivity)
-                rpt = CreateReportEmpAct();
+            if (MyType == ReportType.AllSalesReport)
+                rpt = CreateReportAllSales();
             else
                 rpt = CreateReport();
             rpt.ShowDesigner();
@@ -90,8 +91,8 @@ namespace FormulaSalesReportLib
         public void ShowPreviewReport()
         {
             ReportHelper.ActiveReport = MyType;
-            if (EmpActivity)
-                rpt = CreateReportEmpAct();
+            if (MyType == ReportType.AllSalesReport)
+                rpt = CreateReportAllSales();
             else
                 rpt = CreateReport();
             rpt.ShowPreview();
@@ -100,8 +101,8 @@ namespace FormulaSalesReportLib
         public void ShowPreviewReportDialog()
         {
             ReportHelper.ActiveReport = MyType;
-            if (EmpActivity)
-                rpt = CreateReportEmpAct();
+            if (MyType == ReportType.AllSalesReport)
+                rpt = CreateReportAllSales();
             else
                 rpt = CreateReport();
             rpt.ShowPreviewDialog();
@@ -121,18 +122,35 @@ namespace FormulaSalesReportLib
             return null;
         }
 
+        public virtual List<ReportData> DataSourceToBind1()
+        {
+            return null;
+        }
+
+        public virtual List<ReportData> DataSourceToBind2()
+        {
+            return null;
+        }
+
+        public virtual List<ReportData> DataSourceToBind3()
+        {
+            return null;
+        }
+
+        public virtual List<ReportData> DataSourceToBind4()
+        {
+            return null;
+        }
+
         public string DataMember1 { get; set; }
         public string DataMember2 { get; set; }
+        public string DataMember3 { get; set; }
+        public string DataMember4 { get; set; }
         public virtual SqlDataSource DataSourceToBindDS()
         {
             return null;
         }
-
-        public virtual SqlDataSource DataSourceToBind2()
-        {
-            return null;
-        }
-
+        
         public virtual rpt CreateReport()
         {
             try
@@ -154,32 +172,92 @@ namespace FormulaSalesReportLib
             return report;
         }
 
-        public virtual rpt_Employee_ActivityLog1 CreateReportEmpAct()
+        //public virtual rpt_Employee_ActivityLog1 CreateReportEmpAct()
+        //{
+        //    try
+        //    {
+        //        SqlDataSource ds = DataSourceToBindDS();
+        //        reportEmpAct = new rpt_Employee_ActivityLog1();
+
+        //        // Assign the data source to the report. 
+        //        reportEmpAct.DataSource = ds;
+        //        reportEmpAct.DataMember = DataMember1;
+
+        //        DetailBand detail = (DetailBand)reportEmpAct.Bands["Detail"];
+        //        DetailReportBand detailreport1 = (DetailReportBand)reportEmpAct.Bands["DetailReport"];
+
+        //        detailreport1.DataSource = ds;
+        //        detailreport1.DataMember = DataMember2;
+                
+        //        reportEmpAct.StoreInformation = StoreData.StoreInformation;
+        //        reportEmpAct.OptionalColumnsToSomeReports = OptionalColumnsToSomeReports;
+        //        reportEmpAct.ParamDate = ParamDate;
+
+        //    }
+        //    catch (Exception ex)
+        //    { MessageBox.Show(ex.Message); }
+
+        //    return reportEmpAct;
+        //}
+
+        public virtual rpt_AllSalesReport CreateReportAllSales()
         {
             try
             {
                 SqlDataSource ds = DataSourceToBindDS();
-                reportEmpAct = new rpt_Employee_ActivityLog1();
+                reportAllSales = new rpt_AllSalesReport();
 
                 // Assign the data source to the report. 
-                reportEmpAct.DataSource = ds;
-                reportEmpAct.DataMember = DataMember1;
+                //reportAllSales.DataSource = ds;
+                //reportAllSales.DataMember = DataMember1;
 
-                DetailBand detail = (DetailBand)reportEmpAct.Bands["Detail"];
-                DetailReportBand detailreport1 = (DetailReportBand)reportEmpAct.Bands["DetailReport"];
+                //DetailBand detail = (DetailBand)reportAllSales.Bands["Detail"];
 
-                detailreport1.DataSource = ds;
-                detailreport1.DataMember = DataMember2;
-                
-                reportEmpAct.StoreInformation = StoreData.StoreInformation;
-                reportEmpAct.OptionalColumnsToSomeReports = OptionalColumnsToSomeReports;
-                reportEmpAct.ParamDate = ParamDate;
+                DetailReportBand detailreport1 = (DetailReportBand)reportAllSales.Bands["DetailReport"];
+                if (DataMember1 != null)
+                {
+                    detailreport1.DataSource = ds;
+                    detailreport1.DataMember = DataMember1;
+                }
+                else
+                    detailreport1.DataSource = DataSourceToBind1();
+
+                DetailReportBand detailreport2 = (DetailReportBand)reportAllSales.Bands["DetailReport1"];
+                if (DataMember2 != null)
+                {
+                    detailreport2.DataSource = ds;
+                    detailreport2.DataMember = DataMember2;
+                }
+                else
+                    detailreport2.DataSource = DataSourceToBind2();
+
+                DetailReportBand detailreport3 = (DetailReportBand)reportAllSales.Bands["DetailReport2"];
+                if (DataMember3 != null)
+                {
+                    detailreport3.DataSource = ds;
+                    detailreport3.DataMember = DataMember3;
+                }
+                else
+                    detailreport3.DataSource = DataSourceToBind3();
+
+                    DetailReportBand detailreport4 = (DetailReportBand)reportAllSales.Bands["DetailReport3"];
+                if (DataMember4 != null)
+                {
+                    detailreport4.DataSource = ds;
+                    detailreport4.DataMember = DataMember4;
+                }
+                else
+                    detailreport4.DataSource = DataSourceToBind4();
+
+                        reportAllSales.StoreInformation = StoreData.StoreInformation;
+                reportAllSales.OptionalColumnsToSomeReports = OptionalColumnsToSomeReports;
+                reportAllSales.ParamDate = ParamDate;
 
             }
             catch (Exception ex)
             { MessageBox.Show(ex.Message); }
 
-            return reportEmpAct;
+            return reportAllSales;
         }
     }
 
@@ -536,8 +614,8 @@ namespace FormulaSalesReportLib
                 {
                     if (data.Rows.Count > 0)
                     {
-                        double fTotalQty = 0;
                         double fTotalOrders = 0;
+                        double fTotalQty = 0;
                         double fTotalAmt = 0;
                         double fDeliveryChrge = 0;
                         double fTax = 0;
@@ -829,6 +907,9 @@ namespace FormulaSalesReportLib
         public CEmployee_ActivityLog Employee_ActivityLog;
         public CEmployee_LaborReport Employee_LaborReport;
 
+
+        public CAllSalesReport AllSalesReport;
+
         public List<CReport> MyReports = new List<CReport>();
 
         private bool _ShowPrintButton = true;
@@ -882,6 +963,13 @@ namespace FormulaSalesReportLib
 
             InitializeEmployee();
 
+            AllSalesReport = new CAllSalesReport(DV,
+                                                            StoreData,
+                                                            ParamDate,
+                                                            new rpt_AllSalesReport(),
+                                                            ReportType.AllSalesReport);
+
+            MyReports.Add(AllSalesReport);
         }
 
         private void InitializeSales()
@@ -1124,6 +1212,10 @@ namespace FormulaSalesReportLib
                     break;
                 case ReportType.Items_SalesByGroup:
                     break;
+
+                // ----------------------------------------------------------------------------
+                case ReportType.AllSalesReport:
+                    break;
             }
         }
         
@@ -1155,7 +1247,8 @@ namespace FormulaSalesReportLib
         Customer_Customers,
         Customer_NewCustomers,
         Items_ItemSalesSummary,
-        Items_SalesByGroup
+        Items_SalesByGroup,
+        AllSalesReport
     }
     public enum LoadReportType
     {

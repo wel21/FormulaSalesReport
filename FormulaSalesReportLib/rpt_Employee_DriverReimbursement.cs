@@ -13,5 +13,9 @@ namespace FormulaSalesReportLib
             InitializeComponent();
         }
 
+        private void rpt_Employee_DriverReimbursement_BeforePrint(object sender, System.Drawing.Printing.PrintEventArgs e)
+        {
+
+        }
     }
 }

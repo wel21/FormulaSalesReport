@@ -329,7 +329,7 @@ namespace FormulaSalesReportLib
                 }
 
                 Query = "SELECT a.ID AS DATA, CONCAT(a.LastName,', ', a.FirstName) AS data1, CONCAT(FormatDate(b.date,0), CAST(' ' AS CHAR CHARACTER SET utf8), b.targettime) AS data2, CONCAT(b.action, ' - ', b.jobtype) AS data3 " +
-                        "FROM employees AS a INNER JOIN employeetimeclockhistory AS b ON a.id = b.empid " +
+                        "FROM employees AS a INNER JOIN employeetimeclock AS b ON a.id = b.empid " +
                         "WHERE @myparam " +
                         "ORDER BY a.LastName, a.FirstName, date, time";
 
@@ -659,7 +659,7 @@ namespace FormulaSalesReportLib
                     svalue.Add(Helpers.ConvertMyDate(ParamDate[i].date));
                 }
 
-                Query = "SELECT a.ID, CONCAT(a.LastName,', ', a.FirstName) AS empname, CONCAT(FormatDate(b.date,0), CAST(' ' AS CHAR CHARACTER SET utf8), b.ClockIn) AS ClockIn, CONCAT(FormatDate(b.date,0), CAST(' ' AS CHAR CHARACTER SET utf8), b.ClockOut) AS ClockOut, b.jobCodeName, b.PayRate, b.HoursWorked, b.TotalSales, c.payrate, c.paytype " +
+                Query = "SELECT a.ID, CONCAT(a.LastName,', ', a.FirstName) AS empname, CONCAT(FormatDate(b.date,0), CAST(' ' AS CHAR CHARACTER SET utf8), b.ClockIn) AS ClockIn, CONCAT(FormatDate(b.date,0), CAST(' ' AS CHAR CHARACTER SET utf8), b.ClockOut) AS ClockOut, b.jobCodeName, c.PayRate, b.HoursWorked, b.TotalSales, c.payrate, c.paytype " +
                         "FROM employees AS a INNER JOIN employee_completedshifts AS b ON a.id = b.employeeid " +
                         "INNER JOIN employeejobs AS c ON b.EmployeeID = c.EmpID AND b.jobcodename = c.jobdescription " +
                         "WHERE @myparam " +
@@ -693,7 +693,6 @@ namespace FormulaSalesReportLib
 
                             float totalhourly = 0;
                             float totalsalary = 0;
-                            float totallabor = 0;
                             float totalsales = 0;
                             float totalhours = 0;
 
@@ -727,7 +726,7 @@ namespace FormulaSalesReportLib
                             dataTotal.Rows[0][0] = totalhourly.ToString();
                             dataTotal.Rows[1][0] = totalsalary.ToString();
                             dataTotal.Rows[2][0] = (totalhourly + totalsalary).ToString();
-                            dataTotal.Rows[3][0] = "0";
+                            dataTotal.Rows[3][0] = (((totalhourly + totalsalary) / totalsales) * 100).DecimalPlace() + "%";
                             dataTotal.Rows[4][0] = totalsales.ToString();
                             dataTotal.Rows[5][0] = totalhours.ToString();
 
@@ -885,5 +884,145 @@ namespace FormulaSalesReportLib
             { MessageBox.Show(ex.Message); }
             return null;
         }
+    }
+
+    public class CEmployee_PayrollReport : CReport
+    {
+        public CEmployee_PayrollReport(DocumentViewer DV, CRStoreData StoreData, List<ParamDate> ParamDate, rpt ReportInstance, ReportType ReportType)
+            : base(DV, StoreData, ParamDate, ReportInstance, ReportType)
+        {
+            this.DV = DV;
+            this.StoreData = StoreData;
+            this.ParamDate = ParamDate;
+            this.report = ReportInstance;
+            this.MyType = ReportType;
+
+        }
+
+        private string Query { get; set; }
+
+        public override List<ReportData> DataSourceToBind()
+        {
+            try
+            {
+                List<string> sfield = new List<string>();
+                List<string> svalue = new List<string>();
+
+                // parameters
+                string _ParamDate = "";// (ParamDate.Count == 0 ? "" : "WHERE ");
+                //string _ParamDate = "WHERE ";
+                for (int i = 0; i < ParamDate.Count; i++)
+                {
+                    if (ParamDate.Count == 2)
+                    {
+                        if (i == 0)
+                            _ParamDate += "FormatDate(b.date,0) >= " + "@date" + i.ToString() + " AND ";
+                        else
+                            _ParamDate += "FormatDate(b.date,0) <= " + "@date" + i.ToString() + " ";
+                    }
+                    else
+                    {
+                        _ParamDate += "FormatDate(b.date,0) = " + "@date" + i.ToString() + " " + (i == ParamDate.Count - 1 ? "" : ParamDate[i].paramCondition.ToString() + "");
+                    }
+
+                    sfield.Add("@date" + i.ToString());
+                    svalue.Add(Helpers.ConvertMyDate(ParamDate[i].date));
+                }
+
+                List<ReportData> list = new List<ReportData>();
+                CReportData reportdata = new CReportData();
+                DataTable data = new DataTable();
+                DataTable data1 = new DataTable();
+
+                Query = "SELECT a.ID, CONCAT(a.LastName,', ', a.FirstName) AS empname, b.jobCodeName, c.PayRate, c.PayType, b.HoursWorked, b.TotalSales, b.CCTips " +
+                        "FROM employees AS a INNER JOIN employee_completedshifts AS b ON a.id = b.employeeid " +
+                        "INNER JOIN employeejobs AS c ON b.EmployeeID = c.EmpID AND b.jobcodename = c.jobdescription " +
+                        "WHERE @myparam " +
+                        "ORDER BY a.LastName, a.FirstName, DATE";
+                
+                //// table
+                //if (ParamDate.Count == 1 && ParamDate[0].date.ToShortDateString() == DateTime.Now.ToShortDateString())
+                //    Query1 = Query1.Replace("@mytable", "tickets");
+                //else
+                //    Query1 = Query1.Replace("@mytable", "tickethistory");
+                
+                Query = Query.Replace("@myparam", _ParamDate);
+                data = reportdata.ProcessReportData(Query, sfield, svalue);
+
+                Query = "SELECT ticketnumber, employeeid, date, tipsadded, subtotal " +
+                        "FROM tickethistory " +
+                        "WHERE @myparam AND status NOT LIKE 'VOIDED' " +
+                        "ORDER BY date";
+                
+                Query = Query.Replace("@myparam", _ParamDate);
+                data1 = reportdata.ProcessReportData(Query, sfield, svalue);
+
+                if (data != null)
+                {
+                    try
+                    {
+                        if (data.Rows.Count > 0)
+                        {
+                            float totalhourly = 0;
+                            float totalsalary = 0;
+                            float totalsales = 0;
+                            float totalhours = 0;
+
+                            for (int i = 0; i < data.Rows.Count; i++)
+                            {
+                                string hrs = Helpers.GetDurationInterval("00:00:00", data.Rows[i]["HoursWorked"].ToString(), Helpers.eReturnTime.Hours);
+                                //float 
+
+                                list.Add(new ReportData(data.Rows[i]["ID"].ToString(),
+                                                        data.Rows[i]["empname"].ToString(),
+                                                        data.Rows[i]["jobCodeName"].ToString(),
+                                                        data.Rows[i]["PayRate"].ToString(),
+                                                        data.Rows[i]["PayType"].ToString(),
+                                                        hrs,
+                                                        ((float)hrs.ToDecimal() * (float)data.Rows[i]["payrate"].ToString().ToDecimal()).ToString(),
+                                                        data.Rows[i]["CCTips"].ToString()
+                                                        ));
+
+                                if (data.Rows[i]["payrate"].ToString() == "Hourly")
+                                    totalhourly += (float)hrs.ToDecimal() * (float)data.Rows[i]["payrate"].ToString().ToDecimal();
+                                else
+                                    totalsalary += (float)hrs.ToDecimal() * (float)data.Rows[i]["payrate"].ToString().ToDecimal();
+
+                                totalsales += Helpers.NullToFlt(data.Rows[i]["TotalSales"].ToString());
+                                totalhours += (float)hrs.ToDecimal();
+                            }
+                            
+                        }
+                        else
+                        { MessageBox.Show("No records retreived."); }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                        MessageBox.Show(ex.Message);
+                    }
+                }
+
+                return list;
+
+            }
+            catch (Exception ex)
+            { MessageBox.Show(ex.Message); }
+            return null;
+        }
+
+        private float GetTotal(DataTable DT, string Field, string EmpID)
+        {
+            float ftotal = 0;
+            DataRow[] drarray = null;
+            drarray = DT.Select("employeeid=" + EmpID);
+            for (int i = 0; i < drarray.Count(); i++)
+            {
+                ftotal += Helpers.NullToFlt(drarray[0][Field]);
+            }
+
+            return ftotal;
+        }
+
     }
 }

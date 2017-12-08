@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using DevExpress.XtraReports.UI;
+using DevExpress.DataAccess.Sql;
 using System.Data;
 using DevExpress.XtraPrinting.Preview;
 
@@ -24,30 +25,26 @@ namespace FormulaSalesReportLib
 
             ReportHelper.MyActiveReport = this;
 
-            if (DatabaseConnectionSettings.Database == "purepos")
-            {
-                Query = "SELECT FormatDate(a.date,0) AS DATA, a.paymenttype AS data1, SUBSTRING(a.tendertype,8) AS data2, SUBSTRING(c.Account,LENGTH(c.Account)-3) AS data3, a.time AS data4, a.ticketnumber AS data5, a.refno AS data6, a.subtotal AS data7, b.tipsAdded AS data8 " +
-                        "FROM paymenthistory AS a " +
-                        "INNER JOIN tickethistory AS b ON a.ticketNumber = b.TicketNumber AND FormatDate(a.date,0) = FormatDate(b.date,0) " +
-                        "LEFT JOIN ccreceipts AS c ON a.uniqueid = c.PaymentID " +
-                        "WHERE @myparam AND a.tenderType LIKE 'CREDIT%' " +
-                        "GROUP BY a.ticketnumber, a.paymentType, a.time, a.subtotal, b.tipsadded";
-            }
-            else
-            {
-                Query = "SELECT FormatDate(a.date,0) AS DATA, a.paymenttype AS data1, SUBSTRING(a.tendertype,8) AS data2, a.time AS data3, a.time AS data4, a.ticketnumber AS data5, a.refno AS data6, a.subtotal AS data7, b.tipsAdded AS data8 " +
-                        "FROM paymenthistory AS a " +
-                        "INNER JOIN tickethistory AS b ON a.ticketNumber = b.TicketNumber AND FormatDate(a.date,0) = FormatDate(b.date,0) " +
-                        "WHERE @myparam AND a.tenderType LIKE 'CREDIT%' " +
-                        "GROUP BY a.ticketnumber, a.paymentType, a.time, a.subtotal, b.tipsadded";
-            }
+            //if (DatabaseConnectionSettings.Database == "purepos")
+            //{
+            //    Query = "SELECT FormatDate(a.date,0) AS DATA, a.paymenttype AS data1, SUBSTRING(a.tendertype,8) AS data2, SUBSTRING(c.Account,LENGTH(c.Account)-3) AS data3, a.time AS data4, a.ticketnumber AS data5, a.refno AS data6, a.subtotal AS data7, b.tipsAdded AS data8 " +
+            //            "FROM paymenthistory AS a " +
+            //            "INNER JOIN tickethistory AS b ON a.ticketNumber = b.TicketNumber AND FormatDate(a.date,0) = FormatDate(b.date,0) " +
+            //            "LEFT JOIN ccreceipts AS c ON a.uniqueid = c.PaymentID " +
+            //            "WHERE @myparam AND a.tenderType LIKE 'CREDIT%' " +
+            //            "GROUP BY a.ticketnumber, a.paymentType, a.time, a.subtotal, b.tipsadded";
+            //}
+            //else
+            //{
+            //    Query = "SELECT FormatDate(a.date,0) AS DATA, a.paymenttype AS data1, SUBSTRING(a.tendertype,8) AS data2, a.time AS data3, a.time AS data4, a.ticketnumber AS data5, a.refno AS data6, a.subtotal AS data7, b.tipsAdded AS data8 " +
+            //            "FROM paymenthistory AS a " +
+            //            "INNER JOIN tickethistory AS b ON a.ticketNumber = b.TicketNumber AND FormatDate(a.date,0) = FormatDate(b.date,0) " +
+            //            "WHERE @myparam AND a.tenderType LIKE 'CREDIT%' " +
+            //            "GROUP BY a.ticketnumber, a.paymentType, a.time, a.subtotal, b.tipsadded";
+            //}
         }
-
-        /// <summary>
-        /// The query should have 9 columns. Set the columns name as (data, data1, data2, ... , data8) and the date parameter as @myparam.
-        /// ex: SELECT field1 AS data, field2 AS data1, field3 AS data2, ... , field9 AS data8 FROM table WHERE @myparam.
-        /// </summary>
-        public string Query { get; set; }
+        
+        private string Query { get; set; }
 
         public override List<ReportData> DataSourceToBind()
         {
@@ -422,7 +419,7 @@ namespace FormulaSalesReportLib
                 CReportData reportdata = new CReportData();
                 DataTable data1 = new DataTable();
                 DataTable data2 = new DataTable();
-                //DataTable data3 = new DataTable();
+                DataTable data3 = new DataTable();
 
                 string Query1 = "SELECT SUM(payin) AS PayIn, SUM(ccsales) AS CCPayment, SUM(OverShort) AS OverShort, SUM(cctips) AS CCTips, SUM(payouts) AS PayOuts, SUM(expectedcash) AS Expected, SUM(totalcashcounted) AS Actual " +
                                 "FROM bankhistory " +
@@ -433,8 +430,12 @@ namespace FormulaSalesReportLib
                 string Query2 = "SELECT tenderamount, tendertype FROM paymenthistory WHERE @myparam";
                 Query2 = Query2.Replace("@myparam", _ParamDate);
 
-                //string Query3 = "SELECT SUM(tenderamount) AS Total FROM paymenthistory WHERE tendertype='GC'";
-                //Query3 = Query3.Replace("@myparam", _ParamDate);
+                string Query3 = "SELECT a.ID, CONCAT(a.LastName,', ', a.FirstName) AS empname, CONCAT(FormatDate(b.date,0), CAST(' ' AS CHAR CHARACTER SET utf8), b.ClockIn) AS ClockIn, CONCAT(FormatDate(b.date,0), CAST(' ' AS CHAR CHARACTER SET utf8), b.ClockOut) AS ClockOut, b.jobCodeName, b.PayRate, b.HoursWorked, b.TotalSales, c.payrate, c.paytype " +
+                                "FROM employees AS a INNER JOIN employee_completedshifts AS b ON a.id = b.employeeid " +
+                                "INNER JOIN employeejobs AS c ON b.EmployeeID = c.EmpID AND b.jobcodename = c.jobdescription " +
+                                "WHERE @myparam " +
+                                "ORDER BY a.LastName, a.FirstName, DATE";
+                Query3 = Query3.Replace("@myparam", _ParamDate.Replace("(date", "(b.date"));
 
                 //// table
                 //if (ParamDate.Count == 1 && ParamDate[0].date.ToShortDateString() == DateTime.Now.ToShortDateString())
@@ -444,7 +445,7 @@ namespace FormulaSalesReportLib
 
                 data1 = reportdata.ProcessReportData(Query1, sfield1, svalue);
                 data2 = reportdata.ProcessReportData(Query2, sfield, svalue);
-                //data3 = reportdata.ProcessReportData(Query3, sfield, svalue);
+                data3 = reportdata.ProcessReportData(Query3, sfield, svalue);
 
                 float fpayins = 0;
                 float fccpay = 0;
@@ -455,6 +456,7 @@ namespace FormulaSalesReportLib
                 float fhouse = 0;
                 float fgc = 0;
                 float fovrshrt = 0;
+                float flbrperc = 0;
 
                 if (data1 != null)
                 {
@@ -469,12 +471,14 @@ namespace FormulaSalesReportLib
 
                 if (data2 != null)
                 {
-                    fhouse = GetHouseAccount(data2);// 0;//(data2.Rows[0]["Total"] != null ? (float)Convert.ToDouble(data2.Rows[0]["Total"]) : 0);
-                    fgc = GetGC(data2);// 0;//(data3.Rows[0]["Total"] != null ? (float)Convert.ToDouble(data3.Rows[0]["Total"]) : 0);
+                    fhouse = GetHouseAccount(data2);
+                    fgc = GetGC(data2);
                 }
 
-                //if (data3 != null)
-                //    fgc = GetGC(data2);// 0;//(data3.Rows[0]["Total"] != null ? (float)Convert.ToDouble(data3.Rows[0]["Total"]) : 0);
+                if (data3 != null)
+                {
+                    flbrperc = GetLaborPerc(data3) * 100;
+                }
 
                 list.Add(new ReportData("Total Sales", (fpayins + fccpay + fcctip + fpayout + fexp + fact + fhouse + fgc).ToString()));
                 list.Add(new ReportData("Total Payins (+)", fpayins.ToString()));
@@ -487,7 +491,7 @@ namespace FormulaSalesReportLib
                 list.Add(new ReportData("Adjusted Sales (Expected Cash/Cks)", fexp.ToString()));
                 list.Add(new ReportData("Adjusted Sales (Actual Cash)", fact.ToString()));
                 list.Add(new ReportData("Over / Short Amount", fovrshrt.ToString()));
-                list.Add(new ReportData("Labor Percentage", "0"));
+                list.Add(new ReportData("Labor Percentage", flbrperc.DecimalPlace() + "%"));
 
                 return list;
 
@@ -521,6 +525,27 @@ namespace FormulaSalesReportLib
             }
 
             return ftotal;
+        }
+
+        private float GetLaborPerc(DataTable DT)
+        {
+            float totalhourly = 0;
+            float totalsalary = 0;
+            float totalsales = 0;
+
+            for (int i = 0; i < DT.Rows.Count; i++)
+            {
+                string hrs = Helpers.GetDurationInterval("00:00:00", DT.Rows[i]["HoursWorked"].ToString(), Helpers.eReturnTime.Hours);
+
+                if (DT.Rows[i]["payrate"].ToString() == "Hourly")
+                    totalhourly += (float)hrs.ToDecimal() * (float)DT.Rows[i]["payrate"].ToString().ToDecimal();
+                else
+                    totalsalary += (float)hrs.ToDecimal() * (float)DT.Rows[i]["payrate"].ToString().ToDecimal();
+
+                totalsales += Helpers.NullToFlt(DT.Rows[i]["TotalSales"].ToString());
+            }
+
+            return (totalhourly + totalsalary) / totalsales;
         }
 
     }
@@ -641,4 +666,325 @@ namespace FormulaSalesReportLib
             return null;
         }
     }
+
+    // #######################----------------------------------------#######################
+
+    public class CAllSalesReport : CReport
+    {
+        public CAllSalesReport(DocumentViewer DV, CRStoreData StoreData, List<ParamDate> ParamDate, rpt ReportInstance, ReportType ReportType)
+            : base(DV, StoreData, ParamDate, ReportInstance, ReportType)
+        {
+            this.DV = DV;
+            this.StoreData = StoreData;
+            this.ParamDate = ParamDate;
+            this.report = ReportInstance;
+            this.MyType = ReportType;
+
+        }
+        
+        private string Query { get; set; }
+
+        DataTable data1 = new DataTable();
+        DataTable data1DlvryStt = new DataTable();
+        DataTable data2 = new DataTable();
+        DataTable data3 = new DataTable();
+        DataTable data4 = new DataTable();
+
+        AllSalesReport AllSalesTotals = new AllSalesReport();
+
+        public override List<ReportData> DataSourceToBind1()
+        {
+            try
+            {
+                List<string> sfield = new List<string>();
+                List<string> svalue = new List<string>();
+
+                // parameters
+                string _ParamDate = "";// (ParamDate.Count == 0 ? "" : "WHERE ");
+                //string _ParamDate = "WHERE ";
+                for (int i = 0; i < ParamDate.Count; i++)
+                {
+                    if (ParamDate.Count == 2)
+                    {
+                        if (i == 0)
+                            _ParamDate += "FormatDate(a.date,0) >= " + "@date" + i.ToString() + " AND ";
+                        else
+                            _ParamDate += "FormatDate(a.date,0) <= " + "@date" + i.ToString() + " ";
+                    }
+                    else
+                    {
+                        _ParamDate += "FormatDate(a.date,0) = " + "@date" + i.ToString() + " " + (i == ParamDate.Count - 1 ? "" : ParamDate[i].paramCondition.ToString() + "");
+                    }
+
+                    sfield.Add("@date" + i.ToString());
+                    svalue.Add(Helpers.ConvertMyDate(ParamDate[i].date));
+                }
+
+                CReportData reportdata = new CReportData();
+
+                // Net Sales By Service Type ############################
+                Query = "SELECT B.serviceTypeName as ServiceTypeName, Count(*) as Quantity, Sum(A.SubTotal) as Amount, Sum(A.DeliveryCharge) as DeliveryCharge, Sum(A.Tax) as Tax, FormatDate(A.date,0) as mdate " +
+                        "FROM @mytable A INNER JOIN servicetypes B on A.serviceTypeID = B.id " +
+                        "WHERE @myparam " +
+                        "GROUP BY B.serviceTypeName";
+                // table
+                if (ParamDate.Count == 1 && ParamDate[0].date.ToShortDateString() == DateTime.Now.ToShortDateString())
+                    Query = Query.Replace("@mytable", "tickets");
+                else
+                    Query = Query.Replace("@mytable", "tickethistory");
+                // param
+                Query = Query.Replace("@myparam", _ParamDate);                
+                data1 = reportdata.ProcessReportData(Query, sfield, svalue);
+
+                Query = "SELECT DeliveryFeeAmount, DriverReimbursementAmount FROM deliverysettings";
+                data1DlvryStt = reportdata.ProcessReportData(Query, null, null);
+
+
+
+                // Gross Sales Summary by Hours #########################
+                Query = "SELECT B.Time, COUNT(B.TicketNumber) AS Orders, SUM(B.Total) AS Amount " +
+                        "FROM (SELECT CONCAT(SUBSTRING(A.Time,1,LOCATE(':',A.Time)),'00',SUBSTRING(A.Time,LENGTH(A.Time)-2)) AS TIME, A.TicketNumber, A.Total, A.date " +
+                        "FROM @mytable as A " +
+                        "WHERE @myparam " + 
+                        ") AS B " +
+                        "GROUP BY B.Time";
+                // table
+                if (ParamDate.Count == 1 && ParamDate[0].date.ToShortDateString() == DateTime.Now.ToShortDateString())
+                    Query = Query.Replace("@mytable", "tickets");
+                else
+                    Query = Query.Replace("@mytable", "tickethistory");
+                // param
+                Query = Query.Replace("@myparam", _ParamDate);
+                data2 = reportdata.ProcessReportData(Query, sfield, svalue);
+
+
+                // Net Sales By Category ################################
+                Query = "SELECT B.name AS Category, COUNT(A.ItemName) AS Quantity, SUM(A.ItemPrice) AS Amount, a.date " +
+                        "FROM @mytable A INNER JOIN menucategories B ON A.ItemCategory = B.id " +
+                        "WHERE @myparam AND a.itemtype = 'Item' " +
+                        "GROUP BY B.name";
+                // table
+                if (ParamDate.Count == 1 && ParamDate[0].date.ToShortDateString() == DateTime.Now.ToShortDateString())
+                    Query = Query.Replace("@mytable", "ticketitems");
+                else
+                    Query = Query.Replace("@mytable", "ticketitemshistory");
+                // param
+                Query = Query.Replace("@myparam", _ParamDate);
+                data3 = reportdata.ProcessReportData(Query, sfield, svalue);
+
+
+                // Discount Summary ################################
+                Query = "SELECT A.CouponName, COUNT(A.CouponName) AS Quantity, SUM(A.Amount) AS Amount, DateFormatConvert(A.date) AS mdate " +
+                        "FROM @mytable AS a " +
+                        "WHERE @myparam " +
+                        "GROUP BY A.CouponName";
+                // table
+                if (ParamDate.Count == 1 && ParamDate[0].date.ToShortDateString() == DateTime.Now.ToShortDateString())
+                    Query = Query.Replace("@mytable", "used_coupons");
+                else
+                    Query = Query.Replace("@mytable", "used_couponshistory");
+                // param
+                Query = Query.Replace("@myparam", _ParamDate);
+                data4 = reportdata.ProcessReportData(Query, sfield, svalue);
+
+                List<ReportData> list1 = new List<ReportData>();
+                if (data1.Rows.Count > 0)
+                {
+                    double fTotalQty = 0;
+                    double fTotalAmt = 0;
+                    double fDeliveryChrge = 0;
+                    double fTax = 0;
+                    double fTotalDelivery = 0;
+
+                    for (int i = 0; i < data1.Rows.Count; i++)
+                    {
+                        fTotalQty += Convert.ToDouble(data1.Rows[i]["Quantity"]);
+                        fTotalAmt += Convert.ToDouble(data1.Rows[i]["Amount"]) - Convert.ToDouble(data1.Rows[i]["DeliveryCharge"]);
+                        fDeliveryChrge += Convert.ToDouble(data1.Rows[i]["DeliveryCharge"]);
+                        fTax += Convert.ToDouble(data1.Rows[i]["Tax"]);
+                    }
+
+                    for (int i = 0; i < data1.Rows.Count; i++)
+                    {
+                        string perc = "";
+                        if (fTotalQty > 0)
+                            perc = Convert.ToDecimal((Convert.ToDouble(data1.Rows[i]["Quantity"]) / fTotalQty) * 100).DecimalPlace();
+                        else
+                            perc = "0";
+                        string perc1 = "";
+                        if (Convert.ToDouble(data1.Rows[i]["Quantity"]) > 0)
+                            perc1 = Convert.ToDecimal((Convert.ToDouble(data1.Rows[i]["Amount"]) / Convert.ToDouble(data1.Rows[i]["Quantity"]))).DecimalPlace();
+                        else
+                            perc1 = "0";
+                        if (data1.Rows[i]["ServiceTypeName"].ToString() == "Delivery")
+                            fTotalDelivery = Convert.ToDouble(data1.Rows[i]["Quantity"]);
+
+                        list1.Add(new ReportData(data1.Rows[i]["ServiceTypeName"].ToString(),
+                                          Convert.ToDouble(data1.Rows[i]["Quantity"]).ToString(),
+                                          (Convert.ToDouble(data1.Rows[i]["Amount"]) - Convert.ToDouble(data1.Rows[i]["DeliveryCharge"])).ToString(),
+                                          perc + "%",
+                                          perc1));
+
+                    }
+
+                    AllSalesTotals.rpt1TotalQty = fTotalQty;
+                    AllSalesTotals.rpt1TotalAmt = fTotalAmt;
+                    AllSalesTotals.rpt1Delivery = (Convert.ToDouble(data1DlvryStt.Rows[0]["DeliveryFeeAmount"]) * fTotalDelivery);
+                    AllSalesTotals.rpt1Reimbursement = (Convert.ToDouble(data1DlvryStt.Rows[0]["DriverReimbursementAmount"]) * fTotalDelivery);
+                    AllSalesTotals.rpt1NetSales = fTotalAmt + AllSalesTotals.rpt1Delivery - AllSalesTotals.rpt1Reimbursement;
+                    AllSalesTotals.rpt1SalesTax = fTax;
+                    AllSalesTotals.rpt1GrossQty = fTotalQty;
+                    AllSalesTotals.rpt1GrossAmt = Convert.ToDouble(fTotalAmt) + Convert.ToDouble(fTax) + Convert.ToDouble(fDeliveryChrge);
+
+                    return list1;
+                }
+            }
+            catch (Exception ex)
+            { MessageBox.Show(ex.Message); }
+            return null;
+        }
+
+        public override List<ReportData> DataSourceToBind2()
+        {
+            try
+            {
+                double fTotalAmt = 0;
+                string SBestHour = "";
+                for (int i = 0; i < data2.Rows.Count; i++)
+                {
+                    fTotalAmt += Convert.ToDouble(data2.Rows[i]["Amount"]);
+                }
+
+                List<ReportData> list2 = new List<ReportData>();
+                double tmpbest = 0;
+                for (int i = 0; i < data2.Rows.Count; i++)
+                {
+                    string s = "";
+                    double d = Convert.ToDouble(data2.Rows[i]["Amount"]);
+                    for (int j = 0; j < Math.Floor(d / 10); j++)
+                    { s += "$"; }
+
+                    if (Math.Floor(d / 10) > tmpbest)
+                    {
+                        tmpbest = Math.Floor(d / 10);
+                        SBestHour = data2.Rows[i]["Time"].ToString();
+                    }
+                    list2.Add(new ReportData(data2.Rows[i]["Time"].ToString(),
+                                      Convert.ToDouble(data2.Rows[i]["Orders"]).ToString(),
+                                      d.ToString(),
+                                      s));
+
+                }
+
+                AllSalesTotals.rpt2TotalAmt = fTotalAmt;
+                AllSalesTotals.rpt2BestHour = SBestHour;
+
+                return list2;
+            }
+            catch (Exception ex)
+            { MessageBox.Show(ex.Message); }
+            return null;
+        }
+
+        public override List<ReportData> DataSourceToBind3()
+        {
+            try
+            {
+                double fTotalAmt = 0;
+                double fTotalQty = 0;
+                //double fDiscount = 0;
+                //for (int i = 0; i < data3.Rows.Count; i++)
+                //{
+                //    fTotalAmt += Convert.ToDouble(data3.Rows[i]["Amount"]);
+                //}
+
+                List<ReportData> list3 = new List<ReportData>();
+                for (int i = 0; i < data3.Rows.Count; i++)
+                {
+                    fTotalQty += Convert.ToDouble(data3.Rows[i]["Quantity"]);
+                    fTotalAmt += Convert.ToDouble(data3.Rows[i]["Amount"]);
+                    //fDeliveryChrge += Convert.ToDouble(data.Rows[i]["DeliveryCharge"]);
+                    //fTax += Convert.ToDouble(data.Rows[i]["Tax"]);
+                }
+
+                for (int i = 0; i < data3.Rows.Count; i++)
+                {
+                    string perc = "";
+                    if (fTotalQty > 0)
+                        perc = Convert.ToDecimal((Convert.ToDouble(data3.Rows[i]["Quantity"]) / fTotalQty) * 100).DecimalPlace();
+                    else
+                        perc = "0";
+                    list3.Add(new ReportData(data3.Rows[i]["Category"].ToString(),
+                                      Convert.ToDouble(data3.Rows[i]["Quantity"]).ToString(),
+                                      Convert.ToDouble(data3.Rows[i]["Amount"]).ToString(),
+                                      perc + "%"));
+
+                }
+
+                AllSalesTotals.rpt3TotalQty = fTotalQty;
+                AllSalesTotals.rpt3TotalAmt = fTotalAmt;
+                AllSalesTotals.rpt3DiscountAmt = AllSalesTotals.rpt1DiscountAmt;
+                AllSalesTotals.rpt3NetSales = fTotalAmt - AllSalesTotals.rpt1DiscountAmt;
+
+                //AllSalesTotals.rpt1DiscountQty = fTotalQty;
+                //AllSalesTotals.rpt1DiscountAmt = fTotalAmt;
+
+                return list3;
+            }
+            catch (Exception ex)
+            { MessageBox.Show(ex.Message); }
+            return null;
+        }
+
+        public override List<ReportData> DataSourceToBind4()
+        {
+            try
+            {
+                double fTotalAmt = 0;
+                double fTotalQty = 0;
+                double fPercent = 0;
+                for (int i = 0; i < data4.Rows.Count; i++)
+                {
+                    fTotalQty += Convert.ToDouble(data4.Rows[i]["Quantity"]);
+                    fTotalAmt += Convert.ToDouble(data4.Rows[i]["Amount"]);
+                    //fDeliveryChrge += Convert.ToDouble(data.Rows[i]["DeliveryCharge"]);
+                    //fTax += Convert.ToDouble(data.Rows[i]["Tax"]);
+                }
+
+                List<ReportData> list4 = new List<ReportData>();
+                for (int i = 0; i < data4.Rows.Count; i++)
+                {
+                    string perc = "";
+                    if (AllSalesTotals.rpt1NetSales > 0)
+                        perc = Convert.ToDecimal((Convert.ToDouble(data4.Rows[i]["Amount"]) / AllSalesTotals.rpt1NetSales) * 100).DecimalPlace(2,true);
+                    else
+                        perc = "0";
+                    list4.Add(new ReportData(data4.Rows[i]["CouponName"].ToString(),
+                                      Convert.ToDouble(data4.Rows[i]["Quantity"]).ToString(),
+                                      Convert.ToDouble(data4.Rows[i]["Amount"]).ToString(),
+                                      perc + "%"));
+
+                }
+
+                AllSalesTotals.rpt4TotalQty = fTotalQty;
+                AllSalesTotals.rpt4TotalAmt = fTotalAmt;
+                AllSalesTotals.rpt4TotalPercent = fPercent;
+
+                AllSalesTotals.rpt3DiscountAmt = fTotalAmt;
+                //AllSalesTotals.rpt3NetSales = fTotalAmt;
+
+                AllSalesTotals.rpt1DiscountQty = fTotalQty;
+                AllSalesTotals.rpt1DiscountAmt = fTotalAmt;
+
+                reportAllSales.MyObject = AllSalesTotals;
+
+                return list4;
+            }
+            catch (Exception ex)
+            { MessageBox.Show(ex.Message); }
+            return null;
+        }
+        
+    }
+
 }

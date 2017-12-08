@@ -50,6 +50,33 @@ namespace FormulaSalesReportLib
         public string AverageSalesRepresentation { get; set; }
     }
 
+    public class AllSalesReport
+    {
+        public double rpt1TotalQty { get; set; }
+        public double rpt1TotalAmt { get; set; }
+        public double rpt1Delivery { get; set; }
+        public double rpt1Reimbursement { get; set; }
+        public double rpt1NetSales { get; set; }
+        public double rpt1SalesTax { get; set; }
+        public double rpt1GrossQty { get; set; }
+        public double rpt1GrossAmt { get; set; }
+        public double rpt1DiscountQty { get; set; }
+        public double rpt1DiscountAmt { get; set; }
+
+        public double rpt2TotalAmt { get; set; }
+        public string rpt2BestHour { get; set; }
+
+        public double rpt3TotalQty { get; set; }
+        public double rpt3TotalAmt { get; set; }
+        public double rpt3TotalPercent { get; set; }
+        public double rpt3DiscountAmt { get; set; }
+        public double rpt3NetSales { get; set; }
+
+        public double rpt4TotalQty { get; set; }
+        public double rpt4TotalAmt { get; set; }
+        public double rpt4TotalPercent { get; set; }
+    }
+
     public class ReportData
     {
         #region Method

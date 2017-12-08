@@ -79,6 +79,12 @@
     <Compile Include="frmMessage.Designer.cs">
       <DependentUpon>frmMessage.cs</DependentUpon>
     </Compile>
+    <Compile Include="rpt_AllSalesReport.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="rpt_AllSalesReport.Designer.cs">
+      <DependentUpon>rpt_AllSalesReport.cs</DependentUpon>
+    </Compile>
     <Compile Include="rpt_Employee_ActivityLog.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -102,6 +108,12 @@
     </Compile>
     <Compile Include="rpt_Employee_LaborReport.Designer.cs">
       <DependentUpon>rpt_Employee_LaborReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="rpt_Employee_PayrollReport.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="rpt_Employee_PayrollReport.Designer.cs">
+      <DependentUpon>rpt_Employee_PayrollReport.cs</DependentUpon>
     </Compile>
     <Compile Include="rpt_History_CardPaymentsByType.cs">
       <SubType>Component</SubType>
@@ -229,6 +241,9 @@
     <EmbeddedResource Include="rpt4.resx">
       <DependentUpon>rpt4.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="rpt_AllSalesReport.resx">
+      <DependentUpon>rpt_AllSalesReport.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="rpt_Employee_ActivityLog.resx">
       <DependentUpon>rpt_Employee_ActivityLog.cs</DependentUpon>
     </EmbeddedResource>
@@ -240,6 +255,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="rpt_Employee_LaborReport.resx">
       <DependentUpon>rpt_Employee_LaborReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="rpt_Employee_PayrollReport.resx">
+      <DependentUpon>rpt_Employee_PayrollReport.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="rpt_History_CardPaymentsByType.resx">
       <DependentUpon>rpt_History_CardPaymentsByType.cs</DependentUpon>

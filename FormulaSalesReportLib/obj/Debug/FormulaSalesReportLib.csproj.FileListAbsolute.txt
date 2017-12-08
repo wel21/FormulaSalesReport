@@ -386,3 +386,5 @@ C:\Users\RCARRASCAL\Documents\GitHub\FormulaSalesReport\FormulaSalesReportLib\ob
 C:\Users\RCARRASCAL\Documents\GitHub\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaSalesReportLib.rpt_Employee_ActivityLog1.resources
 C:\Users\RCARRASCAL\Documents\GitHub\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaSalesReportLib.rpt_Employee_LaborReport.resources
 C:\Users\RCARRASCAL\Documents\GitHub\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaSalesReportLib.rpt_Employee_DriverReimbursement.resources
+C:\Users\RCARRASCAL\Documents\GitHub\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaSalesReportLib.rpt_AllSalesReport.resources
+C:\Users\RCARRASCAL\Documents\GitHub\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaSalesReportLib.rpt_Employee_PayrollReport.resources

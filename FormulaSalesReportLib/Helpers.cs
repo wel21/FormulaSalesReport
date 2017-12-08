@@ -299,9 +299,12 @@ namespace FormulaSalesReportLib
             command = connection.CreateCommand();
             command.CommandText = commandString;
             //command.Parameters.Add(new MySqlParameter("employee", employee));
-            for (int i = 0; i < paramfields.Count(); i++)
+            if (paramfields != null)
             {
-                command.Parameters.Add(new MySqlParameter(paramfields[i].Replace("@", ""), paramvalues[i]));
+                for (int i = 0; i < paramfields.Count(); i++)
+                {
+                    command.Parameters.Add(new MySqlParameter(paramfields[i].Replace("@", ""), paramvalues[i]));
+                }
             }
             MySqlDataReader Reader = command.ExecuteReader();
             DataTable dt = new DataTable();
@@ -393,7 +396,7 @@ namespace FormulaSalesReportLib
             return d.ToString().Replace(",", "");
         }
 
-        public static string DecimalPlace(this decimal d, int DecimalPlaces = 2)
+        public static string DecimalPlace(this decimal d, int DecimalPlaces = 2, bool ShowZero = false)
         {
             string sDec = "";
             for (int i = 1; i <= DecimalPlaces; i++)
@@ -411,7 +414,7 @@ namespace FormulaSalesReportLib
             }
             if (d.ToString().Contains("."))
             {
-                string s = d.ToString("#" + sDec);
+                string s = d.ToString((ShowZero ? "0" : "#") + sDec);
                 decimal tmpD = Convert.ToDecimal(s);
                 if (Convert.ToDecimal(tmpD.ToString().Substring(tmpD.ToString().IndexOf(".") + 1)) == 0)
                     sDec = "";
@@ -421,7 +424,7 @@ namespace FormulaSalesReportLib
                 sDec = "";
             }
 
-            return d.ToString("#" + sDec);
+            return d.ToString((ShowZero ? "0" : "#") + sDec);
         }
 
     }
