@@ -97,6 +97,12 @@
     <Compile Include="rpt_Employee_ActivityLog1.Designer.cs">
       <DependentUpon>rpt_Employee_ActivityLog1.cs</DependentUpon>
     </Compile>
+    <Compile Include="rpt_Employee_CashDrawerActivity.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="rpt_Employee_CashDrawerActivity.Designer.cs">
+      <DependentUpon>rpt_Employee_CashDrawerActivity.cs</DependentUpon>
+    </Compile>
     <Compile Include="rpt_Employee_DriverReimbursement.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -249,6 +255,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="rpt_Employee_ActivityLog1.resx">
       <DependentUpon>rpt_Employee_ActivityLog1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="rpt_Employee_CashDrawerActivity.resx">
+      <DependentUpon>rpt_Employee_CashDrawerActivity.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="rpt_Employee_DriverReimbursement.resx">
       <DependentUpon>rpt_Employee_DriverReimbursement.cs</DependentUpon>

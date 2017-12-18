@@ -116,7 +116,7 @@ namespace FormulaSalesReportLib
 
         #endregion
 
-
+        #region DataSource
         public virtual List<ReportData>  DataSourceToBind()
         {
             return null;
@@ -142,15 +142,53 @@ namespace FormulaSalesReportLib
             return null;
         }
 
+        public virtual List<ReportData> DataSourceToBind5()
+        {
+            return null;
+        }
+
+        public virtual List<ReportData> DataSourceToBind6()
+        {
+            return null;
+        }
+
+        public virtual List<ReportData> DataSourceToBind7()
+        {
+            return null;
+        }
+
+        public virtual List<ReportData> DataSourceToBind8()
+        {
+            return null;
+        }
+
+        public virtual List<ReportData> DataSourceToBind9()
+        {
+            return null;
+        }
+
+        public virtual List<ReportData> DataSourceToBind10()
+        {
+            return null;
+        }
+
         public string DataMember1 { get; set; }
         public string DataMember2 { get; set; }
         public string DataMember3 { get; set; }
         public string DataMember4 { get; set; }
+        public string DataMember5 { get; set; }
+        public string DataMember6 { get; set; }
+        public string DataMember7 { get; set; }
+        public string DataMember8 { get; set; }
+        public string DataMember9 { get; set; }
+        public string DataMember10 { get; set; }
+
         public virtual SqlDataSource DataSourceToBindDS()
         {
             return null;
         }
-        
+        #endregion
+
         public virtual rpt CreateReport()
         {
             try

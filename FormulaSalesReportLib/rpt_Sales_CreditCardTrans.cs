@@ -170,6 +170,22 @@ namespace FormulaSalesReportLib
                     }
                 }
 
+                //clear the controls first
+                try
+                {
+                    foreach (XRControl ctrl in GroupFooter4.Controls)
+                    {
+                        if (ctrl.Name == "lblR1C1" || ctrl.Name == "lblR1C2" || ctrl.Name == "lblR1C3" ||
+                            ctrl.Name == "lblR1C4" || ctrl.Name == "lblR1C5" || ctrl.Name == "xrPanel1")
+                            continue;
+
+                        ctrl.Dispose();
+                    }
+                }
+                catch
+                { }
+                
+
                 if (DTTotal.Count > 0)
                 {
                     //lblR1C1.Text = DTTotal[0].Data;

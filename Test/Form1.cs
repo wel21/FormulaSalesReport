@@ -24,8 +24,8 @@ namespace Test
             comboBox3.SelectedIndex = 0;
 
             WindowState = FormWindowState.Maximized;
-            dtpFrom.Value = Convert.ToDateTime("11/14/2017");
-            dtpTo.Value = Convert.ToDateTime("11/14/2017");
+            dtpFrom.Value = Convert.ToDateTime("12/08/2017");
+            dtpTo.Value = Convert.ToDateTime("12/11/2017");
 
             // #### USAGE ####
 

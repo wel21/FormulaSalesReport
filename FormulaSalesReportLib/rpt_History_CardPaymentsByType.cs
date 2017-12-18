@@ -64,7 +64,7 @@ namespace FormulaSalesReportLib
             XRSummary XrSummary2 = new XRSummary();
             lblTotalData2.DataBindings.AddRange(new XRBinding[] { new XRBinding("Text", this.DataSource, "Data2") });
             XrSummary2.FormatString = "{0}";
-            XrSummary2.Func = SummaryFunc.Count;
+            XrSummary2.Func = SummaryFunc.Sum;
             XrSummary2.Running = SummaryRunning.Report;
             lblTotalData2.Summary = XrSummary2;
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing.Printing;
 using DevExpress.XtraReports.UI;
@@ -43,6 +44,8 @@ namespace FormulaSalesReportLib
             }
         }
 
+        List<XRLabel> addedlabels = new List<XRLabel>();
+
         private void rpt_Sales_CreditCardTrans_BeforePrint(object sender, System.Drawing.Printing.PrintEventArgs e)
         {
             // report info --------------------------------------------------------------------
@@ -80,6 +83,14 @@ namespace FormulaSalesReportLib
             xrPanel2.LeftF = x;
             xrPanel3.LeftF = x;
 
+            //dispose added labels
+            if (addedlabels.Count > 0)
+                foreach (XRLabel lbladded in addedlabels)
+                    lbladded.Dispose();
+
+            //clear addedlabels
+            addedlabels.Clear();
+
             for (int i = 0; i < OptionalColumnsToSomeReports.Count; i++)
             {
                 // add column to header
@@ -89,24 +100,28 @@ namespace FormulaSalesReportLib
                 lC.LocationF = new PointF(x, 0);
                 lC.Text = OptionalColumnsToSomeReports[i].Text;
                 PageHeader.Controls.Add(lC);
+                addedlabels.Add(lC);
                 // column 1
                 lC = new lbl(lblCt1);
                 lC.Name = "lblC" + (i + 1) + "t1";
                 lC.LocationF = new PointF(x1, lblCt1.TopF);
                 lC.Text = "#"; //OptionalColumnsToSomeReports[i].SubColumns[0];
                 PageHeader.Controls.Add(lC);
+                addedlabels.Add(lC);
                 // column 2
                 lC = new lbl(lblCt2);
                 lC.Name = "lblC" + (i + 1) + "t2";
                 lC.LocationF = new PointF(x2, lblCt2.TopF);
                 lC.Text = "Amount"; //OptionalColumnsToSomeReports[i].SubColumns[1];
                 PageHeader.Controls.Add(lC);
+                addedlabels.Add(lC);
                 // column 3
                 lC = new lbl(lblCt3);
                 lC.Name = "lblC" + (i + 1) + "t3";
                 lC.LocationF = new PointF(x3, lblCt2.TopF);
                 lC.Text = "%"; //OptionalColumnsToSomeReports[i].SubColumns[1];
                 PageHeader.Controls.Add(lC);
+                addedlabels.Add(lC);
 
 
 
@@ -118,18 +133,21 @@ namespace FormulaSalesReportLib
                 lR.LocationF = new PointF(x1, 0);
                 lR.DataBindings.Add("Text", this.DataSource, "Data" + (dataindex));
                 Detail.Controls.Add(lR);
+                addedlabels.Add(lR);
                 // row 2
                 lR = new lbl(lblDt2);
                 lR.Name = "lblD" + (i + 1) + "t2";
                 lR.LocationF = new PointF(x2, 0);
                 lR.DataBindings.Add("Text", this.DataSource, "Data" + (dataindex + 1));
                 Detail.Controls.Add(lR);
+                addedlabels.Add(lR);
                 // row 3
                 lR = new lbl(lblDt3);
                 lR.Name = "lblD" + (i + 1) + "t2";
                 lR.LocationF = new PointF(x3, 0);
                 lR.DataBindings.Add("Text", this.DataSource, "Data" + (dataindex + 2));
                 Detail.Controls.Add(lR);
+                addedlabels.Add(lR);
 
 
 
@@ -149,6 +167,7 @@ namespace FormulaSalesReportLib
                     lT.Summary = XrSummary;
                     //---------
                     GroupFooter1.Controls.Add(lT);
+                    addedlabels.Add(lT);
                 }
                 else
                 {
@@ -175,6 +194,7 @@ namespace FormulaSalesReportLib
                     lT.Summary = XrSummary;
                     //---------
                     GroupFooter1.Controls.Add(lT);
+                    addedlabels.Add(lT);
                 }
                 else
                 {
@@ -202,6 +222,7 @@ namespace FormulaSalesReportLib
                     //lT.Summary = XrSummary;
                     //---------
                     GroupFooter1.Controls.Add(lT);
+                    addedlabels.Add(lT);
                     lT.BeforePrint += PercTotal_BeforePrint;
                 }
                 else
@@ -266,35 +287,35 @@ namespace FormulaSalesReportLib
 
             XrSummary = new XRSummary();
             blT5.DataBindings.AddRange(new XRBinding[] { new XRBinding("Text", this.DataSource, "Data" + (fi + 5)) });
-            XrSummary.FormatString = "{0}";
+            XrSummary.FormatString = "{0.00}";
             XrSummary.Func = SummaryFunc.Sum;
             XrSummary.Running = SummaryRunning.Report;
             blT5.Summary = XrSummary;
 
             XrSummary = new XRSummary();
             blT6.DataBindings.AddRange(new XRBinding[] { new XRBinding("Text", this.DataSource, "Data" + (fi + 6)) });
-            XrSummary.FormatString = "{0}";
+            XrSummary.FormatString = "{0.00}";
             XrSummary.Func = SummaryFunc.Sum;
             XrSummary.Running = SummaryRunning.Report;
             blT6.Summary = XrSummary;
 
             XrSummary = new XRSummary();
             blT7.DataBindings.AddRange(new XRBinding[] { new XRBinding("Text", this.DataSource, "Data" + (fi + 7)) });
-            XrSummary.FormatString = "{0}";
+            XrSummary.FormatString = "{0.00}";
             XrSummary.Func = SummaryFunc.Sum;
             XrSummary.Running = SummaryRunning.Report;
             blT7.Summary = XrSummary;
 
             XrSummary = new XRSummary();
             blT8.DataBindings.AddRange(new XRBinding[] { new XRBinding("Text", this.DataSource, "Data" + (fi + 8)) });
-            XrSummary.FormatString = "{0}";
+            XrSummary.FormatString = "{0.00}";
             XrSummary.Func = SummaryFunc.Sum;
             XrSummary.Running = SummaryRunning.Report;
             blT8.Summary = XrSummary;
 
             XrSummary = new XRSummary();
             blT9.DataBindings.AddRange(new XRBinding[] { new XRBinding("Text", this.DataSource, "Data" + (fi + 9)) });
-            XrSummary.FormatString = "{0}";
+            XrSummary.FormatString = "{0.0}";
             XrSummary.Func = SummaryFunc.Sum;
             XrSummary.Running = SummaryRunning.Report;
             blT9.Summary = XrSummary;
@@ -316,7 +337,7 @@ namespace FormulaSalesReportLib
 
             XrSummary = new XRSummary();
             blT12.DataBindings.AddRange(new XRBinding[] { new XRBinding("Text", this.DataSource, "Data" + (fi + 12)) });
-            XrSummary.FormatString = "{0}";
+            XrSummary.FormatString = "{0.0}";
             XrSummary.Func = SummaryFunc.Sum;
             XrSummary.Running = SummaryRunning.Report;
             blT12.Summary = XrSummary;
@@ -328,7 +349,7 @@ namespace FormulaSalesReportLib
             XRLabel myperc = (XRLabel)sender;
             //idx = Convert.ToInt32(myperc.Name.Replace("lblT","").Substring(0, 1));
             XRLabel myamt = (XRLabel)FindControl(myperc.Name.Substring(0, myperc.Name.Length - 1) + "2", true);
-            ((XRLabel)sender).Text = ((Helpers.NullToFlt(myamt.Text) / Helpers.NullToFlt(blT5.Text)) * 100).DecimalPlace(0) + "%";
+            ((XRLabel)sender).Text = ((Helpers.NullToFlt(myamt.Text) / Helpers.NullToFlt(blT5.Text)) * 100).DecimalPlace(0) + "";
             //// Create an array of labels which the total summary will be calculated for.
             //XRLabel[] monthLabels = new XRLabel[] {totalJanuary,
             //    totalFebruary, totalMarch, totalApril, totalMay};

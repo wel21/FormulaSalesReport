@@ -775,6 +775,107 @@ namespace FormulaSalesReportLib
             return "";
         }
 
+        public void UpdateByIndex(int Index, string NewValue)
+        {
+            switch (Index)
+            {
+                case 0:
+                    Data = NewValue;
+                    break;
+                case 1:
+                    Data1 = NewValue;
+                    break;
+                case 2:
+                    Data2 = NewValue;
+                    break;
+                case 3:
+                    Data3 = NewValue;
+                    break;
+                case 4:
+                    Data4 = NewValue;
+                    break;
+                case 5:
+                    Data5 = NewValue;
+                    break;
+                case 6:
+                    Data6 = NewValue;
+                    break;
+                case 7:
+                    Data7 = NewValue;
+                    break;
+                case 8:
+                    Data8 = NewValue;
+                    break;
+                case 9:
+                    Data9 = NewValue;
+                    break;
+                case 10:
+                    Data10 = NewValue;
+                    break;
+                case 11:
+                    Data11 = NewValue;
+                    break;
+                case 12:
+                    Data12 = NewValue;
+                    break;
+                case 13:
+                    Data13 = NewValue;
+                    break;
+                case 14:
+                    Data14 = NewValue;
+                    break;
+                case 15:
+                    Data15 = NewValue;
+                    break;
+                case 16:
+                    Data16 = NewValue;
+                    break;
+                case 17:
+                    Data17 = NewValue;
+                    break;
+                case 18:
+                    Data18 = NewValue;
+                    break;
+                case 19:
+                    Data19 = NewValue;
+                    break;
+                case 20:
+                    Data20 = NewValue;
+                    break;
+                case 21:
+                    Data21 = NewValue;
+                    break;
+                case 22:
+                    Data22 = NewValue;
+                    break;
+                case 23:
+                    Data23 = NewValue;
+                    break;
+                case 24:
+                    Data24 = NewValue;
+                    break;
+                case 25:
+                    Data25 = NewValue;
+                    break;
+                case 26:
+                    Data26 = NewValue;
+                    break;
+                case 27:
+                    Data27 = NewValue;
+                    break;
+                case 28:
+                    Data28 = NewValue;
+                    break;
+                case 29:
+                    Data29 = NewValue;
+                    break;
+                case 30:
+                    Data30 = NewValue;
+                    break;
+            }
+            
+        }
+
         public void InserByIndex(int Index, string Value, bool Additional = false)
         {
             switch (Index)

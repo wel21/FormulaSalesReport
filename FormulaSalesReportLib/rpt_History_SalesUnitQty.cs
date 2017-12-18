@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel;
 using DevExpress.XtraReports.UI;
 
@@ -27,6 +28,8 @@ namespace FormulaSalesReportLib
             }
         }
 
+        List<XRLabel> addedlabels = new List<XRLabel>();
+
         private void rpt_Sales_CreditCardTrans_BeforePrint(object sender, System.Drawing.Printing.PrintEventArgs e)
         {
             // report info --------------------------------------------------------------------
@@ -52,6 +55,15 @@ namespace FormulaSalesReportLib
             float x1 = lblCt1.LeftF;
             float x2 = lblCt2.LeftF;
             int dataindex = 1;
+
+            //dispose added labels
+            if (addedlabels.Count > 0)
+                foreach (XRLabel lbladded in addedlabels)
+                    lbladded.Dispose();
+
+            //clear addedlabels
+            addedlabels.Clear();
+
             for (int i = 0; i < OptionalColumnsToSomeReports.Count; i++)
             {
                 // add column to header
@@ -61,18 +73,21 @@ namespace FormulaSalesReportLib
                 lC.LocationF = new PointF(x, 0);
                 lC.Text = OptionalColumnsToSomeReports[i].Text;
                 PageHeader.Controls.Add(lC);
+                addedlabels.Add(lC);
                 // column 1
                 lC = new lbl(lblCt1);
                 lC.Name = "lblC" + (i + 1) + "t1";
                 lC.LocationF = new PointF(x1, lblCt1.TopF);
                 lC.Text = "#"; //OptionalColumnsToSomeReports[i].SubColumns[0];
                 PageHeader.Controls.Add(lC);
+                addedlabels.Add(lC);
                 // column 2
                 lC = new lbl(lblCt2);
                 lC.Name = "lblC" + (i + 1) + "t2";
                 lC.LocationF = new PointF(x2, lblCt2.TopF);
                 lC.Text = "Sales"; //OptionalColumnsToSomeReports[i].SubColumns[1];
                 PageHeader.Controls.Add(lC);
+                addedlabels.Add(lC);
 
 
 
@@ -84,12 +99,14 @@ namespace FormulaSalesReportLib
                 lR.LocationF = new PointF(x1, 0);
                 lR.DataBindings.Add("Text", this.DataSource, "Data" + (dataindex));
                 Detail.Controls.Add(lR);
+                addedlabels.Add(lR);
                 // row 2
                 lR = new lbl(lblDt2);
                 lR.Name = "lblD" + (i + 1) + "t2";
                 lR.LocationF = new PointF(x2, 0);
                 lR.DataBindings.Add("Text", this.DataSource, "Data" + (dataindex + 1));
                 Detail.Controls.Add(lR);
+                addedlabels.Add(lR);
 
 
 
@@ -108,6 +125,7 @@ namespace FormulaSalesReportLib
                 lT.Summary = XrSummary;
                 //---------
                 GroupFooter1.Controls.Add(lT);
+                addedlabels.Add(lT);
                 // total 2
                 lT = new lbl(lblTotalDt2);
                 lT.Name = "lblT" + (i + 1) + "t2";
@@ -121,6 +139,7 @@ namespace FormulaSalesReportLib
                 lT.Summary = XrSummary;
                 //---------
                 GroupFooter1.Controls.Add(lT);
+                addedlabels.Add(lT);
 
 
                 dataindex += 2;

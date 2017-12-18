@@ -202,7 +202,7 @@
             this.lblDt2.StylePriority.UsePadding = false;
             this.lblDt2.StylePriority.UseTextAlignment = false;
             this.lblDt2.Text = "0";
-            this.lblDt2.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
+            this.lblDt2.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleRight;
             this.lblDt2.Visible = false;
             // 
             // xrPanel2

@@ -797,10 +797,18 @@ namespace FormulaSalesReportLib
 
                 List<ReportData> list = new List<ReportData>();
                 CReportData reportdata = new CReportData();
+                DataTable dttickt = new DataTable();
                 DataTable dtEmp = new DataTable();
                 DataTable dtJob = new DataTable();
                 DataTable dtshft = new DataTable();
                 DataTable dttimeclk = new DataTable();
+
+                Query = "SELECT a.employeeid, B.serviceTypeName, A.SubTotal AS Amount, a.tipsAdded, A.DeliveryCharge, FormatDate(A.date,0) AS mdate " +
+                        "FROM tickethistory A INNER JOIN servicetypes B ON A.serviceTypeID = B.id " +
+                        "WHERE @myparam AND B.serviceTypeName = 'Delivery' " +
+                        "ORDER BY employeeid";
+                Query = Query.Replace("@myparam", _ParamDate.Replace("b.date", "a.date"));
+                dttickt = reportdata.ProcessReportData(Query, null, null);
 
                 Query = "SELECT id, displayname, firstname, lastname FROM employees";
                 dtEmp = reportdata.ProcessReportData(Query, null, null);
@@ -810,6 +818,7 @@ namespace FormulaSalesReportLib
 
                 Query = "SELECT b.clockin, b.clockout, b.jobcodename, b.hoursworked, b.payrate, FormatDate(b.date,0), b.employeeid, b.employeename, b.totalsales, b.cctips, b.punchid " +
                         "FROM employee_completedshifts AS b WHERE @myparam";
+                Query = Query.Replace("@myparam", _ParamDate);
                 dtshft = reportdata.ProcessReportData(Query, null, null);
 
                 Query = "SELECT empid, jobdescription, payrate, paytype FROM employeejobs";
@@ -823,59 +832,42 @@ namespace FormulaSalesReportLib
                 //    Query1 = Query1.Replace("@mytable", "tickethistory");
 
                 // param
-                Query = Query.Replace("@myparam", _ParamDate);
+                //Query = Query.Replace("@myparam", _ParamDate);
 
-                //if (data != null)
-                //{
-                //    try
-                //    {
-                //        if (data.Rows.Count > 0)
-                //        {
-                //            dataTotal.Columns.Add(new DataColumn("Val"));
+                if (dttickt != null)
+                {
+                    try
+                    {
+                        if (dttickt.Rows.Count > 0)
+                        {
+                            //float totalsales = 0;
+                            //float totalhours = 0;
 
-                //            float totalsales = 0;
-                //            float totalhours = 0;
+                            for (int i = 0; i < dttickt.Rows.Count; i++)
+                            {
+                                //string hrs = Helpers.GetDurationInterval("00:00:00", data.Rows[i]["HoursWorked"].ToString(), Helpers.eReturnTime.Hours);
+                                //list.Add(new ReportData(data.Rows[i]["ID"].ToString(),
+                                //                        data.Rows[i]["empname"].ToString(),
+                                //                        data.Rows[i]["jobCodeName"].ToString(),
+                                //                        data.Rows[i]["ClockIn"].ToString(),
+                                //                        data.Rows[i]["ClockOut"].ToString(),
+                                //                        hrs
+                                //                        ));
 
-                //            for (int i = 0; i < data.Rows.Count; i++)
-                //            {
-                //                string hrs = Helpers.GetDurationInterval("00:00:00", data.Rows[i]["HoursWorked"].ToString(), Helpers.eReturnTime.Hours);
-                //                list.Add(new ReportData(data.Rows[i]["ID"].ToString(),
-                //                                        data.Rows[i]["empname"].ToString(),
-                //                                        data.Rows[i]["jobCodeName"].ToString(),
-                //                                        data.Rows[i]["ClockIn"].ToString(),
-                //                                        data.Rows[i]["ClockOut"].ToString(),
-                //                                        hrs
-                //                                        ));
-
-                //                totalsales += Helpers.NullToFlt(data.Rows[i]["TotalSales"].ToString());
-                //                totalhours += (float)hrs.ToDecimal();
-                //            }
-
-                //            dataTotal.Rows.Add(dataTotal.NewRow());
-                //            dataTotal.Rows.Add(dataTotal.NewRow());
-                //            dataTotal.Rows.Add(dataTotal.NewRow());
-                //            dataTotal.Rows.Add(dataTotal.NewRow());
-                //            dataTotal.Rows.Add(dataTotal.NewRow());
-                //            dataTotal.Rows.Add(dataTotal.NewRow());
-
-                //            dataTotal.Rows[0][0] = "0";
-                //            dataTotal.Rows[1][0] = "0";
-                //            dataTotal.Rows[2][0] = "0";
-                //            dataTotal.Rows[3][0] = "0";
-                //            dataTotal.Rows[4][0] = totalsales.ToString();
-                //            dataTotal.Rows[5][0] = totalhours.ToString();
-
-                //            report.MyObject = dataTotal;
-                //        }
-                //        else
-                //        { MessageBox.Show("No records retreived."); }
-                //    }
-                //    catch (Exception ex)
-                //    {
-                //        Console.WriteLine(ex.Message);
-                //        MessageBox.Show(ex.Message);
-                //    }
-                //}
+                                //totalsales += Helpers.NullToFlt(data.Rows[i]["TotalSales"].ToString());
+                                //totalhours += (float)hrs.ToDecimal();
+                            }
+                            
+                        }
+                        else
+                        { MessageBox.Show("No records retreived."); }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                        MessageBox.Show(ex.Message);
+                    }
+                }
 
                 return list;
 
@@ -884,6 +876,20 @@ namespace FormulaSalesReportLib
             { MessageBox.Show(ex.Message); }
             return null;
         }
+
+        private float GetHouseAccount(DataTable DT)
+        {
+            float ftotal = 0;
+            DataRow[] drarray = null;
+            drarray = DT.Select("tendertype='GC'");
+            for (int i = 0; i < drarray.Count(); i++)
+            {
+                ftotal += Helpers.NullToFlt(drarray[i]["tenderamount"]);
+            }
+
+            return ftotal;
+        }
+
     }
 
     public class CEmployee_PayrollReport : CReport
@@ -1018,11 +1024,115 @@ namespace FormulaSalesReportLib
             drarray = DT.Select("employeeid=" + EmpID);
             for (int i = 0; i < drarray.Count(); i++)
             {
-                ftotal += Helpers.NullToFlt(drarray[0][Field]);
+                ftotal += Helpers.NullToFlt(drarray[i][Field]);
             }
 
             return ftotal;
         }
 
     }
+
+    public class CEmployee_CashDrawerActivity : CReport
+    {
+        public CEmployee_CashDrawerActivity(DocumentViewer DV, CRStoreData StoreData, List<ParamDate> ParamDate, rpt ReportInstance, ReportType ReportType)
+            : base(DV, StoreData, ParamDate, ReportInstance, ReportType)
+        {
+            this.DV = DV;
+            this.StoreData = StoreData;
+            this.ParamDate = ParamDate;
+            this.report = ReportInstance;
+            this.MyType = ReportType;
+
+        }
+
+        private string Query { get; set; }
+
+        public override List<ReportData> DataSourceToBind()
+        {
+            try
+            {
+                List<string> sfield = new List<string>();
+                List<string> svalue = new List<string>();
+
+                // parameters
+                string _ParamDate = "";// (ParamDate.Count == 0 ? "" : "WHERE ");
+                //string _ParamDate = "WHERE ";
+                for (int i = 0; i < ParamDate.Count; i++)
+                {
+                    if (ParamDate.Count == 2)
+                    {
+                        if (i == 0)
+                            _ParamDate += "FormatDate(b.date,0) >= " + "@date" + i.ToString() + " AND ";
+                        else
+                            _ParamDate += "FormatDate(b.date,0) <= " + "@date" + i.ToString() + " ";
+                    }
+                    else
+                    {
+                        _ParamDate += "FormatDate(b.date,0) = " + "@date" + i.ToString() + " " + (i == ParamDate.Count - 1 ? "" : ParamDate[i].paramCondition.ToString() + "");
+                    }
+
+                    sfield.Add("@date" + i.ToString());
+                    svalue.Add(Helpers.ConvertMyDate(ParamDate[i].date));
+                }
+
+                Query = "SELECT FormatDate(a.DATE,0) AS DATA, a.time AS data1, a.user AS data2, a.station AS data3, a.tendertype AS data4, IF(a.amount=0,'Yes','No') AS data5 " +
+                        "FROM bankactivityhistory AS a " +
+                        "WHERE @myparam ";
+
+                string Query1 = Query;
+
+                // table
+                if (ParamDate.Count == 1 && ParamDate[0].date.ToShortDateString() == DateTime.Now.ToShortDateString())
+                    Query1 = Query1.Replace("@mytable", "bankactivity");
+                else
+                    Query1 = Query1.Replace("@mytable", "bankactivityhistory");
+
+                // param
+                Query1 = Query1.Replace("@myparam", _ParamDate);
+
+                List<ReportData> list = new List<ReportData>();
+                CReportData reportdata = new CReportData();
+                DataTable data = new DataTable();
+
+                data = reportdata.ProcessReportData(Query1, sfield, svalue);
+
+                if (data != null)
+                {
+                    try
+                    {
+                        if (data.Rows.Count > 0)
+                        {
+
+                            for (int i = 0; i < data.Rows.Count; i++)
+                            {
+                                list.Add(new ReportData(data.Rows[i]["data"].ToString(),
+                                                        data.Rows[i]["data1"].ToString(),
+                                                        data.Rows[i]["data2"].ToString(),
+                                                        data.Rows[i]["data3"].ToString(),
+                                                        data.Rows[i]["data4"].ToString(),
+                                                        data.Rows[i]["data5"].ToString()
+                                                        ));
+
+                            }
+
+                        }
+                        else
+                        { MessageBox.Show("No records retreived."); }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                        MessageBox.Show(ex.Message);
+                    }
+                }
+
+                return list;
+
+            }
+            catch (Exception ex)
+            { MessageBox.Show(ex.Message); }
+            return null;
+        }
+    }
+
 }

@@ -63,6 +63,8 @@ namespace FormulaSalesReportLib
                 lR.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleRight;
                 lR.Padding = new DevExpress.XtraPrinting.PaddingInfo(6, 6, 0, 0);
                 lR.DataBindings.Add("Text", this.DataSource, "Data" + (i + 1));
+                lR.Borders = lblD.Borders;
+                lR.BorderColor = lblD.BorderColor;
                 Detail.Controls.Add(lR);
 
                 // add column to total
@@ -75,6 +77,8 @@ namespace FormulaSalesReportLib
                 lT.BackColor = lblTotalD.BackColor;
                 lT.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleRight;
                 lT.Padding = new DevExpress.XtraPrinting.PaddingInfo(6, 6, 0, 0);
+                lT.Borders = lblTotalD.Borders;
+                lT.BorderColor = lblTotalD.BorderColor;
                 //---------
                 XRSummary XrSummary = new XRSummary();
                 lT.DataBindings.AddRange(new XRBinding[] { new XRBinding("Text", this.DataSource, "Data" + (i + 1)) });

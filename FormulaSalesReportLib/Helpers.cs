@@ -150,26 +150,7 @@ namespace FormulaSalesReportLib
                 return "";
             }
         }
-
-
-        //public static T ToClass<T>(this IDictionary<string, string> source) where T : class, new()
-        //{
-        //    Type type = typeof(T);
-        //    T ret = new T();
-
-        //    foreach (var keyValue in source)
-        //    {
-        //        var propertyInfo = type.GetProperty(keyValue.Key);
-        //        propertyInfo.SetValue(ret, keyValue.Value.ToString().TestParse(propertyInfo.PropertyType), null);
-        //    }
-
-        //    return ret;
-        //}
-
-        //public static object TestParse(this string value, Type type)
-        //{
-        //    return TypeDescriptor.GetConverter(type).ConvertFromString(value);
-        //}
+        
     }
 
     public static class DatabaseConnectionSettings
@@ -533,6 +514,48 @@ namespace FormulaSalesReportLib
             return d.ToString("#,###,##0");
         }
 
+    }
+
+    #endregion
+
+    #region Comparer
+
+    public class ReportDataComparer : IComparer<ReportData>
+    {
+        public int Compare(ReportData x, ReportData y)
+        {
+            if (x == null)
+            {
+                if (y == null)
+                {
+                    return 0;
+                }
+                else
+                {
+                    return -1;
+                }
+            }
+            else
+            {
+                if (y == null)
+                {
+                    return 1;
+                }
+                else
+                {
+                    int retval = x.Data.CompareTo(y.Data);// & x.Data1.CompareTo (y.Data1);
+
+                    if (retval != 0)
+                    {
+                        return retval;
+                    }
+                    else
+                    {
+                        return -1;
+                    }
+                }
+            }
+        }
     }
 
     #endregion

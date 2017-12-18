@@ -24,24 +24,7 @@ namespace FormulaSalesReportLib
             this.MyType = ReportType;
 
             ReportHelper.MyActiveReport = this;
-
-            //if (DatabaseConnectionSettings.Database == "purepos")
-            //{
-            //    Query = "SELECT FormatDate(a.date,0) AS DATA, a.paymenttype AS data1, SUBSTRING(a.tendertype,8) AS data2, SUBSTRING(c.Account,LENGTH(c.Account)-3) AS data3, a.time AS data4, a.ticketnumber AS data5, a.refno AS data6, a.subtotal AS data7, b.tipsAdded AS data8 " +
-            //            "FROM paymenthistory AS a " +
-            //            "INNER JOIN tickethistory AS b ON a.ticketNumber = b.TicketNumber AND FormatDate(a.date,0) = FormatDate(b.date,0) " +
-            //            "LEFT JOIN ccreceipts AS c ON a.uniqueid = c.PaymentID " +
-            //            "WHERE @myparam AND a.tenderType LIKE 'CREDIT%' " +
-            //            "GROUP BY a.ticketnumber, a.paymentType, a.time, a.subtotal, b.tipsadded";
-            //}
-            //else
-            //{
-            //    Query = "SELECT FormatDate(a.date,0) AS DATA, a.paymenttype AS data1, SUBSTRING(a.tendertype,8) AS data2, a.time AS data3, a.time AS data4, a.ticketnumber AS data5, a.refno AS data6, a.subtotal AS data7, b.tipsAdded AS data8 " +
-            //            "FROM paymenthistory AS a " +
-            //            "INNER JOIN tickethistory AS b ON a.ticketNumber = b.TicketNumber AND FormatDate(a.date,0) = FormatDate(b.date,0) " +
-            //            "WHERE @myparam AND a.tenderType LIKE 'CREDIT%' " +
-            //            "GROUP BY a.ticketnumber, a.paymentType, a.time, a.subtotal, b.tipsadded";
-            //}
+            
         }
         
         private string Query { get; set; }
@@ -61,63 +44,76 @@ namespace FormulaSalesReportLib
                     if (ParamDate.Count == 2)
                     {
                         if (i == 0)
-                            _ParamDate += "FormatDate(a.date,0) >= " + "@date" + i.ToString() + " AND ";
+                            _ParamDate += "FormatDate(date,0) >= " + "@date" + i.ToString() + " AND ";
                         else
-                            _ParamDate += "FormatDate(a.date,0) <= " + "@date" + i.ToString() + " ";
+                            _ParamDate += "FormatDate(date,0) <= " + "@date" + i.ToString() + " ";
                     }
                     else
                     {
-                        _ParamDate += "FormatDate(a.date,0) = " + "@date" + i.ToString() + " " + (i == ParamDate.Count - 1 ? "" : ParamDate[i].paramCondition.ToString() + "");
+                        _ParamDate += "FormatDate(date,0) = " + "@date" + i.ToString() + " " + (i == ParamDate.Count - 1 ? "" : ParamDate[i].paramCondition.ToString() + "");
                     }
 
                     sfield.Add("@date" + i.ToString());
                     svalue.Add(Helpers.ConvertMyDate(ParamDate[i].date));
                 }
-
-                if (DatabaseConnectionSettings.Database == "purepos")
-                {
-                    Query = "SELECT FormatDate(a.date,0) AS DATA, a.paymenttype AS data1, SUBSTRING(a.tendertype,8) AS data2, SUBSTRING(c.Account,LENGTH(c.Account)-3) AS data3, a.time AS data4, a.ticketnumber AS data5, a.refno AS data6, a.subtotal AS data7, b.tipsAdded AS data8 " +
-                            "FROM paymenthistory AS a " +
-                            "INNER JOIN tickethistory AS b ON a.ticketNumber = b.TicketNumber AND FormatDate(a.date,0) = FormatDate(b.date,0) " +
-                            "LEFT JOIN ccreceipts AS c ON a.uniqueid = c.PaymentID " +
-                            "WHERE @myparam AND a.tenderType LIKE 'CREDIT%' " +
-                            "GROUP BY a.ticketnumber, a.paymentType, a.time, a.subtotal, b.tipsadded";
-                }
-                else
-                {
-                    Query = "SELECT FormatDate(a.date,0) AS DATA, a.paymenttype AS data1, SUBSTRING(a.tendertype,8) AS data2, a.time AS data3, a.time AS data4, a.ticketnumber AS data5, a.refno AS data6, a.subtotal AS data7, b.tipsAdded AS data8 " +
-                            "FROM paymenthistory AS a " +
-                            "INNER JOIN tickethistory AS b ON a.ticketNumber = b.TicketNumber AND FormatDate(a.date,0) = FormatDate(b.date,0) " +
-                            "WHERE @myparam AND a.tenderType LIKE 'CREDIT%' " +
-                            "GROUP BY a.ticketnumber, a.paymentType, a.time, a.subtotal, b.tipsadded";
-                }
-
-                Query = Query.Replace("@myparam", _ParamDate);
                 
                 List<ReportData> list = new List<ReportData>();
                 CReportData reportdata = new CReportData();
-                DataTable data = new DataTable();
+                DataTable datapay = new DataTable();
+                DataTable dataticket = new DataTable();
+                DataTable datacc = new DataTable();
 
-                data = reportdata.ProcessReportData(Query, sfield, svalue);
 
-                if (data != null)
+                // PaymentHistory #########################
+                Query = "SELECT FormatDate(date,0) AS date, ticketnumber, paymenttype, SUBSTRING(tendertype,8) AS tendertype, time, refno, total " +
+                        "FROM paymenthistory  " +
+                        "WHERE @myparam AND tenderType LIKE 'CREDIT%' ";
+                // param
+                Query = Query.Replace("@myparam", _ParamDate);
+                datapay = reportdata.ProcessReportData(Query, sfield, svalue);
+
+
+                // tickethistory #########################
+                Query = "SELECT FormatDate(DATE,0) AS DATE, TicketNumber, tipsAdded " +
+                        "FROM tickethistory  " +
+                        "WHERE @myparam ";
+                // table
+                if (ParamDate.Count == 1 && ParamDate[0].date.ToShortDateString() == DateTime.Now.ToShortDateString())
+                    Query = Query.Replace("@mytable", "tickets");
+                else
+                    Query = Query.Replace("@mytable", "tickethistory");
+                // param
+                Query = Query.Replace("@myparam", _ParamDate);
+                dataticket = reportdata.ProcessReportData(Query, sfield, svalue);
+
+
+                // ccreceipts #########################
+                Query = "SELECT FormatDate(DATE,0) AS DATE, TicketNumber, SUBSTRING(Account,LENGTH(Account)-3) AS account " +
+                        "FROM ccreceipts  " +
+                        "WHERE @myparam ";
+                // param
+                Query = Query.Replace("@myparam", _ParamDate);
+                datacc = reportdata.ProcessReportData(Query, sfield, svalue);
+
+                if (datapay != null)
                 {
                     try
                     {
-                        if (data.Rows.Count > 0)
+                        if (datapay.Rows.Count > 0)
                         {
-                            for (int i = 0; i < data.Rows.Count; i++)
+                            for (int i = 0; i < datapay.Rows.Count; i++)
                             {
-                                list.Add(new ReportData(data.Rows[i]["data"].ToString(),
-                                                        data.Rows[i]["data1"].ToString(),
-                                                        data.Rows[i]["data2"].ToString(),
+                                float tips = Gettips(dataticket, "date='" + datapay.Rows[i]["date"].ToString() + "' AND ticketnumber='" + datapay.Rows[i]["ticketnumber"].ToString() + "'");
+                                list.Add(new ReportData(datapay.Rows[i]["date"].ToString(),
                                                         "",
-                                                        Convert.ToDateTime(data.Rows[i]["data"]).ToString("MM/dd ") + data.Rows[i]["data4"].ToString(),
-                                                        data.Rows[i]["data5"].ToString(),
-                                                        data.Rows[i]["data6"].ToString(),
-                                                        data.Rows[i]["data7"].ToString(),
-                                                        data.Rows[i]["data8"].ToString(),
-                                                        (Convert.ToDecimal(data.Rows[i]["data7"].ToString()) + Convert.ToDecimal(data.Rows[i]["data8"].ToString())).ToString()
+                                                        datapay.Rows[i]["tendertype"].ToString(),
+                                                        "***" + Getacct(datacc,"date='" + datapay.Rows[i]["date"].ToString() + "' AND ticketnumber='" + datapay.Rows[i]["ticketnumber"].ToString() + "'"),
+                                                        Convert.ToDateTime(datapay.Rows[i]["date"]).ToString("MM/dd ") + datapay.Rows[i]["time"].ToString(),
+                                                        datapay.Rows[i]["ticketnumber"].ToString(),
+                                                        datapay.Rows[i]["refno"].ToString(),
+                                                        datapay.Rows[i]["total"].ToString(),
+                                                        tips.ToString(),
+                                                        (Convert.ToDecimal(datapay.Rows[i]["total"].ToString()) + Convert.ToDecimal(tips)).ToString()
                                                         ));
 
                             }
@@ -140,6 +136,33 @@ namespace FormulaSalesReportLib
             { MessageBox.Show(ex.Message); }
             return null;
         }
+
+        private float Gettips(DataTable DT, string param)
+        {
+            float ftotal = 0;
+            DataRow[] drarray = null;
+            drarray = DT.Select(param);
+            for (int i = 0; i < drarray.Count(); i++)
+            {
+                ftotal += Helpers.NullToFlt(drarray[i]["tipsadded"]);
+            }
+
+            return ftotal;
+        }
+
+        private string Getacct(DataTable DT, string param)
+        {
+            if (DT == null) return "";
+
+            DataRow[] drarray = null;
+            drarray = DT.Select(param);
+
+            if (drarray != null && drarray.Count() > 0)
+                return drarray[0]["account"].ToString();
+            else
+                return "";
+        }
+
     }
 
     public class CSales_OverShortByBusinessDay : CReport
@@ -155,7 +178,7 @@ namespace FormulaSalesReportLib
 
             ReportHelper.MyActiveReport = this;
 
-            Query = "SELECT DateFormatconvert(a.Closed) AS data, a.cashcollected AS data1, a.cashsales AS data2, a.ccsales AS data3, a.overshort AS data4, a.closed AS data5, a.closed AS data6, a.closed AS data7, a.closed AS data8 " +
+            Query = "SELECT DateFormatconvert(a.Closed) AS data, a.cashcollected AS data1, a.cashsales AS data2, a.ccsales AS data3, a.overshort AS data4, a.closed AS data5, a.owner AS data6, a.closed AS data7, a.closed AS data8 " +
                     "FROM bankhistory AS a " +
                     "WHERE @myparam ";
 
@@ -218,7 +241,7 @@ namespace FormulaSalesReportLib
                                                         "",
                                                         data.Rows[i]["data4"].ToString(),
                                                         Convert.ToDateTime(data.Rows[i]["data5"].ToString()).ToShortTimeString(),
-                                                        "",
+                                                        data.Rows[i]["data6"].ToString(),
                                                         "",
                                                         ""
                                                         ));
@@ -383,7 +406,7 @@ namespace FormulaSalesReportLib
         /// The query should have 4 columns. Set the columns name as (data, data1, data2, data3) and the date parameter as @myparam.
         /// ex: SELECT field1 AS data, field2 AS data1, field3 AS data2, field4 AS data3 FROM table WHERE @myparam.
         /// </summary>
-        //public string Query { get; set; }
+        private string Query { get; set; }
 
         public override List<ReportData> DataSourceToBind()
         {
@@ -420,22 +443,29 @@ namespace FormulaSalesReportLib
                 DataTable data1 = new DataTable();
                 DataTable data2 = new DataTable();
                 DataTable data3 = new DataTable();
+                DataTable data4 = new DataTable();
 
-                string Query1 = "SELECT SUM(payin) AS PayIn, SUM(ccsales) AS CCPayment, SUM(OverShort) AS OverShort, SUM(cctips) AS CCTips, SUM(payouts) AS PayOuts, SUM(expectedcash) AS Expected, SUM(totalcashcounted) AS Actual " +
+                Query = "SELECT SUM(payin) AS PayIn, SUM(ccsales) AS CCPayment, SUM(OverShort) AS OverShort, SUM(cctips) AS CCTips, SUM(payouts) AS PayOuts, SUM(expectedcash) AS Expected, SUM(totalcashcounted) AS Actual " +
                                 "FROM bankhistory " +
                                 "WHERE @myparam";
-                Query1 = Query1.Replace("@myparam", _ParamDate.Replace("date","closed"));
+                Query = Query.Replace("@myparam", _ParamDate.Replace("date","closed"));
+                data1 = reportdata.ProcessReportData(Query, sfield1, svalue);
 
-                //string Query2 = "SELECT SUM(tenderamount) AS Total FROM paymenthistory WHERE tendertype='HOUSEACCOUNT'";
-                string Query2 = "SELECT tenderamount, tendertype FROM paymenthistory WHERE @myparam";
-                Query2 = Query2.Replace("@myparam", _ParamDate);
+                Query = "SELECT tenderamount, tendertype FROM paymenthistory WHERE @myparam";
+                Query = Query.Replace("@myparam", _ParamDate);
+                data2 = reportdata.ProcessReportData(Query, sfield, svalue);
 
-                string Query3 = "SELECT a.ID, CONCAT(a.LastName,', ', a.FirstName) AS empname, CONCAT(FormatDate(b.date,0), CAST(' ' AS CHAR CHARACTER SET utf8), b.ClockIn) AS ClockIn, CONCAT(FormatDate(b.date,0), CAST(' ' AS CHAR CHARACTER SET utf8), b.ClockOut) AS ClockOut, b.jobCodeName, b.PayRate, b.HoursWorked, b.TotalSales, c.payrate, c.paytype " +
+                Query = "SELECT a.ID, CONCAT(a.LastName,', ', a.FirstName) AS empname, CONCAT(FormatDate(b.date,0), CAST(' ' AS CHAR CHARACTER SET utf8), b.ClockIn) AS ClockIn, CONCAT(FormatDate(b.date,0), CAST(' ' AS CHAR CHARACTER SET utf8), b.ClockOut) AS ClockOut, b.jobCodeName, b.PayRate, b.HoursWorked, b.TotalSales, c.payrate, c.paytype " +
                                 "FROM employees AS a INNER JOIN employee_completedshifts AS b ON a.id = b.employeeid " +
                                 "INNER JOIN employeejobs AS c ON b.EmployeeID = c.EmpID AND b.jobcodename = c.jobdescription " +
                                 "WHERE @myparam " +
                                 "ORDER BY a.LastName, a.FirstName, DATE";
-                Query3 = Query3.Replace("@myparam", _ParamDate.Replace("(date", "(b.date"));
+                Query = Query.Replace("@myparam", _ParamDate.Replace("(date", "(b.date"));
+                data3 = reportdata.ProcessReportData(Query, sfield, svalue);
+
+                Query = "SELECT SUM(amountdriverkeeps) AS total FROM history_driversummary WHERE @myparam";
+                Query = Query.Replace("@myparam", _ParamDate);
+                data4 = reportdata.ProcessReportData(Query, sfield, svalue);
 
                 //// table
                 //if (ParamDate.Count == 1 && ParamDate[0].date.ToShortDateString() == DateTime.Now.ToShortDateString())
@@ -443,9 +473,6 @@ namespace FormulaSalesReportLib
                 //else
                 //    Query1 = Query1.Replace("@mytable", "tickethistory");
 
-                data1 = reportdata.ProcessReportData(Query1, sfield1, svalue);
-                data2 = reportdata.ProcessReportData(Query2, sfield, svalue);
-                data3 = reportdata.ProcessReportData(Query3, sfield, svalue);
 
                 float fpayins = 0;
                 float fccpay = 0;
@@ -457,6 +484,7 @@ namespace FormulaSalesReportLib
                 float fgc = 0;
                 float fovrshrt = 0;
                 float flbrperc = 0;
+                float freim = 0;
 
                 if (data1 != null)
                 {
@@ -476,9 +504,11 @@ namespace FormulaSalesReportLib
                 }
 
                 if (data3 != null)
-                {
                     flbrperc = GetLaborPerc(data3) * 100;
-                }
+
+                if (data4 != null)
+                    freim = Helpers.NullToFlt(data4.Rows[0]["total"]);
+
 
                 list.Add(new ReportData("Total Sales", (fpayins + fccpay + fcctip + fpayout + fexp + fact + fhouse + fgc).ToString()));
                 list.Add(new ReportData("Total Payins (+)", fpayins.ToString()));
@@ -487,7 +517,7 @@ namespace FormulaSalesReportLib
                 list.Add(new ReportData("Total House Account Charges (-)", fhouse.ToString()));
                 list.Add(new ReportData("Total Gift Cards Payments (-)", fgc.ToString()));
                 list.Add(new ReportData("Total Payouts (-)", fpayout.ToString()));
-                list.Add(new ReportData("Total Driver Reimbursement (-)", "0"));
+                list.Add(new ReportData("Total Driver Reimbursement (-)", freim.ToString()));
                 list.Add(new ReportData("Adjusted Sales (Expected Cash/Cks)", fexp.ToString()));
                 list.Add(new ReportData("Adjusted Sales (Actual Cash)", fact.ToString()));
                 list.Add(new ReportData("Over / Short Amount", fovrshrt.ToString()));
@@ -508,7 +538,7 @@ namespace FormulaSalesReportLib
             drarray = DT.Select("tendertype='GC'");
             for (int i = 0; i < drarray.Count(); i++)
             {
-                ftotal += Helpers.NullToFlt(drarray[0]["tenderamount"]);
+                ftotal += Helpers.NullToFlt(drarray[i]["tenderamount"]);
             }
 
             return ftotal;
@@ -521,7 +551,7 @@ namespace FormulaSalesReportLib
             drarray = DT.Select("tendertype='HOUSEACCOUNT'");
             for (int i = 0; i < drarray.Count(); i++)
             {
-                ftotal += Helpers.NullToFlt(drarray[0]["tenderamount"]);
+                ftotal += Helpers.NullToFlt(drarray[i]["tenderamount"]);
             }
 
             return ftotal;
