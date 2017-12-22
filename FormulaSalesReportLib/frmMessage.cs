@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace FormulaSalesReportLib
+namespace FormulaReportsLib
 {
     public partial class frmMessage : Form
     {

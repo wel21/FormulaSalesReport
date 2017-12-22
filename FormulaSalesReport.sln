@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FormulaSalesReportLib", "FormulaSalesReportLib\FormulaSalesReportLib.csproj", "{BAE3A39B-EBE8-4B34-A07F-F8AF5F88A9E8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FormulaReportsLib", "FormulaSalesReportLib\FormulaReportsLib.csproj", "{BAE3A39B-EBE8-4B34-A07F-F8AF5F88A9E8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{08549F48-962E-4B5E-B989-7BD62DCA5927}"
 EndProject

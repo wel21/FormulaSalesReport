@@ -181,8 +181,6 @@ C:\Users\RCARRASCAL\Documents\Visual Studio 2015\Projects\FormulaSalesReport\For
 C:\Users\RCARRASCAL\Documents\Visual Studio 2015\Projects\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaSalesReportLib.csproj.GenerateResource.Cache
 C:\Users\RCARRASCAL\Documents\Visual Studio 2015\Projects\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaSalesReportLib.dll
 C:\Users\RCARRASCAL\Documents\Visual Studio 2015\Projects\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaSalesReportLib.pdb
-C:\Users\RCARRASCAL\Documents\GitHub\FormulaSalesReport\FormulaSalesReportLib\bin\Debug\FormulaSalesReportLib.dll
-C:\Users\RCARRASCAL\Documents\GitHub\FormulaSalesReport\FormulaSalesReportLib\bin\Debug\FormulaSalesReportLib.pdb
 C:\Users\RCARRASCAL\Documents\GitHub\FormulaSalesReport\FormulaSalesReportLib\bin\Debug\DevExpress.Data.v17.1.dll
 C:\Users\RCARRASCAL\Documents\GitHub\FormulaSalesReport\FormulaSalesReportLib\bin\Debug\DevExpress.DataAccess.v17.1.dll
 C:\Users\RCARRASCAL\Documents\GitHub\FormulaSalesReport\FormulaSalesReportLib\bin\Debug\DevExpress.DataAccess.v17.1.UI.dll
@@ -361,12 +359,8 @@ C:\Users\RCARRASCAL\Documents\GitHub\FormulaSalesReport\FormulaSalesReportLib\ob
 C:\Users\RCARRASCAL\Documents\GitHub\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaSalesReportLib.rpt2.resources
 C:\Users\RCARRASCAL\Documents\GitHub\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaSalesReportLib.rpt3.resources
 C:\Users\RCARRASCAL\Documents\GitHub\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaSalesReportLib.csproj.GenerateResource.Cache
-C:\Users\RCARRASCAL\Documents\GitHub\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaSalesReportLib.dll
-C:\Users\RCARRASCAL\Documents\GitHub\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaSalesReportLib.pdb
-C:\Users\RCARRASCAL\Documents\GitHub\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaSalesReportLib.dll.licenses
 C:\Users\RCARRASCAL\Documents\GitHub\FormulaSalesReport\FormulaSalesReportLib\bin\Debug\DevExpress.RichEdit.v17.1.Export.dll
 C:\Users\RCARRASCAL\Documents\GitHub\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaSalesReportLib.rpt4.resources
-C:\Users\RCARRASCAL\Documents\GitHub\FormulaSalesReport\FormulaSalesReportLib\bin\Debug\FormulaSalesReportLib.dll.config
 C:\Users\RCARRASCAL\Documents\GitHub\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaSalesReportLib.rpt_Sales_CreditCardTrans.resources
 C:\Users\RCARRASCAL\Documents\GitHub\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaSalesReportLib.XtraReport1.resources
 C:\Users\RCARRASCAL\Documents\GitHub\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaSalesReportLib.rpt_Sales_OverShortByBusinessDay.resources
@@ -388,3 +382,10 @@ C:\Users\RCARRASCAL\Documents\GitHub\FormulaSalesReport\FormulaSalesReportLib\ob
 C:\Users\RCARRASCAL\Documents\GitHub\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaSalesReportLib.rpt_Employee_DriverReimbursement.resources
 C:\Users\RCARRASCAL\Documents\GitHub\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaSalesReportLib.rpt_AllSalesReport.resources
 C:\Users\RCARRASCAL\Documents\GitHub\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaSalesReportLib.rpt_Employee_PayrollReport.resources
+C:\Users\RCARRASCAL\Documents\GitHub\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaSalesReportLib.rpt_Employee_CashDrawerActivity.resources
+C:\Users\RCARRASCAL\Documents\GitHub\FormulaSalesReport\FormulaSalesReportLib\bin\Debug\FormulaReportsLib.dll.config
+C:\Users\RCARRASCAL\Documents\GitHub\FormulaSalesReport\FormulaSalesReportLib\bin\Debug\FormulaReportsLib.dll
+C:\Users\RCARRASCAL\Documents\GitHub\FormulaSalesReport\FormulaSalesReportLib\bin\Debug\FormulaReportsLib.pdb
+C:\Users\RCARRASCAL\Documents\GitHub\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaReportsLib.dll.licenses
+C:\Users\RCARRASCAL\Documents\GitHub\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaReportsLib.dll
+C:\Users\RCARRASCAL\Documents\GitHub\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaReportsLib.pdb

@@ -1,4 +1,4 @@
-﻿namespace FormulaSalesReportLib
+﻿namespace FormulaReportsLib
 {
     partial class rpt_Sales_Voids
     {
@@ -586,10 +586,10 @@
             this.lblTotalData4.Borders = ((DevExpress.XtraPrinting.BorderSide)((DevExpress.XtraPrinting.BorderSide.Right | DevExpress.XtraPrinting.BorderSide.Bottom)));
             this.lblTotalData4.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTotalData4.ForeColor = System.Drawing.Color.Black;
-            this.lblTotalData4.LocationFloat = new DevExpress.Utils.PointFloat(500F, 0F);
+            this.lblTotalData4.LocationFloat = new DevExpress.Utils.PointFloat(466.745F, 0F);
             this.lblTotalData4.Name = "lblTotalData4";
             this.lblTotalData4.Padding = new DevExpress.XtraPrinting.PaddingInfo(6, 6, 0, 0, 100F);
-            this.lblTotalData4.SizeF = new System.Drawing.SizeF(118.7482F, 21.99999F);
+            this.lblTotalData4.SizeF = new System.Drawing.SizeF(152.0032F, 21.99999F);
             this.lblTotalData4.StylePriority.UseBackColor = false;
             this.lblTotalData4.StylePriority.UseBorderColor = false;
             this.lblTotalData4.StylePriority.UseBorders = false;
@@ -607,10 +607,10 @@
             this.lblTotalData3.Borders = ((DevExpress.XtraPrinting.BorderSide)((DevExpress.XtraPrinting.BorderSide.Right | DevExpress.XtraPrinting.BorderSide.Bottom)));
             this.lblTotalData3.Font = new System.Drawing.Font("Tahoma", 8F);
             this.lblTotalData3.ForeColor = System.Drawing.Color.Black;
-            this.lblTotalData3.LocationFloat = new DevExpress.Utils.PointFloat(442.8629F, 0F);
+            this.lblTotalData3.LocationFloat = new DevExpress.Utils.PointFloat(419.9463F, 0F);
             this.lblTotalData3.Name = "lblTotalData3";
             this.lblTotalData3.Padding = new DevExpress.XtraPrinting.PaddingInfo(6, 6, 0, 0, 100F);
-            this.lblTotalData3.SizeF = new System.Drawing.SizeF(56.17358F, 21.99999F);
+            this.lblTotalData3.SizeF = new System.Drawing.SizeF(46.79871F, 21.99999F);
             this.lblTotalData3.StylePriority.UseBackColor = false;
             this.lblTotalData3.StylePriority.UseBorderColor = false;
             this.lblTotalData3.StylePriority.UseBorders = false;
@@ -629,10 +629,10 @@
             | DevExpress.XtraPrinting.BorderSide.Bottom)));
             this.lblTotalData2.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTotalData2.ForeColor = System.Drawing.Color.Black;
-            this.lblTotalData2.LocationFloat = new DevExpress.Utils.PointFloat(335.9413F, 0F);
+            this.lblTotalData2.LocationFloat = new DevExpress.Utils.PointFloat(0F, 0F);
             this.lblTotalData2.Name = "lblTotalData2";
             this.lblTotalData2.Padding = new DevExpress.XtraPrinting.PaddingInfo(6, 6, 0, 0, 100F);
-            this.lblTotalData2.SizeF = new System.Drawing.SizeF(106.9218F, 21.99999F);
+            this.lblTotalData2.SizeF = new System.Drawing.SizeF(419.9463F, 21.99999F);
             this.lblTotalData2.StylePriority.UseBackColor = false;
             this.lblTotalData2.StylePriority.UseBorderColor = false;
             this.lblTotalData2.StylePriority.UseBorders = false;

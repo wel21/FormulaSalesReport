@@ -10,7 +10,7 @@ using MySql.Data.MySqlClient;
 using System.Reflection;
 using System.ComponentModel;
 
-namespace FormulaSalesReportLib
+namespace FormulaReportsLib
 {
     static class Helpers
     {
@@ -166,6 +166,21 @@ namespace FormulaSalesReportLib
             return s;
         }
 
+        public static string SetConnectionString
+        {
+            set
+            {
+                string s = value.ToLower();
+                if (s.Substring(s.Length) != ";") s = s + ";";
+
+                Server = connstruct1(s, "server=");
+                User = connstruct1(s, "user id=");
+                if (User == "") User = connstruct1(s, "userid");
+                Password = connstruct1(s, "password=");
+                Database = connstruct1(s, "database=");
+            }
+        }
+
         private static string _Server = "localhost";
         public static string Server
         {
@@ -230,7 +245,24 @@ namespace FormulaSalesReportLib
                 _Port = value;
             }
         }
-        
+
+        private static string connstruct1(string s, string strcriteria)
+        {
+            try
+            {
+                return s.Substring(connstruct2(s, strcriteria), (s.Substring(connstruct2(s, strcriteria))).IndexOf(";"));
+            }
+            catch
+            {
+                return "";
+            }
+        }
+
+        private static int connstruct2(string s, string strcriteria)
+        {
+            return s.IndexOf(strcriteria.ToLower()) + strcriteria.ToLower().Length;
+        }
+
     }
 
     public class DatabaseConnection

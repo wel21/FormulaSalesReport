@@ -15,7 +15,7 @@ using DevExpress.DataAccess.Sql;
 using DevExpress.XtraReports.UI;
 using DevExpress.XtraPrinting.Preview;
 
-namespace FormulaSalesReportLib
+namespace FormulaReportsLib
 {
 
     #region Base Class
@@ -944,6 +944,7 @@ namespace FormulaSalesReportLib
 
         public CEmployee_ActivityLog Employee_ActivityLog;
         public CEmployee_LaborReport Employee_LaborReport;
+        public CEmployee_CashDrawerActivity Employee_CashDrawerActivity;
 
 
         public CAllSalesReport AllSalesReport;
@@ -964,7 +965,7 @@ namespace FormulaSalesReportLib
                 btnPrint.Visible = value;
             }
         }
-
+        
         private string GetPrintIcon()
         { return "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"; }
         
@@ -1126,10 +1127,17 @@ namespace FormulaSalesReportLib
                                                             new rpt_Employee_LaborReport(),
                                                             ReportType.Employee_LaborReport);
 
+            Employee_CashDrawerActivity = new CEmployee_CashDrawerActivity(DV,
+                                                            StoreData,
+                                                            ParamDate,
+                                                            new rpt_Employee_CashDrawerActivity(),
+                                                            ReportType.Employee_CashDrawerActivity);
+
             // Employee ------------------------------------------------------------------------------
 
             MyReports.Add(Employee_ActivityLog);
             MyReports.Add(Employee_LaborReport);
+            MyReports.Add(Employee_CashDrawerActivity);
         }
 
         public void ShowPreview(int Index)
@@ -1149,6 +1157,15 @@ namespace FormulaSalesReportLib
             {
                 if (MyReports[i].MyType == ReportType)
                     MyReports[i].ShowReport();
+            }
+        }
+
+        public void Print(ReportType ReportType)
+        {
+            for (int i = 0; i < MyReports.Count; i++)
+            {
+                if (MyReports[i].MyType == ReportType)
+                    MyReports[i].Print();
             }
         }
 
@@ -1233,11 +1250,15 @@ namespace FormulaSalesReportLib
                     Employee_ActivityLog.Print();
                     break;
                 case ReportType.Employee_CashDrawerActivity:
+                    Employee_CashDrawerActivity.Print();
                     break;
                 case ReportType.Employee_DriverReimbursement:
                     break;
                 case ReportType.Employee_LaborReport:
+                    Employee_LaborReport.Print();
                     break;
+
+                // ----------------------------------------------------------------------------
                 case ReportType.Customer_306090DaysSinceLastOrder:
                     break;
                 case ReportType.Customer_CustomerCredits:
@@ -1246,6 +1267,8 @@ namespace FormulaSalesReportLib
                     break;
                 case ReportType.Customer_NewCustomers:
                     break;
+
+                // ----------------------------------------------------------------------------
                 case ReportType.Items_ItemSalesSummary:
                     break;
                 case ReportType.Items_SalesByGroup:

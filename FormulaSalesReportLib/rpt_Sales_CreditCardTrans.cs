@@ -6,7 +6,7 @@ using System.ComponentModel;
 using DevExpress.XtraReports.UI;
 using System.Collections.Generic;
 
-namespace FormulaSalesReportLib
+namespace FormulaReportsLib
 {
     public partial class rpt_Sales_CreditCardTrans : rpt
     {

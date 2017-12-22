@@ -5,7 +5,7 @@ using System.Collections;
 using System.ComponentModel;
 using DevExpress.XtraReports.UI;
 
-namespace FormulaSalesReportLib
+namespace FormulaReportsLib
 {
     public partial class rpt1 : DevExpress.XtraReports.UI.XtraReport
     {

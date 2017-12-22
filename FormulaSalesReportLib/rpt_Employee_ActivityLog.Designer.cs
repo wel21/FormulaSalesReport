@@ -1,4 +1,4 @@
-﻿namespace FormulaSalesReportLib
+﻿namespace FormulaReportsLib
 {
     partial class rpt_Employee_ActivityLog
     {

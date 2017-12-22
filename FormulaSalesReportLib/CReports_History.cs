@@ -8,7 +8,7 @@ using System.Windows.Forms;
 using System.Data;
 using DevExpress.XtraReports.UI;
 
-namespace FormulaSalesReportLib
+namespace FormulaReportsLib
 {
     public class CHistory_CardPaymentsByType : CReport
     {

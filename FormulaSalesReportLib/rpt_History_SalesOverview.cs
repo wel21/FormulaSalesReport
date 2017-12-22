@@ -6,7 +6,7 @@ using System.ComponentModel;
 using System.Drawing.Printing;
 using DevExpress.XtraReports.UI;
 
-namespace FormulaSalesReportLib
+namespace FormulaReportsLib
 {
     public partial class rpt_History_SalesOverview : rpt
     {

@@ -10,7 +10,7 @@ using DevExpress.DataAccess.Sql;
 using DevExpress.DataAccess.ConnectionParameters;
 using DevExpress.XtraPrinting.Preview;
 
-namespace FormulaSalesReportLib
+namespace FormulaReportsLib
 {
 
     //public class CEmployee_ActivityLog : CReport
@@ -1062,13 +1062,13 @@ namespace FormulaSalesReportLib
                     if (ParamDate.Count == 2)
                     {
                         if (i == 0)
-                            _ParamDate += "FormatDate(b.date,0) >= " + "@date" + i.ToString() + " AND ";
+                            _ParamDate += "FormatDate(a.date,0) >= " + "@date" + i.ToString() + " AND ";
                         else
-                            _ParamDate += "FormatDate(b.date,0) <= " + "@date" + i.ToString() + " ";
+                            _ParamDate += "FormatDate(a.date,0) <= " + "@date" + i.ToString() + " ";
                     }
                     else
                     {
-                        _ParamDate += "FormatDate(b.date,0) = " + "@date" + i.ToString() + " " + (i == ParamDate.Count - 1 ? "" : ParamDate[i].paramCondition.ToString() + "");
+                        _ParamDate += "FormatDate(a.date,0) = " + "@date" + i.ToString() + " " + (i == ParamDate.Count - 1 ? "" : ParamDate[i].paramCondition.ToString() + "");
                     }
 
                     sfield.Add("@date" + i.ToString());

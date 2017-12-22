@@ -8,8 +8,9 @@ using DevExpress.XtraReports.UI;
 using DevExpress.DataAccess.Sql;
 using System.Data;
 using DevExpress.XtraPrinting.Preview;
+using System.Diagnostics;
 
-namespace FormulaSalesReportLib
+namespace FormulaReportsLib
 {
 
     public class CSales_CreditCardTrans : CReport
@@ -870,7 +871,7 @@ namespace FormulaSalesReportLib
                 }
             }
             catch (Exception ex)
-            { MessageBox.Show(ex.Message); }
+            { Debug.Print(ex.Message); }
             return null;
         }
 
@@ -912,7 +913,7 @@ namespace FormulaSalesReportLib
                 return list2;
             }
             catch (Exception ex)
-            { MessageBox.Show(ex.Message); }
+            { Debug.Print(ex.Message); }
             return null;
         }
 

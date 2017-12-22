@@ -5,7 +5,7 @@ using System.ComponentModel;
 using System.Data;
 using DevExpress.XtraReports.UI;
 
-namespace FormulaSalesReportLib
+namespace FormulaReportsLib
 {
     public partial class rpt_Employee_LaborReport : rpt
     {

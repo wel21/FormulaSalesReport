@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FormulaSalesReportLib
+namespace FormulaReportsLib
 {
     public partial class rpt_Sales1 : rpt_Sales_CreditCardTrans
     {

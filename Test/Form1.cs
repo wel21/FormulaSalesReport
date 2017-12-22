@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using FormulaSalesReportLib;
+using FormulaReportsLib;
 
 namespace Test
 {
@@ -17,7 +17,8 @@ namespace Test
         {
             InitializeComponent();
         }
-        
+
+        // instantiate ReportsControl
         ReportsControl rptcontrol = new ReportsControl();
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -34,18 +35,21 @@ namespace Test
             DatabaseConnectionSettings.Password = "root";
             DatabaseConnectionSettings.Database = comboBox3.SelectedItem.ToString();
             DatabaseConnectionSettings.Port = "3306";
+            DatabaseConnectionSettings.SetConnectionString = "server=Localhost;User Id=root;password=root;Persist Security Info=True;database=purepos";
 
 
-            //add document viewer to the form
+            //add control to the form
             this.Controls.Add(rptcontrol);
             rptcontrol.Dock = DockStyle.Fill;
+            rptcontrol.ShowPrintButton = true;
+
+            //add date parameter
             rptcontrol.ParamDate.Add(new ParamDate(dtpFrom.Value, ParameterCondition.AND));
             if (dtpFrom.Value.ToShortDateString() != dtpTo.Value.ToShortDateString())
                 rptcontrol.ParamDate.Add(new ParamDate(dtpTo.Value, ParameterCondition.AND));
-            rptcontrol.ShowPrintButton = true;
             
         }
-        
+
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             rptcontrol.ParamDate.Clear();
@@ -53,9 +57,9 @@ namespace Test
             if (dtpFrom.Value.ToShortDateString() != dtpTo.Value.ToShortDateString())
                 rptcontrol.ParamDate.Add(new ParamDate(dtpTo.Value, ParameterCondition.AND));
 
-            rptcontrol.ShowPreview(comboBox1.SelectedIndex);            
+            rptcontrol.ShowPreview(comboBox1.SelectedIndex);
         }
-        
+
         private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
         {
             DatabaseConnectionSettings.Database = comboBox3.SelectedItem.ToString();
