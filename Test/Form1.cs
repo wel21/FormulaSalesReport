@@ -35,7 +35,7 @@ namespace Test
             DatabaseConnectionSettings.Password = "root";
             DatabaseConnectionSettings.Database = comboBox3.SelectedItem.ToString();
             DatabaseConnectionSettings.Port = "3306";
-            DatabaseConnectionSettings.SetConnectionString = "server=Localhost;User Id=root;password=root;Persist Security Info=True;database=purepos";
+            //DatabaseConnectionSettings.SetConnectionString = "server=Localhost;User Id=root;password=root;Persist Security Info=True;database=purepos";
 
 
             //add control to the form
@@ -58,6 +58,7 @@ namespace Test
                 rptcontrol.ParamDate.Add(new ParamDate(dtpTo.Value, ParameterCondition.AND));
 
             rptcontrol.ShowPreview(comboBox1.SelectedIndex);
+            
         }
 
         private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
