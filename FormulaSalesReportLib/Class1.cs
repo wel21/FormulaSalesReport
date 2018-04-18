@@ -74,8 +74,11 @@ namespace FormulaReportsLib
                 rpt = CreateReportAllSales();
             else
                 rpt = CreateReport();
-            DV.DocumentSource = rpt;
             rpt.CreateDocument();
+            rpt.ShowPreviewMarginLines = false;
+            DV.DocumentSource = rpt;
+            DV.ShowPageMargins = false;
+
         }
 
         public void ShowReportDesigner()
@@ -85,6 +88,7 @@ namespace FormulaReportsLib
                 rpt = CreateReportAllSales();
             else
                 rpt = CreateReport();
+            rpt.ShowPreviewMarginLines = false;
             rpt.ShowDesigner();
         }
 
@@ -95,6 +99,7 @@ namespace FormulaReportsLib
                 rpt = CreateReportAllSales();
             else
                 rpt = CreateReport();
+            rpt.ShowPreviewMarginLines = false;
             rpt.ShowPreview();
         }
 
@@ -105,6 +110,7 @@ namespace FormulaReportsLib
                 rpt = CreateReportAllSales();
             else
                 rpt = CreateReport();
+            rpt.ShowPreviewMarginLines = false;
             rpt.ShowPreviewDialog();
         }
 
@@ -941,13 +947,15 @@ namespace FormulaReportsLib
         public CHistory_SalesUnitQty History_SalesUnitQty;
         public CHistory_Voids History_Voids;
         public CHistory_SalesByDay History_SalesByDay;
+        public CHistory_SquareReport History_SquareReport;
 
         public CEmployee_ActivityLog Employee_ActivityLog;
         public CEmployee_LaborReport Employee_LaborReport;
         public CEmployee_CashDrawerActivity Employee_CashDrawerActivity;
 
-
         public CAllSalesReport AllSalesReport;
+
+        public COthers_MonetaryBatch Others_MonetaryBatch;
 
         public List<CReport> MyReports = new List<CReport>();
 
@@ -1003,12 +1011,18 @@ namespace FormulaReportsLib
             InitializeEmployee();
 
             AllSalesReport = new CAllSalesReport(DV,
-                                                            StoreData,
-                                                            ParamDate,
-                                                            new rpt_AllSalesReport(),
-                                                            ReportType.AllSalesReport);
-
+                                                StoreData,
+                                                ParamDate,
+                                                new rpt_AllSalesReport(),
+                                                ReportType.AllSalesReport);
             MyReports.Add(AllSalesReport);
+
+            Others_MonetaryBatch = new COthers_MonetaryBatch(DV,
+                                                StoreData,
+                                                ParamDate,
+                                                new rpt_Others_MonetaryBatch(),
+                                                ReportType.Others_MonetaryBatch);
+            MyReports.Add(Others_MonetaryBatch);
         }
 
         private void InitializeSales()
@@ -1099,6 +1113,11 @@ namespace FormulaReportsLib
                                                             ParamDate,
                                                             new rpt_History_SalesByDay(),
                                                             ReportType.History_SalesByDay);
+            History_SquareReport = new CHistory_SquareReport(DV,
+                                                            StoreData,
+                                                            ParamDate,
+                                                            new rpt_History_SquareReport(),
+                                                            ReportType.History_SquareReport);
 
             // History ----------------------------------------------------------------------------
 
@@ -1109,6 +1128,7 @@ namespace FormulaReportsLib
             MyReports.Add(History_SalesUnitQty);
             MyReports.Add(History_Voids);
             MyReports.Add(History_SalesByDay);
+            MyReports.Add(History_SquareReport);
         }
 
         private void InitializeEmployee()
@@ -1242,6 +1262,9 @@ namespace FormulaReportsLib
                 case ReportType.History_SalesByDay:
                     History_SalesByDay.Print();
                     break;
+                case ReportType.History_SquareReport:
+                    History_SquareReport.Print();
+                    break;
                 
                 // ----------------------------------------------------------------------------
                 case ReportType.Employee_PayrollReport:
@@ -1276,6 +1299,11 @@ namespace FormulaReportsLib
 
                 // ----------------------------------------------------------------------------
                 case ReportType.AllSalesReport:
+                    AllSalesReport.Print();
+                    break;
+
+                // ----------------------------------------------------------------------------
+                case ReportType.Others_MonetaryBatch:
                     break;
             }
         }
@@ -1298,6 +1326,7 @@ namespace FormulaReportsLib
         History_Voids,
         History_EndOfDaySalesNumbers,
         History_SalesByDay,
+        History_SquareReport,
         Employee_PayrollReport,
         Employee_ActivityLog,
         Employee_CashDrawerActivity,
@@ -1309,7 +1338,8 @@ namespace FormulaReportsLib
         Customer_NewCustomers,
         Items_ItemSalesSummary,
         Items_SalesByGroup,
-        AllSalesReport
+        AllSalesReport,
+        Others_MonetaryBatch
     }
     public enum LoadReportType
     {

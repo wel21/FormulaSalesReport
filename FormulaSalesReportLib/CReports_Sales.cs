@@ -754,7 +754,7 @@ namespace FormulaReportsLib
                 CReportData reportdata = new CReportData();
 
                 // Net Sales By Service Type ############################
-                Query = "SELECT B.serviceTypeName as ServiceTypeName, Count(*) as Quantity, Sum(A.SubTotal) as Amount, Sum(A.DeliveryCharge) as DeliveryCharge, Sum(A.Tax) as Tax, FormatDate(A.date,0) as mdate " +
+                Query = "SELECT B.serviceTypeName as ServiceTypeName, Count(*) as Quantity, Sum(A.SubTotal) as Amount, Sum(A.DeliveryCharge) as DeliveryCharge, Sum(A.Tax) as Tax, FormatDate(A.date,0) as mdate, B.isDelivery " +
                         "FROM @mytable A INNER JOIN servicetypes B on A.serviceTypeID = B.id " +
                         "WHERE @myparam " +
                         "GROUP BY B.serviceTypeName";
@@ -847,7 +847,7 @@ namespace FormulaReportsLib
                             perc1 = Convert.ToDecimal((Convert.ToDouble(data1.Rows[i]["Amount"]) / Convert.ToDouble(data1.Rows[i]["Quantity"]))).DecimalPlace();
                         else
                             perc1 = "0";
-                        if (data1.Rows[i]["ServiceTypeName"].ToString() == "Delivery")
+                        if (data1.Rows[i]["isDelivery"].ToString() == "1")
                             fTotalDelivery = Convert.ToDouble(data1.Rows[i]["Quantity"]);
 
                         list1.Add(new ReportData(data1.Rows[i]["ServiceTypeName"].ToString(),
@@ -963,7 +963,7 @@ namespace FormulaReportsLib
                 return list3;
             }
             catch (Exception ex)
-            { MessageBox.Show(ex.Message); }
+            { Debug.Print(ex.Message); }
             return null;
         }
 
@@ -1012,7 +1012,7 @@ namespace FormulaReportsLib
                 return list4;
             }
             catch (Exception ex)
-            { MessageBox.Show(ex.Message); }
+            { Debug.Print(ex.Message); }
             return null;
         }
         

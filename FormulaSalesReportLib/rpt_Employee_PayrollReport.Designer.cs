@@ -1054,6 +1054,7 @@
             this.Margins = new System.Drawing.Printing.Margins(50, 50, 50, 50);
             this.PageHeight = 850;
             this.PageWidth = 1100;
+            this.ShowPreviewMarginLines = false;
             this.Version = "17.1";
             ((System.ComponentModel.ISupportInitialize)(this.xrTable1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this)).EndInit();

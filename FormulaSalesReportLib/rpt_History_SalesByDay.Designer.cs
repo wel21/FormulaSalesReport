@@ -1136,6 +1136,7 @@
             this.Margins = new System.Drawing.Printing.Margins(75, 75, 75, 75);
             this.PageHeight = 850;
             this.PageWidth = 1100;
+            this.ShowPreviewMarginLines = false;
             this.Version = "17.1";
             this.BeforePrint += new System.Drawing.Printing.PrintEventHandler(this.rpt_Sales_CreditCardTrans_BeforePrint);
             ((System.ComponentModel.ISupportInitialize)(this.xrTable1)).EndInit();

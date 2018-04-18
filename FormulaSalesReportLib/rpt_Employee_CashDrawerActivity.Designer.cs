@@ -61,8 +61,8 @@
             this.xrTableCell6 = new DevExpress.XtraReports.UI.XRTableCell();
             this.xrTableCell2 = new DevExpress.XtraReports.UI.XRTableCell();
             this.GroupHeader1 = new DevExpress.XtraReports.UI.GroupHeaderBand();
-            this.xrLabel4 = new DevExpress.XtraReports.UI.XRLabel();
             this.xrLine5 = new DevExpress.XtraReports.UI.XRLine();
+            this.xrLabel4 = new DevExpress.XtraReports.UI.XRLabel();
             ((System.ComponentModel.ISupportInitialize)(this.xrTable1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             // 
@@ -545,6 +545,17 @@
             this.GroupHeader1.HeightF = 21.99999F;
             this.GroupHeader1.Name = "GroupHeader1";
             // 
+            // xrLine5
+            // 
+            this.xrLine5.BorderColor = System.Drawing.Color.Black;
+            this.xrLine5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(125)))), ((int)(((byte)(68)))));
+            this.xrLine5.LineWidth = 3;
+            this.xrLine5.LocationFloat = new DevExpress.Utils.PointFloat(104.0515F, 18F);
+            this.xrLine5.Name = "xrLine5";
+            this.xrLine5.SizeF = new System.Drawing.SizeF(595.9488F, 3.999996F);
+            this.xrLine5.StylePriority.UseBorderColor = false;
+            this.xrLine5.StylePriority.UseForeColor = false;
+            // 
             // xrLabel4
             // 
             this.xrLabel4.BorderColor = System.Drawing.Color.Gainsboro;
@@ -564,17 +575,6 @@
             this.xrLabel4.Text = "0";
             this.xrLabel4.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft;
             // 
-            // xrLine5
-            // 
-            this.xrLine5.BorderColor = System.Drawing.Color.Black;
-            this.xrLine5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(125)))), ((int)(((byte)(68)))));
-            this.xrLine5.LineWidth = 3;
-            this.xrLine5.LocationFloat = new DevExpress.Utils.PointFloat(104.0515F, 18F);
-            this.xrLine5.Name = "xrLine5";
-            this.xrLine5.SizeF = new System.Drawing.SizeF(595.9488F, 3.999996F);
-            this.xrLine5.StylePriority.UseBorderColor = false;
-            this.xrLine5.StylePriority.UseForeColor = false;
-            // 
             // rpt_Employee_CashDrawerActivity
             // 
             this.Bands.AddRange(new DevExpress.XtraReports.UI.Band[] {
@@ -586,6 +586,7 @@
             this.PageHeader,
             this.GroupHeader1});
             this.Margins = new System.Drawing.Printing.Margins(75, 75, 75, 75);
+            this.ShowPreviewMarginLines = false;
             this.Version = "17.1";
             this.BeforePrint += new System.Drawing.Printing.PrintEventHandler(this.rpt_Sales_CreditCardTrans_BeforePrint);
             ((System.ComponentModel.ISupportInitialize)(this.xrTable1)).EndInit();

@@ -60,6 +60,8 @@
             this.xrTableCell6 = new DevExpress.XtraReports.UI.XRTableCell();
             this.xrTableCell2 = new DevExpress.XtraReports.UI.XRTableCell();
             this.GroupFooter1 = new DevExpress.XtraReports.UI.GroupFooterBand();
+            this.lbl1TR3C2 = new DevExpress.XtraReports.UI.XRLabel();
+            this.xrLabel10 = new DevExpress.XtraReports.UI.XRLabel();
             this.lbl1TR7C1 = new DevExpress.XtraReports.UI.XRLabel();
             this.lbl1TR7C2 = new DevExpress.XtraReports.UI.XRLabel();
             this.xrLabel19 = new DevExpress.XtraReports.UI.XRLabel();
@@ -136,8 +138,6 @@
             this.lbl4TR1C1 = new DevExpress.XtraReports.UI.XRLabel();
             this.lbl4TR1C2 = new DevExpress.XtraReports.UI.XRLabel();
             this.lbl4TR1C3 = new DevExpress.XtraReports.UI.XRLabel();
-            this.lbl1TR3C2 = new DevExpress.XtraReports.UI.XRLabel();
-            this.xrLabel10 = new DevExpress.XtraReports.UI.XRLabel();
             ((System.ComponentModel.ISupportInitialize)(this.xrTable1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.xrTable2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.xrTable3)).BeginInit();
@@ -615,6 +615,36 @@
             this.xrLabel9});
             this.GroupFooter1.HeightF = 203.2084F;
             this.GroupFooter1.Name = "GroupFooter1";
+            // 
+            // lbl1TR3C2
+            // 
+            this.lbl1TR3C2.Font = new System.Drawing.Font("Segoe UI", 8F);
+            this.lbl1TR3C2.ForeColor = System.Drawing.Color.Black;
+            this.lbl1TR3C2.LocationFloat = new DevExpress.Utils.PointFloat(365.2033F, 55.99998F);
+            this.lbl1TR3C2.Name = "lbl1TR3C2";
+            this.lbl1TR3C2.Padding = new DevExpress.XtraPrinting.PaddingInfo(6, 6, 0, 0, 100F);
+            this.lbl1TR3C2.SizeF = new System.Drawing.SizeF(118.1522F, 22.99999F);
+            this.lbl1TR3C2.StylePriority.UseFont = false;
+            this.lbl1TR3C2.StylePriority.UseForeColor = false;
+            this.lbl1TR3C2.StylePriority.UsePadding = false;
+            this.lbl1TR3C2.StylePriority.UseTextAlignment = false;
+            this.lbl1TR3C2.Text = "0";
+            this.lbl1TR3C2.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleRight;
+            // 
+            // xrLabel10
+            // 
+            this.xrLabel10.Font = new System.Drawing.Font("Segoe UI", 8F);
+            this.xrLabel10.ForeColor = System.Drawing.Color.Black;
+            this.xrLabel10.LocationFloat = new DevExpress.Utils.PointFloat(10.00061F, 55.99992F);
+            this.xrLabel10.Name = "xrLabel10";
+            this.xrLabel10.Padding = new DevExpress.XtraPrinting.PaddingInfo(6, 6, 0, 0, 100F);
+            this.xrLabel10.SizeF = new System.Drawing.SizeF(100F, 23F);
+            this.xrLabel10.StylePriority.UseFont = false;
+            this.xrLabel10.StylePriority.UseForeColor = false;
+            this.xrLabel10.StylePriority.UsePadding = false;
+            this.xrLabel10.StylePriority.UseTextAlignment = false;
+            this.xrLabel10.Text = "Reimbursement";
+            this.xrLabel10.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft;
             // 
             // lbl1TR7C1
             // 
@@ -1749,36 +1779,6 @@
             this.lbl4TR1C3.Text = "0";
             this.lbl4TR1C3.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleRight;
             // 
-            // lbl1TR3C2
-            // 
-            this.lbl1TR3C2.Font = new System.Drawing.Font("Segoe UI", 8F);
-            this.lbl1TR3C2.ForeColor = System.Drawing.Color.Black;
-            this.lbl1TR3C2.LocationFloat = new DevExpress.Utils.PointFloat(365.2033F, 55.99998F);
-            this.lbl1TR3C2.Name = "lbl1TR3C2";
-            this.lbl1TR3C2.Padding = new DevExpress.XtraPrinting.PaddingInfo(6, 6, 0, 0, 100F);
-            this.lbl1TR3C2.SizeF = new System.Drawing.SizeF(118.1522F, 22.99999F);
-            this.lbl1TR3C2.StylePriority.UseFont = false;
-            this.lbl1TR3C2.StylePriority.UseForeColor = false;
-            this.lbl1TR3C2.StylePriority.UsePadding = false;
-            this.lbl1TR3C2.StylePriority.UseTextAlignment = false;
-            this.lbl1TR3C2.Text = "0";
-            this.lbl1TR3C2.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleRight;
-            // 
-            // xrLabel10
-            // 
-            this.xrLabel10.Font = new System.Drawing.Font("Segoe UI", 8F);
-            this.xrLabel10.ForeColor = System.Drawing.Color.Black;
-            this.xrLabel10.LocationFloat = new DevExpress.Utils.PointFloat(10.00061F, 55.99992F);
-            this.xrLabel10.Name = "xrLabel10";
-            this.xrLabel10.Padding = new DevExpress.XtraPrinting.PaddingInfo(6, 6, 0, 0, 100F);
-            this.xrLabel10.SizeF = new System.Drawing.SizeF(100F, 23F);
-            this.xrLabel10.StylePriority.UseFont = false;
-            this.xrLabel10.StylePriority.UseForeColor = false;
-            this.xrLabel10.StylePriority.UsePadding = false;
-            this.xrLabel10.StylePriority.UseTextAlignment = false;
-            this.xrLabel10.Text = "Reimbursement";
-            this.xrLabel10.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft;
-            // 
             // rpt_AllSalesReport
             // 
             this.Bands.AddRange(new DevExpress.XtraReports.UI.Band[] {
@@ -1791,6 +1791,7 @@
             this.DetailReport2,
             this.DetailReport3});
             this.Margins = new System.Drawing.Printing.Margins(75, 75, 75, 75);
+            this.ShowPreviewMarginLines = false;
             this.Version = "17.1";
             this.BeforePrint += new System.Drawing.Printing.PrintEventHandler(this.rpt_Sales_CreditCardTrans_BeforePrint);
             ((System.ComponentModel.ISupportInitialize)(this.xrTable1)).EndInit();

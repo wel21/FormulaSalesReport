@@ -871,6 +871,7 @@
             this.PageHeader,
             this.ReportFooter});
             this.Margins = new System.Drawing.Printing.Margins(75, 75, 75, 75);
+            this.ShowPreviewMarginLines = false;
             this.Version = "17.1";
             this.BeforePrint += new System.Drawing.Printing.PrintEventHandler(this.rpt_Employee_DriverReimbursement_BeforePrint);
             ((System.ComponentModel.ISupportInitialize)(this.xrTable1)).EndInit();

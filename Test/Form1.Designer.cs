@@ -54,6 +54,7 @@
             "History_Voids",
             "History_EndOfDaySalesNumbers",
             "History_SalesByDay",
+            "History_SquareReport",
             "Employee_PayrollReport",
             "Employee_ActivityLog",
             "Employee_CashDrawerActivity",
@@ -65,7 +66,8 @@
             "Customer_NewCustomers",
             "Items_ItemSalesSummary",
             "Items_SalesByGroup",
-            "AllSalesReport"});
+            "AllSalesReport",
+            "Others_MonetaryBatch"});
             this.comboBox1.Location = new System.Drawing.Point(12, 22);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(222, 21);
@@ -109,7 +111,6 @@
             // comboBox3
             // 
             this.comboBox3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox3.Enabled = false;
             this.comboBox3.FormattingEnabled = true;
             this.comboBox3.Items.AddRange(new object[] {
             "purepos",
@@ -118,7 +119,6 @@
             this.comboBox3.Name = "comboBox3";
             this.comboBox3.Size = new System.Drawing.Size(77, 21);
             this.comboBox3.TabIndex = 11;
-            this.comboBox3.Visible = false;
             this.comboBox3.SelectedIndexChanged += new System.EventHandler(this.comboBox3_SelectedIndexChanged);
             // 
             // Form1

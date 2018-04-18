@@ -805,7 +805,7 @@ namespace FormulaReportsLib
 
                 Query = "SELECT a.employeeid, B.serviceTypeName, A.SubTotal AS Amount, a.tipsAdded, A.DeliveryCharge, FormatDate(A.date,0) AS mdate " +
                         "FROM tickethistory A INNER JOIN servicetypes B ON A.serviceTypeID = B.id " +
-                        "WHERE @myparam AND B.serviceTypeName = 'Delivery' " +
+                        "WHERE @myparam AND B.isDelivery = 1 " +
                         "ORDER BY employeeid";
                 Query = Query.Replace("@myparam", _ParamDate.Replace("b.date", "a.date"));
                 dttickt = reportdata.ProcessReportData(Query, null, null);

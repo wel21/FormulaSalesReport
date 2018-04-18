@@ -1160,4 +1160,112 @@ namespace FormulaReportsLib
         }
 
     }
+
+    public class CHistory_SquareReport : CReport
+    {
+        public CHistory_SquareReport(DocumentViewer DV, CRStoreData StoreData, List<ParamDate> ParamDate, rpt ReportInstance, ReportType ReportType)
+            : base(DV, StoreData, ParamDate, ReportInstance, ReportType)
+        {
+            this.DV = DV;
+            this.StoreData = StoreData;
+            this.ParamDate = ParamDate;
+            this.report = ReportInstance;
+            this.MyType = ReportType;
+
+            ReportHelper.MyActiveReport = this;
+
+        }
+
+        private string Query { get; set; }
+
+        public override List<ReportData> DataSourceToBind()
+        {
+            try
+            {
+                List<string> sfield = new List<string>();
+                List<string> svalue = new List<string>();
+
+                // parameters
+                string _ParamDate = "";// (ParamDate.Count == 0 ? "" : "WHERE ");
+                //string _ParamDate = "WHERE ";
+                for (int i = 0; i < ParamDate.Count; i++)
+                {
+                    if (ParamDate.Count == 2)
+                    {
+                        if (i == 0)
+                            _ParamDate += "FormatDate(date,0) >= " + "@date" + i.ToString() + " AND ";
+                        else
+                            _ParamDate += "FormatDate(date,0) <= " + "@date" + i.ToString() + " ";
+                    }
+                    else
+                    {
+                        _ParamDate += "FormatDate(date,0) = " + "@date" + i.ToString() + " " + (i == ParamDate.Count - 1 ? "" : ParamDate[i].paramCondition.ToString() + "");
+                    }
+
+                    sfield.Add("@date" + i.ToString());
+                    svalue.Add(Helpers.ConvertMyDate(ParamDate[i].date));
+                }
+
+                List<ReportData> list = new List<ReportData>();
+                CReportData reportdata = new CReportData();
+                DataTable data = new DataTable();
+                DataTable dtTcktHstry = new DataTable();
+                DataTable dtmenuItem = new DataTable();
+
+                Query = "SELECT ItemNumber as data, COUNT(Quantity) as data1 " +
+                        "FROM ticketitemshistory " +
+                        "WHERE itemname = 'Square' AND @myparam" +
+                        "GROUP BY ItemNumber ORDER BY ItemNumber DESC LIMIT 1500";
+                Query = Query.Replace("@myparam", _ParamDate.Replace("date", "date"));
+                dtTcktHstry = reportdata.ProcessReportData(Query, sfield, svalue);
+
+                Query = "SELECT plu, itemname " +
+                        "FROM menuitems ";
+                dtmenuItem = reportdata.ProcessReportData(Query, sfield, svalue);
+
+                if (dtTcktHstry != null)
+                {
+                    try
+                    {
+                        if (dtTcktHstry.Rows.Count > 0)
+                        {
+                            for (int j = 0; j < dtTcktHstry.Rows.Count; j++)
+                            {
+                                list.Add(new ReportData(GetItemName(dtmenuItem, Convert.ToInt32(dtTcktHstry.Rows[j]["data"].ToString())),
+                                                        dtTcktHstry.Rows[j]["data1"].ToString()));
+                            }
+
+                        }
+                        else
+                        { MessageBox.Show("No records retreived."); }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                        MessageBox.Show(ex.Message);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("No records retreived.");
+                }
+
+                return list;
+
+            }
+            catch (Exception ex)
+            { MessageBox.Show(ex.Message); }
+            return null;
+        }
+
+        private string GetItemName(DataTable DT, int ItemNumber)
+        {
+            DataRow[] drarray = null;
+            drarray = DT.Select("plu='" + ItemNumber.ToString() + "'");
+
+            return Helpers.NullToStr(drarray[0]["itemname"]);
+        }
+
+    }
+
 }
