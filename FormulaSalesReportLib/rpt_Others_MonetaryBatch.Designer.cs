@@ -172,10 +172,10 @@
             this.lblData4.Borders = DevExpress.XtraPrinting.BorderSide.Bottom;
             this.lblData4.Font = new System.Drawing.Font("Tahoma", 8F);
             this.lblData4.ForeColor = System.Drawing.Color.Black;
-            this.lblData4.LocationFloat = new DevExpress.Utils.PointFloat(379.9999F, 0F);
+            this.lblData4.LocationFloat = new DevExpress.Utils.PointFloat(401.8751F, 0F);
             this.lblData4.Name = "lblData4";
             this.lblData4.Padding = new DevExpress.XtraPrinting.PaddingInfo(6, 6, 0, 0, 100F);
-            this.lblData4.SizeF = new System.Drawing.SizeF(94.99997F, 21.99999F);
+            this.lblData4.SizeF = new System.Drawing.SizeF(73.12482F, 21.99999F);
             this.lblData4.StylePriority.UseBorderColor = false;
             this.lblData4.StylePriority.UseBorders = false;
             this.lblData4.StylePriority.UseFont = false;
@@ -191,10 +191,10 @@
             this.lblData3.Borders = DevExpress.XtraPrinting.BorderSide.Bottom;
             this.lblData3.Font = new System.Drawing.Font("Tahoma", 8F);
             this.lblData3.ForeColor = System.Drawing.Color.Black;
-            this.lblData3.LocationFloat = new DevExpress.Utils.PointFloat(285.0001F, 0F);
+            this.lblData3.LocationFloat = new DevExpress.Utils.PointFloat(318.3334F, 0F);
             this.lblData3.Name = "lblData3";
             this.lblData3.Padding = new DevExpress.XtraPrinting.PaddingInfo(6, 6, 0, 0, 100F);
-            this.lblData3.SizeF = new System.Drawing.SizeF(94.99982F, 21.99999F);
+            this.lblData3.SizeF = new System.Drawing.SizeF(83.54169F, 21.99999F);
             this.lblData3.StylePriority.UseBorderColor = false;
             this.lblData3.StylePriority.UseBorders = false;
             this.lblData3.StylePriority.UseFont = false;
@@ -210,10 +210,10 @@
             this.lblData2.Borders = DevExpress.XtraPrinting.BorderSide.Bottom;
             this.lblData2.Font = new System.Drawing.Font("Tahoma", 8F);
             this.lblData2.ForeColor = System.Drawing.Color.Black;
-            this.lblData2.LocationFloat = new DevExpress.Utils.PointFloat(190.0001F, 0F);
+            this.lblData2.LocationFloat = new DevExpress.Utils.PointFloat(223.3334F, 0F);
             this.lblData2.Name = "lblData2";
             this.lblData2.Padding = new DevExpress.XtraPrinting.PaddingInfo(6, 6, 0, 0, 100F);
-            this.lblData2.SizeF = new System.Drawing.SizeF(94.99989F, 21.99999F);
+            this.lblData2.SizeF = new System.Drawing.SizeF(95.00002F, 21.99999F);
             this.lblData2.StylePriority.UseBorderColor = false;
             this.lblData2.StylePriority.UseBorders = false;
             this.lblData2.StylePriority.UseFont = false;
@@ -232,7 +232,7 @@
             this.lblData.LocationFloat = new DevExpress.Utils.PointFloat(0F, 0F);
             this.lblData.Name = "lblData";
             this.lblData.Padding = new DevExpress.XtraPrinting.PaddingInfo(6, 6, 0, 0, 100F);
-            this.lblData.SizeF = new System.Drawing.SizeF(95.00018F, 21.99999F);
+            this.lblData.SizeF = new System.Drawing.SizeF(73.12521F, 21.99999F);
             this.lblData.StylePriority.UseBorderColor = false;
             this.lblData.StylePriority.UseBorders = false;
             this.lblData.StylePriority.UseFont = false;
@@ -248,10 +248,10 @@
             this.lblData1.Borders = DevExpress.XtraPrinting.BorderSide.Bottom;
             this.lblData1.Font = new System.Drawing.Font("Tahoma", 8F);
             this.lblData1.ForeColor = System.Drawing.Color.Black;
-            this.lblData1.LocationFloat = new DevExpress.Utils.PointFloat(95.00019F, 0F);
+            this.lblData1.LocationFloat = new DevExpress.Utils.PointFloat(73.12521F, 0F);
             this.lblData1.Name = "lblData1";
             this.lblData1.Padding = new DevExpress.XtraPrinting.PaddingInfo(6, 6, 0, 0, 100F);
-            this.lblData1.SizeF = new System.Drawing.SizeF(94.99995F, 21.99999F);
+            this.lblData1.SizeF = new System.Drawing.SizeF(150.2082F, 21.99999F);
             this.lblData1.StylePriority.UseBorderColor = false;
             this.lblData1.StylePriority.UseBorders = false;
             this.lblData1.StylePriority.UseFont = false;
@@ -369,7 +369,7 @@
             this.xrTableCell3.StylePriority.UseTextAlignment = false;
             this.xrTableCell3.Text = "Reference";
             this.xrTableCell3.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft;
-            this.xrTableCell3.Weight = 0.059625191928332058D;
+            this.xrTableCell3.Weight = 0.045895707532528141D;
             // 
             // xrTableCell4
             // 
@@ -385,7 +385,7 @@
             this.xrTableCell4.StylePriority.UseTextAlignment = false;
             this.xrTableCell4.Text = "Date Time";
             this.xrTableCell4.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-            this.xrTableCell4.Weight = 0.059625191082131324D;
+            this.xrTableCell4.Weight = 0.0942757868044986D;
             // 
             // xrTableCell5
             // 
@@ -401,7 +401,7 @@
             this.xrTableCell5.StylePriority.UseTextAlignment = false;
             this.xrTableCell5.Text = "Transcode";
             this.xrTableCell5.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-            this.xrTableCell5.Weight = 0.059625194254958866D;
+            this.xrTableCell5.Weight = 0.059625203831893847D;
             // 
             // xrTableCell6
             // 
@@ -417,7 +417,7 @@
             this.xrTableCell6.StylePriority.UseTextAlignment = false;
             this.xrTableCell6.Text = "Status";
             this.xrTableCell6.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-            this.xrTableCell6.Weight = 0.059625191440288938D;
+            this.xrTableCell6.Weight = 0.052433564509529476D;
             // 
             // xrTableCell2
             // 
@@ -433,7 +433,7 @@
             this.xrTableCell2.StylePriority.UseTextAlignment = false;
             this.xrTableCell2.Text = "CardBrand";
             this.xrTableCell2.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-            this.xrTableCell2.Weight = 0.059625193495768919D;
+            this.xrTableCell2.Weight = 0.045895699523030034D;
             // 
             // xrTableCell1
             // 
