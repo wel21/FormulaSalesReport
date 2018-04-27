@@ -13,6 +13,7 @@ using DevExpress.XtraPrinting.Preview;
 namespace FormulaReportsLib
 {
 
+    #region commented
     //public class CEmployee_ActivityLog : CReport
     //{
     //    public CEmployee_ActivityLog(DocumentViewer DV, CRStoreData StoreData, List<ParamDate> ParamDate, rpt ReportInstance, ReportType ReportType)
@@ -284,6 +285,7 @@ namespace FormulaReportsLib
     //        return null;
     //    }
     //}
+    #endregion
 
     public class CEmployee_ActivityLog : CReport
     {
@@ -387,6 +389,7 @@ namespace FormulaReportsLib
         }
     }
 
+    #region commented
     /*
     public class CEmployee_LaborReport_old : CReport
     {
@@ -615,6 +618,7 @@ namespace FormulaReportsLib
         }
     }
     */
+    #endregion
 
     public class CEmployee_LaborReport : CReport
     {

@@ -51,12 +51,17 @@ namespace FormulaReportsLib
 
             try
             {
-                lblData.DataBindings.Add("Text", this.DataSource, "Data");
+
+                GroupField groupField1 = new GroupField("Data1");
+                GroupHeader1.GroupFields.Add(groupField1);
+
+                lblData.DataBindings.Add("Text", this.DataSource, "Data1");
+                lblData1.DataBindings.Add("Text", this.DataSource, "Data");
 
                 float x = lblCt0.LeftF;
                 float x1 = lblCt1.LeftF;
                 float x2 = lblCt2.LeftF;
-                int dataindex = 1;
+                int dataindex = 2;
 
                 //dispose added labels
                 if (addedlabels.Count > 0)
@@ -95,14 +100,41 @@ namespace FormulaReportsLib
 
 
                     // add column to row
-                    // row 1
                     XRLabel lR = new lbl(lblDt1);
+
+                    //total group header 1
+                    XRSummary XrSummary1 = new XRSummary();
+                    lR = new lbl(xrLabel4);
+                    lR.Name = "lblHT" + (i + 1) + "t1";
+                    lR.LocationF = new PointF(x1, 0);
+                    lR.DataBindings.AddRange(new XRBinding[] { new XRBinding("Text", DataSource, "Data" + (dataindex)) });
+                    XrSummary1.FormatString = "{0}";
+                    XrSummary1.Func = SummaryFunc.Sum;
+                    XrSummary1.Running = SummaryRunning.Group;
+                    lR.Summary = XrSummary1;
+                    GroupHeader1.Controls.Add(lR);
+                    addedlabels.Add(lR);
+                    //total group header 2
+                    XrSummary1 = new XRSummary();
+                    lR = new lbl(xrLabel5);
+                    lR.Name = "lblHT" + (i + 1) + "t1";
+                    lR.LocationF = new PointF(x2, 0);
+                    lR.DataBindings.AddRange(new XRBinding[] { new XRBinding("Text", DataSource, "Data" + (dataindex + 1)) });
+                    XrSummary1.FormatString = "{0}";
+                    XrSummary1.Func = SummaryFunc.Sum;
+                    XrSummary1.Running = SummaryRunning.Group;
+                    lR.Summary = XrSummary1;
+                    GroupHeader1.Controls.Add(lR);
+                    addedlabels.Add(lR);
+
+                    // col 1
+                    lR = new lbl(lblDt1);
                     lR.Name = "lblD" + (i + 1) + "t1";
                     lR.LocationF = new PointF(x1, 0);
                     lR.DataBindings.Add("Text", this.DataSource, "Data" + (dataindex));
                     Detail.Controls.Add(lR);
                     addedlabels.Add(lR);
-                    // row 2
+                    // col 2
                     lR = new lbl(lblDt2);
                     lR.Name = "lblD" + (i + 1) + "t2";
                     lR.LocationF = new PointF(x2, 0);
@@ -126,7 +158,7 @@ namespace FormulaReportsLib
                     XrSummary.Running = SummaryRunning.Report;
                     lT.Summary = XrSummary;
                     //---------
-                    GroupFooter1.Controls.Add(lT);
+                    ReportFooter.Controls.Add(lT);
                     addedlabels.Add(lT);
                     // total 2
                     lT = new lbl(lblTotalDt2);
@@ -140,7 +172,7 @@ namespace FormulaReportsLib
                     XrSummary.Running = SummaryRunning.Group;
                     lT.Summary = XrSummary;
                     //---------
-                    GroupFooter1.Controls.Add(lT);
+                    ReportFooter.Controls.Add(lT);
                     addedlabels.Add(lT);
 
 

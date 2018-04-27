@@ -609,7 +609,7 @@ namespace FormulaReportsLib
                 Query = Query.Replace("@myparam", _ParamDate.Replace("a.date", "date"));
                 dtTcktHstry = reportdata.ProcessReportData(Query, sfield, svalue);
 
-                Query = "SELECT a.ticketnumber, FormatDate(a.date,0) AS DATE, b.name, a.itemprice " +
+                Query = "SELECT a.ticketnumber, FormatDate(a.date,0) AS DATE, b.name, a.ItemName, a.itemprice " +
                         "FROM ticketitemshistory AS a INNER JOIN menucategories AS b ON a.itemcategory = b.id " +
                         "WHERE @myparam ";
                 Query = Query.Replace("@myparam", _ParamDate);
@@ -637,54 +637,78 @@ namespace FormulaReportsLib
                             {
                                 int icol = -1;
                                 int irow = -1;
-                                // get column index
-                                //for (int j = 0; j < OptionalColumnsToSomeReports.Count; j++)
-                                //{
-                                //    if (OptionalColumnsToSomeReports[j].Text == dtTcktHstry.Rows[i]["serviceTypeName"].ToString())
-                                //    { icol = j; break; }
-                                //}
+
                                 icol = OptionalColumnsToSomeReports.FindIndex(ColumnHeader => ColumnHeader.Text.Equals(dtTcktHstry.Rows[i]["serviceTypeName"].ToString(), StringComparison.Ordinal));
 
                                 // populate row
                                 DataTable _dtitems = GetDTItems(dtItemhstry, "date='" + dtTcktHstry.Rows[i]["date"] + "' AND ticketnumber='" + dtTcktHstry.Rows[i]["ticketnumber"] + "'");
                                 if (_dtitems != null)
                                 {
+                                    // start [roel]
+                                    // commented to replace with new loop to include itemName
+                                    //for (int j = 0; j < _dtitems.Rows.Count; j++)
+                                    //{
+                                    //    // get row index
+                                    //    irow = -1;
+
+                                    //    irow = list.FindIndex(ReportData => ReportData.Data.Equals(_dtitems.Rows[j]["name"].ToString(), StringComparison.Ordinal));
+
+                                    //    if (irow < 0)
+                                    //    {
+                                    //        list.Add(new ReportData(_dtitems.Rows[j]["name"].ToString()));
+                                    //        irow = list.Count - 1;
+                                    //    }
+
+                                    //    // assign value
+                                    //    list[irow].InserByIndex((icol + 1) * 2 - 1, 1.ToString(), true);
+                                    //    list[irow].InserByIndex((icol + 1) * 2, _dtitems.Rows[j]["itemprice"].ToString(), true);
+
+                                    //    // set the total
+                                    //    list[irow].InserByIndex(OptionalColumnsToSomeReports.Count * 2 - 1, 1.ToString(), true);
+                                    //    list[irow].InserByIndex(OptionalColumnsToSomeReports.Count * 2, _dtitems.Rows[j]["itemprice"].ToString(), true);
+                                    //}
+
                                     for (int j = 0; j < _dtitems.Rows.Count; j++)
                                     {
                                         // get row index
                                         irow = -1;
-                                        //for (int k = 0; k < list.Count; k++)
-                                        //{
-                                        //    if (list[k].Data == _dtitems.Rows[j]["name"].ToString())
-                                        //    { irow = k; break; }
-                                        //}
-                                        irow = list.FindIndex(ReportData => ReportData.Data.Equals(_dtitems.Rows[j]["name"].ToString(), StringComparison.Ordinal));
+
+                                        irow = list.FindIndex(ReportData => ReportData.Data.Equals(_dtitems.Rows[j]["ItemName"].ToString(), StringComparison.Ordinal));
 
                                         if (irow < 0)
                                         {
-                                            list.Add(new ReportData(_dtitems.Rows[j]["name"].ToString()));
+                                            list.Add(new ReportData(_dtitems.Rows[j]["ItemName"].ToString(),
+                                                                    _dtitems.Rows[j]["name"].ToString()));
                                             irow = list.Count - 1;
                                         }
 
                                         // assign value
-                                        list[irow].InserByIndex((icol + 1) * 2 - 1, 1.ToString(), true);
-                                        list[irow].InserByIndex((icol + 1) * 2, _dtitems.Rows[j]["itemprice"].ToString(), true);
+                                        list[irow].InserByIndex(((icol + 1) * 2 - 1) + 1, 1.ToString(), true);
+                                        list[irow].InserByIndex(((icol + 1) * 2) + 1, _dtitems.Rows[j]["itemprice"].ToString(), true);
 
                                         // set the total
-                                        list[irow].InserByIndex(OptionalColumnsToSomeReports.Count * 2 - 1, 1.ToString(), true);
-                                        list[irow].InserByIndex(OptionalColumnsToSomeReports.Count * 2, _dtitems.Rows[j]["itemprice"].ToString(), true);
+                                        list[irow].InserByIndex((OptionalColumnsToSomeReports.Count * 2 - 1) + 1, 1.ToString(), true);
+                                        list[irow].InserByIndex((OptionalColumnsToSomeReports.Count * 2) + 1, _dtitems.Rows[j]["itemprice"].ToString(), true);
                                     }
+                                    // end [roel]
                                 }
                             }
                             
                             //reformat values for decimals
-                            int fi = OptionalColumnsToSomeReports.Count * 2;
+                            int fi = (OptionalColumnsToSomeReports.Count * 2) + 1;
                             foreach (ReportData rd in list)
                             {
-                                for (int i = 1; i <= fi; i++)
+                                for (int i = 2; i <= fi; i++)
                                 {
-                                    if (i % 2 != 0) continue;
-                                    rd.UpdateByIndex(i, Convert.ToDouble(rd.DataIndex(i)).ToString("0.00"));
+                                    //if (i % 2 != 0) continue;
+                                    Console.WriteLine(rd.DataIndex(i));
+                                    if (rd.DataIndex(i) != null)
+                                        if (rd.DataIndex(i) != "0")
+                                            rd.UpdateByIndex(i, Convert.ToDouble(rd.DataIndex(i)).ToString("0.0"));
+                                        else
+                                            rd.UpdateByIndex(i, "0");
+                                    else
+                                        rd.UpdateByIndex(i, "0");
                                 }
                             }
 
