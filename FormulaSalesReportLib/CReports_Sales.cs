@@ -66,7 +66,7 @@ namespace FormulaReportsLib
 
 
                 // PaymentHistory #########################
-                Query = "SELECT FormatDate(date,0) AS date, ticketnumber, paymenttype, SUBSTRING(tendertype,8) AS tendertype, time, refno, total " +
+                Query = "SELECT FormatDate(date,0) AS date, ticketnumber, paymenttype, SUBSTRING(tendertype,8) AS tendertype, time, authCode, total " +
                         "FROM paymenthistory  " +
                         "WHERE @myparam AND tenderType LIKE 'CREDIT%' ";
                 // param
@@ -111,7 +111,7 @@ namespace FormulaReportsLib
                                                         "***" + Getacct(datacc,"date='" + datapay.Rows[i]["date"].ToString() + "' AND ticketnumber='" + datapay.Rows[i]["ticketnumber"].ToString() + "'"),
                                                         Convert.ToDateTime(datapay.Rows[i]["date"]).ToString("MM/dd ") + datapay.Rows[i]["time"].ToString(),
                                                         datapay.Rows[i]["ticketnumber"].ToString(),
-                                                        datapay.Rows[i]["refno"].ToString(),
+                                                        datapay.Rows[i]["authCode"].ToString(),
                                                         datapay.Rows[i]["total"].ToString(),
                                                         tips.ToString(),
                                                         (Convert.ToDecimal(datapay.Rows[i]["total"].ToString()) + Convert.ToDecimal(tips)).ToString()
