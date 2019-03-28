@@ -318,7 +318,6 @@ D:\Users\Wel\GitHub\FormulaSalesReport\Test\bin\Debug\Test.exe
 D:\Users\Wel\GitHub\FormulaSalesReport\Test\bin\Debug\Test.pdb
 D:\Users\Wel\GitHub\FormulaSalesReport\Test\bin\Debug\FormulaReportsLib.dll
 D:\Users\Wel\GitHub\FormulaSalesReport\Test\bin\Debug\MySql.Data.dll
-D:\Users\Wel\GitHub\FormulaSalesReport\Test\bin\Debug\FormulaReportsLib.pdb
 D:\Users\Wel\GitHub\FormulaSalesReport\Test\obj\Debug\Test.csprojResolveAssemblyReference.cache
 D:\Users\Wel\GitHub\FormulaSalesReport\Test\obj\Debug\Test.Form1.resources
 D:\Users\Wel\GitHub\FormulaSalesReport\Test\obj\Debug\Test.frmReports.resources
@@ -500,7 +499,9 @@ D:\Users\Wel\GitHub\FormulaSalesReport\Test\bin\Debug\de\DevExpress.Diagram.v17.
 D:\Users\Wel\GitHub\FormulaSalesReport\Test\bin\Debug\es\DevExpress.Diagram.v17.2.Core.resources.dll
 D:\Users\Wel\GitHub\FormulaSalesReport\Test\bin\Debug\ja\DevExpress.Diagram.v17.2.Core.resources.dll
 D:\Users\Wel\GitHub\FormulaSalesReport\Test\bin\Debug\ru\DevExpress.Diagram.v17.2.Core.resources.dll
+D:\Users\Wel\GitHub\FormulaSalesReport\Test\bin\Debug\MySql.Data.xml
 D:\Users\Wel\GitHub\FormulaSalesReport\Test\bin\Debug\FPOSMonetaryBatchReport.dll
 D:\Users\Wel\GitHub\FormulaSalesReport\Test\bin\Debug\Newtonsoft.Json.dll
+D:\Users\Wel\GitHub\FormulaSalesReport\Test\bin\Debug\FormulaReportsLib.pdb
 D:\Users\Wel\GitHub\FormulaSalesReport\Test\bin\Debug\FPOSMonetaryBatchReport.pdb
 D:\Users\Wel\GitHub\FormulaSalesReport\Test\bin\Debug\Newtonsoft.Json.xml

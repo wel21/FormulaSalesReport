@@ -92,25 +92,38 @@ namespace FormulaReportsLib
                         }
                         catch (Exception ex)
                         {
-                            Console.WriteLine(ex.Message);
-                            MessageBox.Show(ex.Message);
+                            if (!Parent.HideMessages)
+                                MessageBox.Show(ex.Message);
+                            else
+                                Console.WriteLine(ex.Message);
                         }
                     }
                     else
                     {
-                        MessageBox.Show("Unable to generate report. CC Platform should be set to Monetary.");
+                        if (!Parent.HideMessages)
+                            MessageBox.Show("Unable to generate report. CC Platform should be set to Monetary.");
+                        else
+                            Console.WriteLine("Unable to generate report. CC Platform should be set to Monetary.");
                     }
                 }
                 else
                 {
-                    MessageBox.Show("Merchant Info table is empty.");
+                    if (!Parent.HideMessages)
+                        MessageBox.Show("Merchant Info table is empty.");
+                    else
+                        Console.WriteLine("Merchant Info table is empty.");
                 }
 
                 return list;
 
             }
             catch (Exception ex)
-            { MessageBox.Show(ex.Message); }
+            {
+                if (!Parent.HideMessages)
+                    MessageBox.Show(ex.Message);
+                else
+                    Console.WriteLine(ex.Message);
+            }
             return null;
         }
         

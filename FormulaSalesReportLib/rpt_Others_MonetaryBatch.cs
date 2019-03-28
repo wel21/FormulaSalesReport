@@ -21,6 +21,9 @@ namespace FormulaReportsLib
             lblStorePhone.Text = "Phone Number: " + StoreInformation.StoreNumber;
 
             string _Date = "";
+            if (ParamDate == null)
+                return;
+
             if (ParamDate.Count == 2)
             { _Date = ParamDate[0].date.ToShortDateString() + " to " + ParamDate[1].date.ToShortDateString(); }
             else

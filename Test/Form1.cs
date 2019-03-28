@@ -58,12 +58,16 @@ namespace Test
                 rptcontrol.ParamDate.Add(new ParamDate(dtpTo.Value, ParameterCondition.AND));
 
             rptcontrol.ShowPreview(comboBox1.SelectedIndex);
-            
         }
 
         private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
         {
             DatabaseConnectionSettings.Database = comboBox3.SelectedItem.ToString();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            byte[] pdfArr = rptcontrol.GetPDF(comboBox1.SelectedIndex);
         }
     }
 }

@@ -325,12 +325,14 @@ namespace FormulaReportsLib
             if (Reader.HasRows)
             {
                 dt.Load(Reader);
-                return dt;
             }
             else
             {
-                return null;                
+                dt = null;                
             }
+
+            connection.Close();
+            return dt;
         }
     }
 
@@ -364,6 +366,8 @@ namespace FormulaReportsLib
                 StoreInformation.StoreAddress = Reader["Address1"].ToString() + " " + Reader["Address2"].ToString();
                 StoreInformation.StoreNumber = Reader["PhoneNumber"].ToString();
             }
+
+            connection.Close();
         }
     }
 

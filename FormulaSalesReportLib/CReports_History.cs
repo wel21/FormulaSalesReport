@@ -117,24 +117,39 @@ namespace FormulaReportsLib
 
                         }
                         else
-                        { MessageBox.Show("No records retreived."); }
+                        {
+                            if (!Parent.HideMessages)
+                                MessageBox.Show("No records retreived.");
+                            else
+                                Console.WriteLine("No records retreived.");
+                        }
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine(ex.Message);
-                        MessageBox.Show(ex.Message);
+                        if (!Parent.HideMessages)
+                            MessageBox.Show(ex.Message);
+                        else
+                            Console.WriteLine(ex.Message);
                     }
                 }
                 else
                 {
-                    MessageBox.Show("No records retreived.");
+                    if (!Parent.HideMessages)
+                        MessageBox.Show("No records retreived.");
+                    else
+                        Console.WriteLine("No records retreived.");
                 }
 
                 return list;
 
             }
             catch (Exception ex)
-            { MessageBox.Show(ex.Message); }
+            {
+                if (!Parent.HideMessages)
+                    MessageBox.Show(ex.Message);
+                else
+                    Console.WriteLine(ex.Message);
+            }
             return null;
         }
 
@@ -291,24 +306,39 @@ namespace FormulaReportsLib
 
                         }
                         else
-                        { MessageBox.Show("No records retreived."); }
+                        {
+                            if (!Parent.HideMessages)
+                                MessageBox.Show("No records retreived.");
+                            else
+                                Console.WriteLine("No records retreived.");
+                        }
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine(ex.Message);
-                        MessageBox.Show(ex.Message);
+                        if (!Parent.HideMessages)
+                            MessageBox.Show(ex.Message);
+                        else
+                            Console.WriteLine(ex.Message);
                     }
                 }
                 else
                 {
-                    MessageBox.Show("No records retreived.");
+                    if (!Parent.HideMessages)
+                        MessageBox.Show("No records retreived.");
+                    else
+                        Console.WriteLine("No records retreived.");
                 }
 
                 return list;
 
             }
             catch (Exception ex)
-            { MessageBox.Show(ex.Message); }
+            {
+                if (!Parent.HideMessages)
+                    MessageBox.Show(ex.Message);
+                else
+                    Console.WriteLine(ex.Message);
+            }
             return null;
         }
 
@@ -417,24 +447,39 @@ namespace FormulaReportsLib
 
                         }
                         else
-                        { MessageBox.Show("No records retreived."); }
+                        {
+                            if (!Parent.HideMessages)
+                                MessageBox.Show("No records retreived.");
+                            else
+                                Console.WriteLine("No records retreived.");
+                        }
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine(ex.Message);
-                        MessageBox.Show(ex.Message);
+                        if (!Parent.HideMessages)
+                            MessageBox.Show(ex.Message);
+                        else
+                            Console.WriteLine(ex.Message);
                     }
                 }
                 else
                 {
-                    MessageBox.Show("No records retreived.");
+                    if (!Parent.HideMessages)
+                        MessageBox.Show("No records retreived.");
+                    else
+                        Console.WriteLine("No records retreived.");
                 }
 
                 return list;
 
             }
             catch (Exception ex)
-            { MessageBox.Show(ex.Message); }
+            {
+                if (!Parent.HideMessages)
+                    MessageBox.Show(ex.Message);
+                else
+                    Console.WriteLine(ex.Message);
+            }
             return null;
         }
     }
@@ -532,12 +577,19 @@ namespace FormulaReportsLib
 
                         }
                         else
-                        { MessageBox.Show("No records retreived."); }
+                        {
+                            if (!Parent.HideMessages)
+                                MessageBox.Show("No records retreived.");
+                            else
+                                Console.WriteLine("No records retreived.");
+                        }
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine(ex.Message);
-                        MessageBox.Show(ex.Message);
+                        if (!Parent.HideMessages)
+                            MessageBox.Show(ex.Message);
+                        else
+                            Console.WriteLine(ex.Message);
                     }
                 }
 
@@ -545,7 +597,12 @@ namespace FormulaReportsLib
 
             }
             catch (Exception ex)
-            { MessageBox.Show(ex.Message); }
+            {
+                if (!Parent.HideMessages)
+                    MessageBox.Show(ex.Message);
+                else
+                    Console.WriteLine(ex.Message);
+            }
             return null;
         }
 
@@ -714,24 +771,39 @@ namespace FormulaReportsLib
 
                         }
                         else
-                        { MessageBox.Show("No records retreived."); }
+                        {
+                            if (!Parent.HideMessages)
+                                MessageBox.Show("No records retreived.");
+                            else
+                                Console.WriteLine("No records retreived.");
+                        }
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine(ex.Message);
-                        MessageBox.Show(ex.Message);
+                        if (!Parent.HideMessages)
+                            MessageBox.Show(ex.Message);
+                        else
+                            Console.WriteLine(ex.Message);
                     }
                 }
                 else
                 {
-                    MessageBox.Show("No records retreived.");
+                    if (!Parent.HideMessages)
+                        MessageBox.Show("No records retreived.");
+                    else
+                        Console.WriteLine("No records retreived.");
                 }
 
                 return list;
 
             }
             catch (Exception ex)
-            { MessageBox.Show(ex.Message); }
+            {
+                if (!Parent.HideMessages)
+                    MessageBox.Show(ex.Message);
+                else
+                    Console.WriteLine(ex.Message);
+            }
             return null;
         }
 
@@ -892,12 +964,19 @@ namespace FormulaReportsLib
 
                         }
                         else
-                        { MessageBox.Show("No records retreived."); }
+                        {
+                            if (!Parent.HideMessages)
+                                MessageBox.Show("No records retreived.");
+                            else
+                                Console.WriteLine("No records retreived.");
+                        }
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine(ex.Message);
-                        MessageBox.Show(ex.Message);
+                        if (!Parent.HideMessages)
+                            MessageBox.Show(ex.Message);
+                        else
+                            Console.WriteLine(ex.Message);
                     }
                 }
 
@@ -905,7 +984,12 @@ namespace FormulaReportsLib
 
             }
             catch (Exception ex)
-            { MessageBox.Show(ex.Message); }
+            {
+                if (!Parent.HideMessages)
+                    MessageBox.Show(ex.Message);
+                else
+                    Console.WriteLine(ex.Message);
+            }
             return null;
         }
 
@@ -1119,24 +1203,39 @@ namespace FormulaReportsLib
                             }
                         }
                         else
-                        { MessageBox.Show("No records retreived."); }
+                        {
+                            if (!Parent.HideMessages)
+                                MessageBox.Show("No records retreived.");
+                            else
+                                Console.WriteLine("No records retreived.");
+                        }
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine(ex.Message);
-                        MessageBox.Show(ex.Message);
+                        if (!Parent.HideMessages)
+                            MessageBox.Show(ex.Message);
+                        else
+                            Console.WriteLine(ex.Message);
                     }
                 }
                 else
                 {
-                    MessageBox.Show("No records retreived.");
+                    if (!Parent.HideMessages)
+                        MessageBox.Show("No records retreived.");
+                    else
+                        Console.WriteLine("No records retreived.");
                 }
 
                 return list;
 
             }
             catch (Exception ex)
-            { MessageBox.Show(ex.Message); }
+            {
+                if (!Parent.HideMessages)
+                    MessageBox.Show(ex.Message);
+                else
+                    Console.WriteLine(ex.Message);
+            }
             return null;
         }
 
@@ -1261,24 +1360,41 @@ namespace FormulaReportsLib
 
                         }
                         else
-                        { MessageBox.Show("No records retreived."); }
+                        {
+                            if (!Parent.HideMessages)
+                                MessageBox.Show("No records retreived.");
+                            else
+                                Console.WriteLine("No records retreived.");
+                        }
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine(ex.Message);
-                        MessageBox.Show(ex.Message);
+
+                        if (!Parent.HideMessages)
+                            MessageBox.Show(ex.Message);
+                        else
+                            Console.WriteLine(ex.Message);
                     }
                 }
                 else
                 {
-                    MessageBox.Show("No records retreived.");
+
+                    if (!Parent.HideMessages)
+                        MessageBox.Show("No records retreived.");
+                    else
+                        Console.WriteLine("No records retreived.");
                 }
 
                 return list;
 
             }
             catch (Exception ex)
-            { MessageBox.Show(ex.Message); }
+            {
+                if (!Parent.HideMessages)
+                    MessageBox.Show(ex.Message);
+                else
+                    Console.WriteLine(ex.Message);
+            }
             return null;
         }
 

@@ -34,6 +34,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.dtpTo = new System.Windows.Forms.DateTimePicker();
             this.comboBox3 = new System.Windows.Forms.ComboBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // comboBox1
@@ -60,6 +61,7 @@
             "Employee_CashDrawerActivity",
             "Employee_DriverReimbursement",
             "Employee_LaborReport",
+            "Employee_List",
             "Customer_306090DaysSinceLastOrder",
             "Customer_CustomerCredits",
             "Customer_Customers",
@@ -121,11 +123,22 @@
             this.comboBox3.TabIndex = 11;
             this.comboBox3.SelectedIndexChanged += new System.EventHandler(this.comboBox3_SelectedIndexChanged);
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(533, 22);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(57, 22);
+            this.button1.TabIndex = 12;
+            this.button1.Text = "Export";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(894, 452);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.comboBox3);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.label2);
@@ -147,6 +160,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.DateTimePicker dtpTo;
         private System.Windows.Forms.ComboBox comboBox3;
+        private System.Windows.Forms.Button button1;
     }
 }
 

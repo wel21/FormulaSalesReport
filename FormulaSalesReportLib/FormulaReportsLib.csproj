@@ -31,21 +31,27 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DevExpress.Charts.v17.2.Core, Version=17.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.CodeParser.v17.2, Version=17.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.Data.v17.2, Version=17.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.DataAccess.v17.2, Version=17.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.DataAccess.v17.2.UI, Version=17.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Office.v17.2.Core, Version=17.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Pdf.v17.2.Core, Version=17.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.PivotGrid.v17.2.Core, Version=17.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Printing.v17.2.Core, Version=17.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.RichEdit.v17.2.Core, Version=17.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.RichEdit.v17.2.Export, Version=17.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Sparkline.v17.2.Core, Version=17.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Utils.v17.2, Version=17.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Utils.v17.2.UI, Version=17.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpo.v17.2, Version=17.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraCharts.v17.2, Version=17.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraGauges.v17.2.Core, Version=17.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraPrinting.v17.2, Version=17.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraReports.v17.2, Version=17.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraReports.v17.2.Extensions, Version=17.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="MySql.Data, Version=6.9.8.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\FormulaSalesReport\bin\Debug\MySql.Data.dll</HintPath>
-    </Reference>
+    <Reference Include="MySql.Data, Version=6.9.9.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -60,7 +66,7 @@
   <ItemGroup>
     <Compile Include="CReports_Employee.cs" />
     <Compile Include="CReports_History.cs" />
-    <Compile Include="Class1.cs">
+    <Compile Include="ReportsControl.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="CReports_Others.cs" />
@@ -106,6 +112,12 @@
     </Compile>
     <Compile Include="rpt_Employee_LaborReport.Designer.cs">
       <DependentUpon>rpt_Employee_LaborReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="rpt_Employee_List.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="rpt_Employee_List.Designer.cs">
+      <DependentUpon>rpt_Employee_List.cs</DependentUpon>
     </Compile>
     <Compile Include="rpt_Employee_PayrollReport.cs">
       <SubType>Component</SubType>
@@ -173,30 +185,6 @@
     <Compile Include="Data.cs" />
     <Compile Include="Helpers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="rpt1.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="rpt1.Designer.cs">
-      <DependentUpon>rpt1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="rpt2.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="rpt2.Designer.cs">
-      <DependentUpon>rpt2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="rpt3.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="rpt3.Designer.cs">
-      <DependentUpon>rpt3.cs</DependentUpon>
-    </Compile>
-    <Compile Include="rpt4.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="rpt4.Designer.cs">
-      <DependentUpon>rpt4.cs</DependentUpon>
-    </Compile>
     <Compile Include="rpt_Sales_CreditCardTrans.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -227,30 +215,15 @@
     <Compile Include="rpt_Sales_Voids.Designer.cs">
       <DependentUpon>rpt_Sales_Voids.cs</DependentUpon>
     </Compile>
-    <Compile Include="XtraReport1.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="XtraReport1.Designer.cs">
-      <DependentUpon>XtraReport1.cs</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="ReportsControl.resx">
+      <DependentUpon>ReportsControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmMessage.resx">
       <DependentUpon>frmMessage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\licenses.licx" />
-    <EmbeddedResource Include="rpt1.resx">
-      <DependentUpon>rpt1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="rpt2.resx">
-      <DependentUpon>rpt2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="rpt3.resx">
-      <DependentUpon>rpt3.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="rpt4.resx">
-      <DependentUpon>rpt4.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="rpt_AllSalesReport.resx">
       <DependentUpon>rpt_AllSalesReport.cs</DependentUpon>
     </EmbeddedResource>
@@ -268,6 +241,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="rpt_Employee_LaborReport.resx">
       <DependentUpon>rpt_Employee_LaborReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="rpt_Employee_List.resx">
+      <DependentUpon>rpt_Employee_List.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="rpt_Employee_PayrollReport.resx">
       <DependentUpon>rpt_Employee_PayrollReport.cs</DependentUpon>
@@ -313,9 +289,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="rpt_Sales_Voids.resx">
       <DependentUpon>rpt_Sales_Voids.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="XtraReport1.resx">
-      <DependentUpon>XtraReport1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

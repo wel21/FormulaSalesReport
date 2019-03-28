@@ -212,10 +212,6 @@ D:\Users\Wel\GitHub\FormulaSalesReport\FormulaSalesReportLib\bin\Debug\FormulaRe
 D:\Users\Wel\GitHub\FormulaSalesReport\FormulaSalesReportLib\bin\Debug\MySql.Data.dll
 D:\Users\Wel\GitHub\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaReportsLib.csprojResolveAssemblyReference.cache
 D:\Users\Wel\GitHub\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaReportsLib.frmMessage.resources
-D:\Users\Wel\GitHub\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaReportsLib.rpt1.resources
-D:\Users\Wel\GitHub\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaReportsLib.rpt2.resources
-D:\Users\Wel\GitHub\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaReportsLib.rpt3.resources
-D:\Users\Wel\GitHub\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaReportsLib.rpt4.resources
 D:\Users\Wel\GitHub\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaReportsLib.rpt_AllSalesReport.resources
 D:\Users\Wel\GitHub\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaReportsLib.rpt_Employee_ActivityLog.resources
 D:\Users\Wel\GitHub\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaReportsLib.rpt_Employee_ActivityLog1.resources
@@ -235,7 +231,6 @@ D:\Users\Wel\GitHub\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaRe
 D:\Users\Wel\GitHub\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaReportsLib.rpt_Sales_SalesBySrvcType.resources
 D:\Users\Wel\GitHub\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaReportsLib.rpt_Sales_SalesSummary.resources
 D:\Users\Wel\GitHub\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaReportsLib.rpt_Sales_Voids.resources
-D:\Users\Wel\GitHub\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaReportsLib.XtraReport1.resources
 D:\Users\Wel\GitHub\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaReportsLib.csproj.GenerateResource.Cache
 D:\Users\Wel\GitHub\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaReportsLib.dll.licenses
 D:\Users\Wel\GitHub\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaReportsLib.dll
@@ -420,3 +415,7 @@ D:\Users\Wel\GitHub\FormulaSalesReport\FormulaSalesReportLib\bin\Debug\FPOSMonet
 D:\Users\Wel\GitHub\FormulaSalesReport\FormulaSalesReportLib\bin\Debug\Newtonsoft.Json.xml
 D:\Users\Wel\GitHub\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaReportsLib.rpt_Others_MonetaryBatch.resources
 D:\Users\Wel\GitHub\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaReportsLib.rpt_History_SquareReport.resources
+D:\Users\Wel\GitHub\FormulaSalesReport\FormulaSalesReportLib\bin\Debug\DevExpress.RichEdit.v17.2.Export.dll
+D:\Users\Wel\GitHub\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaReportsLib.rpt.resources
+D:\Users\Wel\GitHub\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaReportsLib.rpt_Employee_List.resources
+D:\Users\Wel\GitHub\FormulaSalesReport\FormulaSalesReportLib\bin\Debug\MySql.Data.xml

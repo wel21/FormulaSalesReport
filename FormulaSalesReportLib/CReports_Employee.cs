@@ -371,12 +371,19 @@ namespace FormulaReportsLib
 
                         }
                         else
-                        { MessageBox.Show("No records retreived."); }
+                        {
+                            if (!Parent.HideMessages)
+                                MessageBox.Show("No records retreived.");
+                            else
+                                Console.WriteLine("No records retreived.");
+                        }
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine(ex.Message);
-                        MessageBox.Show(ex.Message);
+                        if (!Parent.HideMessages)
+                            MessageBox.Show(ex.Message);
+                        else
+                            Console.WriteLine(ex.Message);
                     }
                 }
 
@@ -384,7 +391,12 @@ namespace FormulaReportsLib
 
             }
             catch (Exception ex)
-            { MessageBox.Show(ex.Message); }
+            {
+                if (!Parent.HideMessages)
+                    MessageBox.Show(ex.Message);
+                else
+                    Console.WriteLine(ex.Message);
+            }
             return null;
         }
     }
@@ -737,12 +749,19 @@ namespace FormulaReportsLib
                             report.MyObject = dataTotal;
                         }
                         else
-                        { MessageBox.Show("No records retreived."); }
+                        {
+                            if (!Parent.HideMessages)
+                                MessageBox.Show("No records retreived.");
+                            else
+                                Console.WriteLine("No records retreived.");
+                        }
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine(ex.Message);
-                        MessageBox.Show(ex.Message);
+                        if (!Parent.HideMessages)
+                            MessageBox.Show(ex.Message);
+                        else
+                            Console.WriteLine(ex.Message);
                     }
                 }
 
@@ -750,7 +769,12 @@ namespace FormulaReportsLib
 
             }
             catch (Exception ex)
-            { MessageBox.Show(ex.Message); }
+            {
+                if (!Parent.HideMessages)
+                    MessageBox.Show(ex.Message);
+                else
+                    Console.WriteLine(ex.Message);
+            }
             return null;
         }
     }
@@ -864,12 +888,19 @@ namespace FormulaReportsLib
                             
                         }
                         else
-                        { MessageBox.Show("No records retreived."); }
+                        {
+                            if (!Parent.HideMessages)
+                                MessageBox.Show("No records retreived.");
+                            else
+                                Console.WriteLine("No records retreived.");
+                        }
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine(ex.Message);
-                        MessageBox.Show(ex.Message);
+                        if (!Parent.HideMessages)
+                            MessageBox.Show(ex.Message);
+                        else
+                            Console.WriteLine(ex.Message);
                     }
                 }
 
@@ -877,7 +908,12 @@ namespace FormulaReportsLib
 
             }
             catch (Exception ex)
-            { MessageBox.Show(ex.Message); }
+            {
+                if (!Parent.HideMessages)
+                    MessageBox.Show(ex.Message);
+                else
+                    Console.WriteLine(ex.Message);
+            }
             return null;
         }
 
@@ -1004,12 +1040,19 @@ namespace FormulaReportsLib
                             
                         }
                         else
-                        { MessageBox.Show("No records retreived."); }
+                        {
+                            if (!Parent.HideMessages)
+                                MessageBox.Show("No records retreived.");
+                            else
+                                Console.WriteLine("No records retreived.");
+                        }
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine(ex.Message);
-                        MessageBox.Show(ex.Message);
+                        if (!Parent.HideMessages)
+                            MessageBox.Show(ex.Message);
+                        else
+                            Console.WriteLine(ex.Message);
                     }
                 }
 
@@ -1017,7 +1060,12 @@ namespace FormulaReportsLib
 
             }
             catch (Exception ex)
-            { MessageBox.Show(ex.Message); }
+            {
+                if (!Parent.HideMessages)
+                    MessageBox.Show(ex.Message);
+                else
+                    Console.WriteLine(ex.Message);
+            }
             return null;
         }
 
@@ -1121,12 +1169,19 @@ namespace FormulaReportsLib
 
                         }
                         else
-                        { MessageBox.Show("No records retreived."); }
+                        {
+                            if (!Parent.HideMessages)
+                                MessageBox.Show("No records retreived.");
+                            else
+                                Console.WriteLine("No records retreived.");
+                        }
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine(ex.Message);
-                        MessageBox.Show(ex.Message);
+                        if (!Parent.HideMessages)
+                            MessageBox.Show(ex.Message);
+                        else
+                            Console.WriteLine(ex.Message);
                     }
                 }
 
@@ -1134,7 +1189,91 @@ namespace FormulaReportsLib
 
             }
             catch (Exception ex)
-            { MessageBox.Show(ex.Message); }
+            {
+                if (!Parent.HideMessages)
+                    MessageBox.Show(ex.Message);
+                else
+                    Console.WriteLine(ex.Message);
+            }
+            return null;
+        }
+    }
+
+    public class CEmployee_List : CReport
+    {
+        public CEmployee_List(DocumentViewer DV, CRStoreData StoreData, List<ParamDate> ParamDate, rpt ReportInstance, ReportType ReportType)
+            : base(DV, StoreData, ParamDate, ReportInstance, ReportType)
+        {
+            this.DV = DV;
+            this.StoreData = StoreData;
+            this.ParamDate = ParamDate;
+            this.report = ReportInstance;
+            this.MyType = ReportType;
+
+        }
+
+        private string Query { get; set; }
+
+        public override List<ReportData> DataSourceToBind()
+        {
+            try
+            {
+                List<string> sfield = new List<string>();
+                List<string> svalue = new List<string>();
+                
+                Query = "SELECT id as data, lastname as data1, firstname as data2, CONCAT(phone1, IF(LENGTH(phone2) > 0, CONCAT(' / ', phone2), '')) AS data3 FROM employees";
+                
+                List<ReportData> list = new List<ReportData>();
+                CReportData reportdata = new CReportData();
+                DataTable data = new DataTable();
+
+                data = reportdata.ProcessReportData(Query, sfield, svalue);
+
+                if (data != null)
+                {
+                    try
+                    {
+                        if (data.Rows.Count > 0)
+                        {
+
+                            for (int i = 0; i < data.Rows.Count; i++)
+                            {
+                                list.Add(new ReportData(data.Rows[i]["data"].ToString(),
+                                                        data.Rows[i]["data1"].ToString(),
+                                                        data.Rows[i]["data2"].ToString(),
+                                                        data.Rows[i]["data3"].ToString()
+                                                        ));
+
+                            }
+
+                        }
+                        else
+                        {
+                            if (!Parent.HideMessages)
+                                MessageBox.Show("No records retreived.");
+                            else
+                                Console.WriteLine("No records retreived.");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!Parent.HideMessages)
+                            MessageBox.Show(ex.Message);
+                        else
+                            Console.WriteLine(ex.Message);
+                    }
+                }
+
+                return list;
+
+            }
+            catch (Exception ex)
+            {
+                if (!Parent.HideMessages)
+                    MessageBox.Show(ex.Message);
+                else
+                    Console.WriteLine(ex.Message);
+            }
             return null;
         }
     }

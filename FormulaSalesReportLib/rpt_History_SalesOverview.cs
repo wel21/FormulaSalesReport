@@ -287,35 +287,35 @@ namespace FormulaReportsLib
 
             XrSummary = new XRSummary();
             blT5.DataBindings.AddRange(new XRBinding[] { new XRBinding("Text", this.DataSource, "Data" + (fi + 5)) });
-            XrSummary.FormatString = "{0.00}";
+            XrSummary.FormatString = "{0:n0}";
             XrSummary.Func = SummaryFunc.Sum;
             XrSummary.Running = SummaryRunning.Report;
             blT5.Summary = XrSummary;
 
             XrSummary = new XRSummary();
             blT6.DataBindings.AddRange(new XRBinding[] { new XRBinding("Text", this.DataSource, "Data" + (fi + 6)) });
-            XrSummary.FormatString = "{0.00}";
+            XrSummary.FormatString = "{0:n0}";
             XrSummary.Func = SummaryFunc.Sum;
             XrSummary.Running = SummaryRunning.Report;
             blT6.Summary = XrSummary;
 
             XrSummary = new XRSummary();
             blT7.DataBindings.AddRange(new XRBinding[] { new XRBinding("Text", this.DataSource, "Data" + (fi + 7)) });
-            XrSummary.FormatString = "{0.00}";
+            XrSummary.FormatString = "{0:n0}";
             XrSummary.Func = SummaryFunc.Sum;
             XrSummary.Running = SummaryRunning.Report;
             blT7.Summary = XrSummary;
 
             XrSummary = new XRSummary();
             blT8.DataBindings.AddRange(new XRBinding[] { new XRBinding("Text", this.DataSource, "Data" + (fi + 8)) });
-            XrSummary.FormatString = "{0.00}";
+            XrSummary.FormatString = "{0:n0}";
             XrSummary.Func = SummaryFunc.Sum;
             XrSummary.Running = SummaryRunning.Report;
             blT8.Summary = XrSummary;
 
             XrSummary = new XRSummary();
             blT9.DataBindings.AddRange(new XRBinding[] { new XRBinding("Text", this.DataSource, "Data" + (fi + 9)) });
-            XrSummary.FormatString = "{0.0}";
+            XrSummary.FormatString = "{0:n0}";
             XrSummary.Func = SummaryFunc.Sum;
             XrSummary.Running = SummaryRunning.Report;
             blT9.Summary = XrSummary;
@@ -337,7 +337,7 @@ namespace FormulaReportsLib
 
             XrSummary = new XRSummary();
             blT12.DataBindings.AddRange(new XRBinding[] { new XRBinding("Text", this.DataSource, "Data" + (fi + 12)) });
-            XrSummary.FormatString = "{0.0}";
+            XrSummary.FormatString = "{0:n0}";
             XrSummary.Func = SummaryFunc.Sum;
             XrSummary.Running = SummaryRunning.Report;
             blT12.Summary = XrSummary;
