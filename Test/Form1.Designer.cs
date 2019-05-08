@@ -47,6 +47,8 @@
             "Sales_SalesBySrvcType",
             "Sales_SalesSummary",
             "Sales_Voids",
+            "Sales_PayInPayOut",
+            "Sales_Coupons",
             "History_CardPaymentsByType",
             "History_PaymentsBySrvcType",
             "History_SalesBySrvcType",

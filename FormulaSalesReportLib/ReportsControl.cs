@@ -399,6 +399,8 @@ namespace FormulaReportsLib
         public CSales_SalesBySrvcType Sales_SalesBySrvcType;
         public CSales_SalesSummary Sales_SalesSummary;
         public CSales_Voids Sales_Voids;
+        public CSales_PayIn_PayOut Sales_PayIn_PayOut;
+        public CSales_Coupons Sales_Coupons;
 
         public CHistory_CardPaymentsByType History_CardPaymentsByType;
         public CHistory_PaymentsBySrvcType History_PaymentsBySrvcType;
@@ -417,6 +419,7 @@ namespace FormulaReportsLib
         public CAllSalesReport AllSalesReport;
 
         public COthers_MonetaryBatch Others_MonetaryBatch;
+
 
         public List<CReport> MyReports = new List<CReport>();
 
@@ -515,6 +518,15 @@ namespace FormulaReportsLib
                                                             new rpt_Sales_Voids(),
                                                             ReportType.Sales_Voids);
 
+            Sales_PayIn_PayOut = new CSales_PayIn_PayOut(DV,            StoreData,
+                                                                        ParamDate,
+                                                                        new rpt_Sales_PayIn_PayOut(),
+                                                                        ReportType.Sales_PayIn_PayOut);
+            Sales_Coupons = new CSales_Coupons(DV,                      StoreData,
+                                                                        ParamDate,
+                                                                        new rpt_Sales_Coupons(),
+                                                                        ReportType.Sales_Coupons);
+
             // Sales ------------------------------------------------------------------------------
 
             MyReports.Add(Sales_CreditCardTrans);
@@ -522,12 +534,16 @@ namespace FormulaReportsLib
             MyReports.Add(Sales_SalesBySrvcType);
             MyReports.Add(Sales_SalesSummary);
             MyReports.Add(Sales_Voids);
+            MyReports.Add(Sales_PayIn_PayOut);
+            MyReports.Add(Sales_Coupons);
 
             Sales_CreditCardTrans.Parent = this;
             Sales_OverShortByBusinessDay.Parent = this;
             Sales_SalesBySrvcType.Parent = this;
             Sales_SalesSummary.Parent = this;
             Sales_Voids.Parent = this;
+            Sales_PayIn_PayOut.Parent = this;
+            Sales_Coupons.Parent = this;
         }
 
         private void InitializeHistory()
@@ -786,6 +802,15 @@ namespace FormulaReportsLib
                 case ReportType.Sales_Voids:
                     Sales_Voids.Print();
                     break;
+
+                // ----------------------------------------------------------------------------
+                case ReportType.Sales_PayIn_PayOut:
+                    Sales_PayIn_PayOut.Print();
+                    break;
+                case ReportType.Sales_Coupons:
+                    Sales_Coupons.Print();
+                    break;
+
                 case ReportType.History_CardPaymentsByType:
                     History_CardPaymentsByType.Print();
                     break;
@@ -816,7 +841,6 @@ namespace FormulaReportsLib
                 case ReportType.History_SquareReport:
                     History_SquareReport.Print();
                     break;
-                
                 // ----------------------------------------------------------------------------
                 case ReportType.Employee_PayrollReport:
                     break;
@@ -874,6 +898,8 @@ namespace FormulaReportsLib
         Sales_SalesBySrvcType,
         Sales_SalesSummary,
         Sales_Voids,
+        Sales_PayIn_PayOut,
+        Sales_Coupons,
         History_CardPaymentsByType,
         History_PaymentsBySrvcType,
         History_SalesBySrvcType,

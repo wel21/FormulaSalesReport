@@ -1069,4 +1069,243 @@ namespace FormulaReportsLib
         
     }
 
+    public class CSales_PayIn_PayOut : CReport
+    {
+        public CSales_PayIn_PayOut(DocumentViewer DV, CRStoreData StoreData, List<ParamDate> ParamDate, rpt ReportInstance, ReportType ReportType)
+            : base(DV, StoreData, ParamDate, ReportInstance, ReportType)
+        {
+            this.DV = DV;
+            this.StoreData = StoreData;
+            this.ParamDate = ParamDate;
+            this.report = ReportInstance;
+            this.MyType = ReportType;
+
+            ReportHelper.MyActiveReport = this;
+
+
+            Query = "SELECT `Amount` AS data, `User` AS data1, `Reason` AS data2, `Reason` AS data3, `Date` AS data4, `Time` AS data5 " +
+                    "FROM @mytable " +
+                    "WHERE @myparam AND (Reason LIKE 'PayIn%' OR Reason LIKE 'PayOut%')";
+        }
+
+        public string Query { get; set; }
+
+        public override List<ReportData> DataSourceToBind()
+        {
+            try
+            {
+                List<string> sfield = new List<string>();
+                List<string> svalue = new List<string>();
+
+                // parameters
+                string _ParamDate = "";// (ParamDate.Count == 0 ? "" : "WHERE ");
+                //string _ParamDate = "WHERE ";
+                for (int i = 0; i < ParamDate.Count; i++)
+                {
+                    if (ParamDate.Count == 2)
+                    {
+                        if (i == 0)
+                            _ParamDate += "FormatDate(date,0) >= " + "@date" + i.ToString() + " AND ";
+                        else
+                            _ParamDate += "FormatDate(date,0) <= " + "@date" + i.ToString() + " ";
+                    }
+                    else
+                    {
+                        _ParamDate += "FormatDate(date,0) = " + "@date" + i.ToString() + " " + (i == ParamDate.Count - 1 ? "" : ParamDate[i].paramCondition.ToString() + "");
+                    }
+
+                    sfield.Add("@date" + i.ToString());
+                    svalue.Add(Helpers.ConvertMyDate(ParamDate[i].date));
+                }
+
+                string Query1 = Query;
+
+                // table
+                if (ParamDate.Count == 1 && ParamDate[0].date.ToShortDateString() == DateTime.Now.ToShortDateString())
+                    Query1 = Query1.Replace("@mytable", "bankactivity");
+                else
+                    Query1 = Query1.Replace("@mytable", "bankactivityhistory");
+
+                // param
+                Query1 = Query1.Replace("@myparam", _ParamDate);
+
+                List<ReportData> list = new List<ReportData>();
+                CReportData reportdata = new CReportData();
+                DataTable data = new DataTable();
+
+                data = reportdata.ProcessReportData(Query1, sfield, svalue);
+
+                if (data != null)
+                {
+                    try
+                    {
+                        if (data.Rows.Count > 0)
+                        {
+
+                            for (int i = 0; i < data.Rows.Count; i++)
+                            {
+                                string _type = data.Rows[i]["data2"].ToString();
+                                string _reason = data.Rows[i]["data3"].ToString();
+
+                                _type = _type.Substring(0, _type.IndexOf('-'));
+                                _reason = _reason.Substring(_reason.IndexOf('-') + 1);
+
+                                list.Add(new ReportData(Convert.ToDecimal(data.Rows[i]["data"].ToString()).ToString(),
+                                                        data.Rows[i]["data1"].ToString(),
+                                                        _type,
+                                                        _reason,
+                                                        data.Rows[i]["data4"].ToString(),
+                                                        data.Rows[i]["data5"].ToString()
+                                                        ));
+
+                            }
+
+                        }
+                        else
+                        {
+                            if (!Parent.HideMessages)
+                                MessageBox.Show("No records retreived.");
+                            else
+                                Console.WriteLine("No records retreived.");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!Parent.HideMessages)
+                            MessageBox.Show(ex.Message);
+                        else
+                            Console.WriteLine(ex.Message);
+                    }
+                }
+
+                return list;
+
+            }
+            catch (Exception ex)
+            {
+                if (!Parent.HideMessages)
+                    MessageBox.Show(ex.Message);
+                else
+                    Console.WriteLine(ex.Message);
+            }
+            return null;
+        }
+    }
+
+    public class CSales_Coupons : CReport
+    {
+        public CSales_Coupons(DocumentViewer DV, CRStoreData StoreData, List<ParamDate> ParamDate, rpt ReportInstance, ReportType ReportType)
+            : base(DV, StoreData, ParamDate, ReportInstance, ReportType)
+        {
+            this.DV = DV;
+            this.StoreData = StoreData;
+            this.ParamDate = ParamDate;
+            this.report = ReportInstance;
+            this.MyType = ReportType;
+
+            ReportHelper.MyActiveReport = this;
+
+
+            Query = "SELECT `Time` AS data, `User` AS data1, `CouponName` AS data2, `TicketNumber` AS data3, `Amount` AS data4," +
+                     "`TicketAmount` AS data5, `ApprovedBy` AS data6 FROM @mytable WHERE @myparam";
+        }
+
+        public string Query { get; set; }
+
+        public override List<ReportData> DataSourceToBind()
+        {
+            try
+            {
+                List<string> sfield = new List<string>();
+                List<string> svalue = new List<string>();
+
+                // parameters
+                string _ParamDate = "";// (ParamDate.Count == 0 ? "" : "WHERE ");
+                //string _ParamDate = "WHERE ";
+                for (int i = 0; i < ParamDate.Count; i++)
+                {
+                    if (ParamDate.Count == 2)
+                    {
+                        if (i == 0)
+                            _ParamDate += "FormatDate(date,0) >= " + "@date" + i.ToString() + " AND ";
+                        else
+                            _ParamDate += "FormatDate(date,0) <= " + "@date" + i.ToString() + " ";
+                    }
+                    else
+                    {
+                        _ParamDate += "FormatDate(date,0) = " + "@date" + i.ToString() + " " + (i == ParamDate.Count - 1 ? "" : ParamDate[i].paramCondition.ToString() + "");
+                    }
+
+                    sfield.Add("@date" + i.ToString());
+                    svalue.Add(Helpers.ConvertMyDate(ParamDate[i].date));
+                }
+
+                string Query1 = Query;
+
+                // table
+                if (ParamDate.Count == 1 && ParamDate[0].date.ToShortDateString() == DateTime.Now.ToShortDateString())
+                    Query1 = Query1.Replace("@mytable", "used_coupons");
+                else
+                    Query1 = Query1.Replace("@mytable", "used_couponshistory");
+
+                // param
+                Query1 = Query1.Replace("@myparam", _ParamDate);
+
+                List<ReportData> list = new List<ReportData>();
+                CReportData reportdata = new CReportData();
+                DataTable data = new DataTable();
+
+                data = reportdata.ProcessReportData(Query1, sfield, svalue);
+
+                if (data != null)
+                {
+                    try
+                    {
+                        if (data.Rows.Count > 0)
+                        {
+
+                            for (int i = 0; i < data.Rows.Count; i++)
+                            {
+                                list.Add(new ReportData(data.Rows[i]["data"].ToString(),
+                                                        data.Rows[i]["data1"].ToString(),
+                                                        data.Rows[i]["data2"].ToString(),
+                                                        data.Rows[i]["data3"].ToString(),
+                                                        Convert.ToDecimal(data.Rows[i]["data4"].ToString()).ToString(),
+                                                        Convert.ToDecimal(data.Rows[i]["data5"].ToString()).ToString(),
+                                                        data.Rows[i]["data6"].ToString()
+                                                        ));
+
+                            }
+
+                        }
+                        else
+                        {
+                            if (!Parent.HideMessages)
+                                MessageBox.Show("No records retreived.");
+                            else
+                                Console.WriteLine("No records retreived.");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!Parent.HideMessages)
+                            MessageBox.Show(ex.Message);
+                        else
+                            Console.WriteLine(ex.Message);
+                    }
+                }
+
+                return list;
+
+            }
+            catch (Exception ex)
+            {
+                if (!Parent.HideMessages)
+                    MessageBox.Show(ex.Message);
+                else
+                    Console.WriteLine(ex.Message);
+            }
+            return null;
+        }
+    }
 }

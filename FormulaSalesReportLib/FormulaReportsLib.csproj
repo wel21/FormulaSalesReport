@@ -179,6 +179,12 @@
     <Compile Include="rpt_Others_MonetaryBatch.Designer.cs">
       <DependentUpon>rpt_Others_MonetaryBatch.cs</DependentUpon>
     </Compile>
+    <Compile Include="rpt_Sales_PayIn_PayOut.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="rpt_Sales_PayIn_PayOut.Designer.cs">
+      <DependentUpon>rpt_Sales_PayIn_PayOut.cs</DependentUpon>
+    </Compile>
     <Compile Include="rpt_Sales1.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -208,6 +214,12 @@
     </Compile>
     <Compile Include="rpt_Sales_SalesSummary.Designer.cs">
       <DependentUpon>rpt_Sales_SalesSummary.cs</DependentUpon>
+    </Compile>
+    <Compile Include="rpt_Sales_Coupon.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="rpt_Sales_Coupon.Designer.cs">
+      <DependentUpon>rpt_Sales_Coupon.cs</DependentUpon>
     </Compile>
     <Compile Include="rpt_Sales_Voids.cs">
       <SubType>Component</SubType>
@@ -275,6 +287,9 @@
     <EmbeddedResource Include="rpt_Others_MonetaryBatch.resx">
       <DependentUpon>rpt_Others_MonetaryBatch.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="rpt_Sales_PayIn_PayOut.resx">
+      <DependentUpon>rpt_Sales_PayIn_PayOut.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="rpt_Sales_CreditCardTrans.resx">
       <DependentUpon>rpt_Sales_CreditCardTrans.cs</DependentUpon>
     </EmbeddedResource>
@@ -286,6 +301,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="rpt_Sales_SalesSummary.resx">
       <DependentUpon>rpt_Sales_SalesSummary.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="rpt_Sales_Coupon.resx">
+      <DependentUpon>rpt_Sales_Coupon.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="rpt_Sales_Voids.resx">
       <DependentUpon>rpt_Sales_Voids.cs</DependentUpon>
