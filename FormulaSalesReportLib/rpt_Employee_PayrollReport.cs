@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Collections;
 using System.ComponentModel;
+using System.Data;
 using DevExpress.XtraReports.UI;
 
 namespace FormulaReportsLib
@@ -32,117 +33,93 @@ namespace FormulaReportsLib
             // report info --------------------------------------------------------------------
 
 
-
             try
             {
-                lblData.DataBindings.Add("Text", this.DataSource, "Data");
-                lblData1.DataBindings.Add("Text", this.DataSource, "Data1");
-                lblData2.DataBindings.Add("Text", this.DataSource, "Data2");
-                lblData3.DataBindings.Add("Text", this.DataSource, "Data3");
-                lblData4.DataBindings.Add("Text", this.DataSource, "Data4");
-                lblData5.DataBindings.Add("Text", this.DataSource, "Data5");
-                lblData6.DataBindings.Add("Text", this.DataSource, "Data6");
-                lblData7.DataBindings.Add("Text", this.DataSource, "Data7");
-                lblData8.DataBindings.Add("Text", this.DataSource, "Data8");
-                lblData9.DataBindings.Add("Text", this.DataSource, "Data9");
-                lblData10.DataBindings.Add("Text", this.DataSource, "Data10");
-                lblData11.DataBindings.Add("Text", this.DataSource, "Data11");
-                lblData12.DataBindings.Add("Text", this.DataSource, "Data12");
+                // Create a group field, 
+                // and assign it to the group header band.
+                GroupField groupField1 = new GroupField("Data");
+                GroupHeader1.GroupFields.Add(groupField1);
+                // Create bound labels, and add them to the report's bands.
+                xrLabel5.DataBindings.Add("Text", DataSource, "Data");
 
-                //total
-                XRSummary XrSummary = new XRSummary();
-                //lblTotalData.DataBindings.AddRange(new XRBinding[] { new XRBinding("Text", this.DataSource, "Data") });
-                //XrSummary.FormatString = "{0}";
-                //XrSummary.Func = SummaryFunc.Sum;
-                //XrSummary.Running = SummaryRunning.Report;
-                //lblTotalData.Summary = XrSummary;
 
-                //XRSummary XrSummary1 = new XRSummary();
-                //lblTotalData1.DataBindings.AddRange(new XRBinding[] { new XRBinding("Text", this.DataSource, "Data1") });
-                //XrSummary1.FormatString = "{0}";
-                //XrSummary1.Func = SummaryFunc.Sum;
-                //XrSummary1.Running = SummaryRunning.Report;
-                //lblTotalData1.Summary = XrSummary1;
+                lblData.DataBindings.Add("Text", DataSource, "Data1");
+                lblData1.DataBindings.Add("Text", DataSource, "Data2");
+                lblData2.DataBindings.Add("Text", DataSource, "Data3");
+                lblData3.DataBindings.Add("Text", DataSource, "Data4");
+                lblData4.DataBindings.Add("Text", DataSource, "Data5");
+                //lblData5.DataBindings.Add("Text", DataSource, "Data6");
+                lblData6.DataBindings.Add("Text", DataSource, "Data7");
+                //lblData7.DataBindings.Add("Text", DataSource, "Data8");
+
+                //running total
+                XRSummary XrSummary1 = new XRSummary();
+                lblF1.DataBindings.AddRange(new XRBinding[] { new XRBinding("Text", DataSource, "Data5") });
+                XrSummary1.FormatString = "{0}";
+                XrSummary1.Func = SummaryFunc.Sum;
+                XrSummary1.Running = SummaryRunning.Group;
+                lblF1.Summary = XrSummary1;
+
+                XrSummary1 = new XRSummary();
+                lblF2.DataBindings.AddRange(new XRBinding[] { new XRBinding("Text", DataSource, "Data6") });
+                XrSummary1.FormatString = "{0}";
+                XrSummary1.Func = SummaryFunc.Sum;
+                XrSummary1.Running = SummaryRunning.Group;
+                lblF2.Summary = XrSummary1;
+
+                XrSummary1 = new XRSummary();
+                lblF3.DataBindings.AddRange(new XRBinding[] { new XRBinding("Text", DataSource, "Data7") });
+                XrSummary1.FormatString = "{0}";
+                XrSummary1.Func = SummaryFunc.Sum;
+                XrSummary1.Running = SummaryRunning.Group;
+                lblF3.Summary = XrSummary1;
+
+                XrSummary1 = new XRSummary();
+                lblF4.DataBindings.AddRange(new XRBinding[] { new XRBinding("Text", DataSource, "Data8") });
+                XrSummary1.FormatString = "{0}";
+                XrSummary1.Func = SummaryFunc.Sum;
+                XrSummary1.Running = SummaryRunning.Group;
+                lblF4.Summary = XrSummary1;
+
+                XrSummary1 = new XRSummary();
+                lblF5.DataBindings.AddRange(new XRBinding[] { new XRBinding("Text", DataSource, "Data9") });
+                XrSummary1.FormatString = "{0}";
+                XrSummary1.Func = SummaryFunc.Sum;
+                XrSummary1.Running = SummaryRunning.Group;
+                lblF5.Summary = XrSummary1;
+                
+                DataTable DT = (DataTable)MyObject;
+                //lblF1.Text = DT.Rows[0][0].ToString();
+                //lblF2.Text = DT.Rows[1][0].ToString();
+                //lblF3.Text = DT.Rows[2][0].ToString();
+                //lblF4.Text = DT.Rows[3][0].ToString();
+                //lblF5.Text = DT.Rows[4][0].ToString();
+                lblF6.Text = DT.Rows[0][0].ToString();
+                lblF7.Text = DT.Rows[1][0].ToString();
 
                 //XRSummary XrSummary2 = new XRSummary();
-                //lblTotalData2.DataBindings.AddRange(new XRBinding[] { new XRBinding("Text", this.DataSource, "Data2") });
+                //lblTotalData3.DataBindings.AddRange(new XRBinding[] { new XRBinding("Text", this.DataSource, "Data3") });
                 //XrSummary2.FormatString = "{0}";
                 //XrSummary2.Func = SummaryFunc.Count;
                 //XrSummary2.Running = SummaryRunning.Report;
-                //lblTotalData2.Summary = XrSummary2;
+                //lblTotalData3.Summary = XrSummary2;
 
                 //XRSummary XrSummary3 = new XRSummary();
-                //lblTotalData3.DataBindings.AddRange(new XRBinding[] { new XRBinding("Text", this.DataSource, "Data3") });
+                //lblTotalData4.DataBindings.AddRange(new XRBinding[] { new XRBinding("Text", this.DataSource, "Data3") });
                 //XrSummary3.FormatString = "{0}";
-                //XrSummary3.Func = SummaryFunc.Count;
+                //XrSummary3.Func = SummaryFunc.Sum;
                 //XrSummary3.Running = SummaryRunning.Report;
-                //lblTotalData3.Summary = XrSummary3;
+                //lblTotalData4.Summary = XrSummary3;
 
-                //XrSummary = new XRSummary();
-                //blT4.DataBindings.AddRange(new XRBinding[] { new XRBinding("Text", this.DataSource, "Data" + (fi + 4)) });
-                //XrSummary.FormatString = "{0}";
-                //XrSummary.Func = SummaryFunc.Sum;
-                //XrSummary.Running = SummaryRunning.Report;
-                //blT4.Summary = XrSummary;
-
-                XrSummary = new XRSummary();
-                blT5.DataBindings.AddRange(new XRBinding[] { new XRBinding("Text", this.DataSource, "Data5") });
-                XrSummary.FormatString = "{0}";
-                XrSummary.Func = SummaryFunc.Sum;
-                XrSummary.Running = SummaryRunning.Report;
-                blT5.Summary = XrSummary;
-
-                XrSummary = new XRSummary();
-                blT6.DataBindings.AddRange(new XRBinding[] { new XRBinding("Text", this.DataSource, "Data6") });
-                XrSummary.FormatString = "{0}";
-                XrSummary.Func = SummaryFunc.Sum;
-                XrSummary.Running = SummaryRunning.Report;
-                blT6.Summary = XrSummary;
-
-                XrSummary = new XRSummary();
-                blT7.DataBindings.AddRange(new XRBinding[] { new XRBinding("Text", this.DataSource, "Data7") });
-                XrSummary.FormatString = "{0}";
-                XrSummary.Func = SummaryFunc.Sum;
-                XrSummary.Running = SummaryRunning.Report;
-                blT7.Summary = XrSummary;
-
-                XrSummary = new XRSummary();
-                blT8.DataBindings.AddRange(new XRBinding[] { new XRBinding("Text", this.DataSource, "Data8") });
-                XrSummary.FormatString = "{0}";
-                XrSummary.Func = SummaryFunc.Sum;
-                XrSummary.Running = SummaryRunning.Report;
-                blT8.Summary = XrSummary;
-
-                XrSummary = new XRSummary();
-                blT9.DataBindings.AddRange(new XRBinding[] { new XRBinding("Text", this.DataSource, "Data9") });
-                XrSummary.FormatString = "{0}";
-                XrSummary.Func = SummaryFunc.Sum;
-                XrSummary.Running = SummaryRunning.Report;
-                blT9.Summary = XrSummary;
-
-                XrSummary = new XRSummary();
-                blT10.DataBindings.AddRange(new XRBinding[] { new XRBinding("Text", this.DataSource, "Data10") });
-                XrSummary.FormatString = "{0}";
-                XrSummary.Func = SummaryFunc.Sum;
-                XrSummary.Running = SummaryRunning.Report;
-                blT10.Summary = XrSummary;
-
-                XrSummary = new XRSummary();
-                blT11.DataBindings.AddRange(new XRBinding[] { new XRBinding("Text", this.DataSource, "Data11") });
-                XrSummary.FormatString = "{0}";
-                XrSummary.Func = SummaryFunc.Sum;
-                XrSummary.Running = SummaryRunning.Report;
-                blT11.Summary = XrSummary;
-
-
-                XrSummary = new XRSummary();
-                blT12.DataBindings.AddRange(new XRBinding[] { new XRBinding("Text", this.DataSource, "Data12") });
-                XrSummary.FormatString = "{0}";
-                XrSummary.Func = SummaryFunc.Sum;
-                XrSummary.Running = SummaryRunning.Report;
-                blT12.Summary = XrSummary;
+                //XRSummary XrSummary4 = new XRSummary();
+                //lblTotalData5.DataBindings.AddRange(new XRBinding[] { new XRBinding("Text", this.DataSource, "Data5") });
+                //XrSummary4.FormatString = "{0}";
+                //XrSummary4.Func = SummaryFunc.Sum;
+                //XrSummary4.Running = SummaryRunning.Report;
+                //lblTotalData5.Summary = XrSummary4;
             }
             catch { }
+
         }
     }
 }

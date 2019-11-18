@@ -411,6 +411,7 @@ namespace FormulaReportsLib
         public CHistory_SalesByDay History_SalesByDay;
         public CHistory_SquareReport History_SquareReport;
 
+        public CEmployee_PayrollReport Employee_PayrollReport;
         public CEmployee_ActivityLog Employee_ActivityLog;
         public CEmployee_LaborReport Employee_LaborReport;
         public CEmployee_List Employee_List;
@@ -623,6 +624,12 @@ namespace FormulaReportsLib
         {
             // Employee ------------------------------------------------------------------------------
 
+            Employee_PayrollReport = new CEmployee_PayrollReport(DV,
+                                                            StoreData,
+                                                            ParamDate,
+                                                            new rpt_Employee_PayrollReport(),
+                                                            ReportType.Employee_PayrollReport);
+
             Employee_ActivityLog = new CEmployee_ActivityLog(DV,
                                                             StoreData,
                                                             ParamDate,
@@ -649,7 +656,7 @@ namespace FormulaReportsLib
 
             // Employee ------------------------------------------------------------------------------
 
-            MyReports.Add(new CReport(null, null, null, null, ReportType.Employee_PayrollReport, true)); //Employee_PayrollReport = 14
+            MyReports.Add(Employee_PayrollReport);
             MyReports.Add(Employee_ActivityLog);
             MyReports.Add(Employee_CashDrawerActivity);
             MyReports.Add(new CReport(null, null, null, null, ReportType.Employee_DriverReimbursement, true)); //Employee_DriverReimbursement = 17

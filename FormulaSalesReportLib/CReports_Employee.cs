@@ -779,6 +779,274 @@ namespace FormulaReportsLib
         }
     }
 
+    public class CEmployee_PayrollReport : CReport
+    {
+        public CEmployee_PayrollReport(DocumentViewer DV, CRStoreData StoreData, List<ParamDate> ParamDate, rpt ReportInstance, ReportType ReportType)
+            : base(DV, StoreData, ParamDate, ReportInstance, ReportType)
+        {
+            this.DV = DV;
+            this.StoreData = StoreData;
+            this.ParamDate = ParamDate;
+            this.report = ReportInstance;
+            this.MyType = ReportType;
+
+        }
+
+        private string Query { get; set; }
+
+        public override List<ReportData> DataSourceToBind()
+        {
+            try
+            {
+                List<string> sfield = new List<string>();
+                List<string> svalue = new List<string>();
+
+                // parameters
+                string _ParamDate = "";// (ParamDate.Count == 0 ? "" : "WHERE ");
+                //string _ParamDate = "WHERE ";
+                for (int i = 0; i < ParamDate.Count; i++)
+                {
+                    if (ParamDate.Count == 2)
+                    {
+                        if (i == 0)
+                            _ParamDate += "FormatDate(b.date,0) >= " + "@date" + i.ToString() + " AND ";
+                        else
+                            _ParamDate += "FormatDate(b.date,0) <= " + "@date" + i.ToString() + " ";
+                    }
+                    else
+                    {
+                        _ParamDate += "FormatDate(b.date,0) = " + "@date" + i.ToString() + " " + (i == ParamDate.Count - 1 ? "" : ParamDate[i].paramCondition.ToString() + "");
+                    }
+
+                    sfield.Add("@date" + i.ToString());
+                    svalue.Add(Helpers.ConvertMyDate(ParamDate[i].date));
+                }
+
+                Query = "SELECT a.empid, a.employee, b.jobtype, b.date, b.time timein, c.time timeout, a.payrate, c.declaredtips " +
+                        "FROM employeejobs a " +
+                        "  LEFT JOIN employeetimeclock b ON a.empid = b.empid  " +
+                        "  LEFT JOIN employeetimeclock c ON b.empid = c.empid " +
+                        "WHERE b.action = 'Clock-In' AND c.action = 'Clock-Out' AND b.punchpairid = c.punchpairid AND @myparam " +
+                        "ORDER BY a.employee";
+                
+                string Query1 = Query;
+                
+                // param
+                Query1 = Query1.Replace("@myparam", _ParamDate);
+
+                List<ReportData> list = new List<ReportData>();
+                CReportData reportdata = new CReportData();
+                DataTable data = new DataTable();
+                DataTable dataTotal = new DataTable();
+
+                data = reportdata.ProcessReportData(Query1, sfield, svalue);
+
+                if (data != null)
+                {
+                    try
+                    {
+                        if (data.Rows.Count > 0)
+                        {
+                            dataTotal.Columns.Add(new DataColumn("Val"));
+                            
+                            float total2Hours = 0;
+                            float total2Labor = 0;
+
+                            string _empid = "";
+                            double OTHours = 0;
+                            double OTLabor = 0;
+                            for (int i = 0; i < data.Rows.Count; i++)
+                            {
+                                if (_empid == "" || _empid != data.Rows[i]["empid"].ToString())
+                                {
+                                    GetOT(data.Rows[i]["empid"].ToString(), out OTHours, out OTLabor);
+                                    //OTHours = 4;
+                                    //OTLabor = 400;
+                                }
+                                else
+                                {
+                                    OTHours = 0;
+                                    OTLabor = 0;
+                                }
+                                _empid = data.Rows[i]["empid"].ToString();
+
+                                TimeSpan ts = Convert.ToDateTime(data.Rows[i]["timeout"].ToString()) - Convert.ToDateTime(data.Rows[i]["timein"].ToString());
+                                string hrs = Helpers.GetDurationInterval("00:00:00", ts.Hours + ":" + ts.Minutes + ":" + ts.Seconds, Helpers.eReturnTime.Hours);
+                                float lbr = (float)(ts.TotalHours * Helpers.NullToFlt(data.Rows[i]["payrate"].ToString()));
+
+                                list.Add(new ReportData(data.Rows[i]["employee"].ToString(),
+                                                        data.Rows[i]["jobtype"].ToString(),
+                                                        data.Rows[i]["date"].ToString(),
+                                                        data.Rows[i]["timein"].ToString(),
+                                                        data.Rows[i]["timeout"].ToString(),
+                                                        ts.TotalHours.ToString("#0.00"),
+                                                        OTHours.ToString(),
+                                                        lbr.ToString("#0.00"),
+                                                        OTLabor.ToString(),
+                                                        data.Rows[i]["declaredtips"].ToString()
+                                                        ));
+                                
+                                total2Hours += (float)hrs.ToDecimal();
+                                total2Labor += lbr;
+                            }
+
+                            dataTotal.Rows.Add(dataTotal.NewRow());
+                            dataTotal.Rows.Add(dataTotal.NewRow());
+
+                            dataTotal.Rows[0][0] = total2Hours.ToString("#0.00");
+                            dataTotal.Rows[1][0] = total2Labor.ToString("#0.00");
+
+                            report.MyObject = dataTotal;
+                        }
+                        else
+                        {
+                            if (!Parent.HideMessages)
+                                MessageBox.Show("No records retreived.");
+                            else
+                                Console.WriteLine("No records retreived.");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!Parent.HideMessages)
+                            MessageBox.Show(ex.Message);
+                        else
+                            Console.WriteLine(ex.Message);
+                    }
+                }
+
+                return list;
+
+            }
+            catch (Exception ex)
+            {
+                if (!Parent.HideMessages)
+                    MessageBox.Show(ex.Message);
+                else
+                    Console.WriteLine(ex.Message);
+            }
+            return null;
+        }
+
+        private void GetOT(string EmpID, out double OTHours, out double OTLabor)
+        {
+            string Query = "";
+            CReportData reportdata = new CReportData();
+            DataTable payrollSett = new DataTable();
+
+            Query = "SELECT StartingDay, Cycle, OvertimeType, OvertimeHours FROM payreollsettings";
+            payrollSett = reportdata.ProcessReportData(Query, null, null);
+            
+            float totalOTHours = 0;
+            float totalOTLabor = 0;
+
+            int dayPos = -1;
+            List<string> days = new List<string>();
+            days.Add("SUNDAY");     // 0
+            days.Add("MONDAY");     // 1
+            days.Add("TUESDAY");    // 2
+            days.Add("WEDNESDAY");  // 3
+            days.Add("THURSDAY");   // 4
+            days.Add("FRIDAY");     // 5
+            days.Add("SATURDAY");   // 6
+
+            // arrange days order based on starting date
+            dayPos = days.IndexOf(payrollSett.Rows[0]["StartingDay"].ToString().ToUpper());
+            if (dayPos > 0)
+            {
+                for (int i = 0; i < dayPos; i++)
+                {
+                    string s = days[i];
+                    days.RemoveAt(i);
+                    days.Add(s);
+                }
+            }
+
+            dayPos = days.IndexOf(ParamDate[0].date.ToString("dddd").ToUpper());
+            DateTime _firstDate = ParamDate[0].date.AddDays(-dayPos);
+            DateTime _currentDate = ParamDate[0].date.AddDays(-dayPos);
+            DateTime _lastDate = ParamDate[ParamDate.Count - 1].date.AddDays(6 - dayPos);
+
+            // generate whole week per week
+            while (_currentDate < _lastDate)
+            //for (int j = 0; j < ParamDate.Count; j++)
+            {
+                List<string> sfield = new List<string>();
+                List<string> svalue = new List<string>();
+
+                //dayPos = days.IndexOf(ParamDate[j].date.ToString("dddd").ToUpper());
+
+                // parameters
+                string _ParamDate = "";
+                _ParamDate += "FormatDate(b.date,0) >= " + "@date0 AND ";
+                sfield.Add("@date0");
+                svalue.Add(Helpers.ConvertMyDate(_currentDate));
+                _ParamDate += "FormatDate(b.date,0) <= " + "@date1 ";
+                sfield.Add("@date1");
+                svalue.Add(Helpers.ConvertMyDate(_currentDate.AddDays(6)));
+                
+
+                Query = "SELECT a.employee, b.jobtype, b.date, b.time timein, c.time timeout, a.payrate, c.declaredtips " +
+                        "FROM employeejobs a " +
+                        "  LEFT JOIN employeetimeclock b ON a.empid = b.empid  " +
+                        "  LEFT JOIN employeetimeclock c ON b.empid = c.empid " +
+                        "WHERE b.action = 'Clock-In' AND c.action = 'Clock-Out' AND b.punchpairid = c.punchpairid AND a.empid = @empid AND @myparam" +
+                        "ORDER BY a.employee";
+                
+                Query = Query.Replace("@myparam", _ParamDate);
+                Query = Query.Replace("@empid", EmpID);
+
+                List<ReportData> list = new List<ReportData>();
+                DataTable data = new DataTable();
+                data = reportdata.ProcessReportData(Query, sfield, svalue);
+
+                if (data != null)
+                {
+                    try
+                    {
+                        if (data.Rows.Count > 0)
+                        {
+                            float _totalHours = 0;
+                            float _totalOTHours = 0;
+                            float _totalOTLabor = 0;
+
+                            for (int i = 0; i < data.Rows.Count; i++)
+                            {
+                                TimeSpan ts = Convert.ToDateTime(data.Rows[i]["timeout"].ToString()) - Convert.ToDateTime(data.Rows[i]["timein"].ToString());
+                                string hrs = Helpers.GetDurationInterval("00:00:00", ts.Hours + ":" + ts.Minutes + ":" + ts.Seconds, Helpers.eReturnTime.Hours);
+                                float lbr = (float)(ts.TotalHours * Helpers.NullToFlt(data.Rows[i]["payrate"].ToString()));
+
+                                _totalHours += (float)hrs.ToDecimal();
+                                
+                                if (_totalHours > Helpers.NullToFlt(payrollSett.Rows[0]["OvertimeHours"].ToString()))
+                                {
+                                    _totalOTHours += (float)hrs.ToDecimal();
+                                    _totalOTLabor += lbr;
+                                }
+                            }
+
+                            totalOTHours += _totalOTHours;
+                            totalOTLabor += _totalOTLabor;
+                        }
+                        else
+                        {
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
+                }
+
+                // move to next week
+                _currentDate = _currentDate.AddDays(7);
+            }
+
+            OTHours = totalOTHours;
+            OTLabor = totalOTLabor;
+        }
+    }
+
     public class CEmployee_DriverReimbursement : CReport
     {
         public CEmployee_DriverReimbursement(DocumentViewer DV, CRStoreData StoreData, List<ParamDate> ParamDate, rpt ReportInstance, ReportType ReportType)
@@ -932,157 +1200,159 @@ namespace FormulaReportsLib
 
     }
 
-    public class CEmployee_PayrollReport : CReport
-    {
-        public CEmployee_PayrollReport(DocumentViewer DV, CRStoreData StoreData, List<ParamDate> ParamDate, rpt ReportInstance, ReportType ReportType)
-            : base(DV, StoreData, ParamDate, ReportInstance, ReportType)
-        {
-            this.DV = DV;
-            this.StoreData = StoreData;
-            this.ParamDate = ParamDate;
-            this.report = ReportInstance;
-            this.MyType = ReportType;
+    #region commented
+    //public class CEmployee_PayrollReport : CReport
+    //{
+    //    public CEmployee_PayrollReport(DocumentViewer DV, CRStoreData StoreData, List<ParamDate> ParamDate, rpt ReportInstance, ReportType ReportType)
+    //        : base(DV, StoreData, ParamDate, ReportInstance, ReportType)
+    //    {
+    //        this.DV = DV;
+    //        this.StoreData = StoreData;
+    //        this.ParamDate = ParamDate;
+    //        this.report = ReportInstance;
+    //        this.MyType = ReportType;
 
-        }
+    //    }
 
-        private string Query { get; set; }
+    //    private string Query { get; set; }
 
-        public override List<ReportData> DataSourceToBind()
-        {
-            try
-            {
-                List<string> sfield = new List<string>();
-                List<string> svalue = new List<string>();
+    //    public override List<ReportData> DataSourceToBind()
+    //    {
+    //        try
+    //        {
+    //            List<string> sfield = new List<string>();
+    //            List<string> svalue = new List<string>();
 
-                // parameters
-                string _ParamDate = "";// (ParamDate.Count == 0 ? "" : "WHERE ");
-                //string _ParamDate = "WHERE ";
-                for (int i = 0; i < ParamDate.Count; i++)
-                {
-                    if (ParamDate.Count == 2)
-                    {
-                        if (i == 0)
-                            _ParamDate += "FormatDate(b.date,0) >= " + "@date" + i.ToString() + " AND ";
-                        else
-                            _ParamDate += "FormatDate(b.date,0) <= " + "@date" + i.ToString() + " ";
-                    }
-                    else
-                    {
-                        _ParamDate += "FormatDate(b.date,0) = " + "@date" + i.ToString() + " " + (i == ParamDate.Count - 1 ? "" : ParamDate[i].paramCondition.ToString() + "");
-                    }
+    //            // parameters
+    //            string _ParamDate = "";// (ParamDate.Count == 0 ? "" : "WHERE ");
+    //            //string _ParamDate = "WHERE ";
+    //            for (int i = 0; i < ParamDate.Count; i++)
+    //            {
+    //                if (ParamDate.Count == 2)
+    //                {
+    //                    if (i == 0)
+    //                        _ParamDate += "FormatDate(b.date,0) >= " + "@date" + i.ToString() + " AND ";
+    //                    else
+    //                        _ParamDate += "FormatDate(b.date,0) <= " + "@date" + i.ToString() + " ";
+    //                }
+    //                else
+    //                {
+    //                    _ParamDate += "FormatDate(b.date,0) = " + "@date" + i.ToString() + " " + (i == ParamDate.Count - 1 ? "" : ParamDate[i].paramCondition.ToString() + "");
+    //                }
 
-                    sfield.Add("@date" + i.ToString());
-                    svalue.Add(Helpers.ConvertMyDate(ParamDate[i].date));
-                }
+    //                sfield.Add("@date" + i.ToString());
+    //                svalue.Add(Helpers.ConvertMyDate(ParamDate[i].date));
+    //            }
 
-                List<ReportData> list = new List<ReportData>();
-                CReportData reportdata = new CReportData();
-                DataTable data = new DataTable();
-                DataTable data1 = new DataTable();
+    //            List<ReportData> list = new List<ReportData>();
+    //            CReportData reportdata = new CReportData();
+    //            DataTable data = new DataTable();
+    //            DataTable data1 = new DataTable();
 
-                Query = "SELECT a.ID, CONCAT(a.LastName,', ', a.FirstName) AS empname, b.jobCodeName, c.PayRate, c.PayType, b.HoursWorked, b.TotalSales, b.CCTips " +
-                        "FROM employees AS a INNER JOIN employee_completedshifts AS b ON a.id = b.employeeid " +
-                        "INNER JOIN employeejobs AS c ON b.EmployeeID = c.EmpID AND b.jobcodename = c.jobdescription " +
-                        "WHERE @myparam " +
-                        "ORDER BY a.LastName, a.FirstName, DATE";
-                
-                //// table
-                //if (ParamDate.Count == 1 && ParamDate[0].date.ToShortDateString() == DateTime.Now.ToShortDateString())
-                //    Query1 = Query1.Replace("@mytable", "tickets");
-                //else
-                //    Query1 = Query1.Replace("@mytable", "tickethistory");
-                
-                Query = Query.Replace("@myparam", _ParamDate);
-                data = reportdata.ProcessReportData(Query, sfield, svalue);
+    //            Query = "SELECT a.ID, CONCAT(a.LastName,', ', a.FirstName) AS empname, b.jobCodeName, c.PayRate, c.PayType, b.HoursWorked, b.TotalSales, b.CCTips " +
+    //                    "FROM employees AS a INNER JOIN employee_completedshifts AS b ON a.id = b.employeeid " +
+    //                    "INNER JOIN employeejobs AS c ON b.EmployeeID = c.EmpID AND b.jobcodename = c.jobdescription " +
+    //                    "WHERE @myparam " +
+    //                    "ORDER BY a.LastName, a.FirstName, DATE";
 
-                Query = "SELECT ticketnumber, employeeid, date, tipsadded, subtotal " +
-                        "FROM tickethistory " +
-                        "WHERE @myparam AND status NOT LIKE 'VOIDED' " +
-                        "ORDER BY date";
-                
-                Query = Query.Replace("@myparam", _ParamDate);
-                data1 = reportdata.ProcessReportData(Query, sfield, svalue);
+    //            //// table
+    //            //if (ParamDate.Count == 1 && ParamDate[0].date.ToShortDateString() == DateTime.Now.ToShortDateString())
+    //            //    Query1 = Query1.Replace("@mytable", "tickets");
+    //            //else
+    //            //    Query1 = Query1.Replace("@mytable", "tickethistory");
 
-                if (data != null)
-                {
-                    try
-                    {
-                        if (data.Rows.Count > 0)
-                        {
-                            float totalhourly = 0;
-                            float totalsalary = 0;
-                            float totalsales = 0;
-                            float totalhours = 0;
+    //            Query = Query.Replace("@myparam", _ParamDate);
+    //            data = reportdata.ProcessReportData(Query, sfield, svalue);
 
-                            for (int i = 0; i < data.Rows.Count; i++)
-                            {
-                                string hrs = Helpers.GetDurationInterval("00:00:00", data.Rows[i]["HoursWorked"].ToString(), Helpers.eReturnTime.Hours);
-                                //float 
+    //            Query = "SELECT ticketnumber, employeeid, date, tipsadded, subtotal " +
+    //                    "FROM tickethistory " +
+    //                    "WHERE @myparam AND status NOT LIKE 'VOIDED' " +
+    //                    "ORDER BY date";
 
-                                list.Add(new ReportData(data.Rows[i]["ID"].ToString(),
-                                                        data.Rows[i]["empname"].ToString(),
-                                                        data.Rows[i]["jobCodeName"].ToString(),
-                                                        data.Rows[i]["PayRate"].ToString(),
-                                                        data.Rows[i]["PayType"].ToString(),
-                                                        hrs,
-                                                        ((float)hrs.ToDecimal() * (float)data.Rows[i]["payrate"].ToString().ToDecimal()).ToString(),
-                                                        data.Rows[i]["CCTips"].ToString()
-                                                        ));
+    //            Query = Query.Replace("@myparam", _ParamDate);
+    //            data1 = reportdata.ProcessReportData(Query, sfield, svalue);
 
-                                if (data.Rows[i]["payrate"].ToString() == "Hourly")
-                                    totalhourly += (float)hrs.ToDecimal() * (float)data.Rows[i]["payrate"].ToString().ToDecimal();
-                                else
-                                    totalsalary += (float)hrs.ToDecimal() * (float)data.Rows[i]["payrate"].ToString().ToDecimal();
+    //            if (data != null)
+    //            {
+    //                try
+    //                {
+    //                    if (data.Rows.Count > 0)
+    //                    {
+    //                        float totalhourly = 0;
+    //                        float totalsalary = 0;
+    //                        float totalsales = 0;
+    //                        float totalhours = 0;
 
-                                totalsales += Helpers.NullToFlt(data.Rows[i]["TotalSales"].ToString());
-                                totalhours += (float)hrs.ToDecimal();
-                            }
-                            
-                        }
-                        else
-                        {
-                            if (!Parent.HideMessages)
-                                MessageBox.Show("No records retreived.");
-                            else
-                                Console.WriteLine("No records retreived.");
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        if (!Parent.HideMessages)
-                            MessageBox.Show(ex.Message);
-                        else
-                            Console.WriteLine(ex.Message);
-                    }
-                }
+    //                        for (int i = 0; i < data.Rows.Count; i++)
+    //                        {
+    //                            string hrs = Helpers.GetDurationInterval("00:00:00", data.Rows[i]["HoursWorked"].ToString(), Helpers.eReturnTime.Hours);
+    //                            //float 
 
-                return list;
+    //                            list.Add(new ReportData(data.Rows[i]["ID"].ToString(),
+    //                                                    data.Rows[i]["empname"].ToString(),
+    //                                                    data.Rows[i]["jobCodeName"].ToString(),
+    //                                                    data.Rows[i]["PayRate"].ToString(),
+    //                                                    data.Rows[i]["PayType"].ToString(),
+    //                                                    hrs,
+    //                                                    ((float)hrs.ToDecimal() * (float)data.Rows[i]["payrate"].ToString().ToDecimal()).ToString(),
+    //                                                    data.Rows[i]["CCTips"].ToString()
+    //                                                    ));
 
-            }
-            catch (Exception ex)
-            {
-                if (!Parent.HideMessages)
-                    MessageBox.Show(ex.Message);
-                else
-                    Console.WriteLine(ex.Message);
-            }
-            return null;
-        }
+    //                            if (data.Rows[i]["payrate"].ToString() == "Hourly")
+    //                                totalhourly += (float)hrs.ToDecimal() * (float)data.Rows[i]["payrate"].ToString().ToDecimal();
+    //                            else
+    //                                totalsalary += (float)hrs.ToDecimal() * (float)data.Rows[i]["payrate"].ToString().ToDecimal();
 
-        private float GetTotal(DataTable DT, string Field, string EmpID)
-        {
-            float ftotal = 0;
-            DataRow[] drarray = null;
-            drarray = DT.Select("employeeid=" + EmpID);
-            for (int i = 0; i < drarray.Count(); i++)
-            {
-                ftotal += Helpers.NullToFlt(drarray[i][Field]);
-            }
+    //                            totalsales += Helpers.NullToFlt(data.Rows[i]["TotalSales"].ToString());
+    //                            totalhours += (float)hrs.ToDecimal();
+    //                        }
 
-            return ftotal;
-        }
+    //                    }
+    //                    else
+    //                    {
+    //                        if (!Parent.HideMessages)
+    //                            MessageBox.Show("No records retreived.");
+    //                        else
+    //                            Console.WriteLine("No records retreived.");
+    //                    }
+    //                }
+    //                catch (Exception ex)
+    //                {
+    //                    if (!Parent.HideMessages)
+    //                        MessageBox.Show(ex.Message);
+    //                    else
+    //                        Console.WriteLine(ex.Message);
+    //                }
+    //            }
 
-    }
+    //            return list;
+
+    //        }
+    //        catch (Exception ex)
+    //        {
+    //            if (!Parent.HideMessages)
+    //                MessageBox.Show(ex.Message);
+    //            else
+    //                Console.WriteLine(ex.Message);
+    //        }
+    //        return null;
+    //    }
+
+    //    private float GetTotal(DataTable DT, string Field, string EmpID)
+    //    {
+    //        float ftotal = 0;
+    //        DataRow[] drarray = null;
+    //        drarray = DT.Select("employeeid=" + EmpID);
+    //        for (int i = 0; i < drarray.Count(); i++)
+    //        {
+    //            ftotal += Helpers.NullToFlt(drarray[i][Field]);
+    //        }
+
+    //        return ftotal;
+    //    }
+
+    //}
+    #endregion
 
     public class CEmployee_CashDrawerActivity : CReport
     {

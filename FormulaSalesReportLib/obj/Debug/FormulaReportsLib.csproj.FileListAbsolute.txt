@@ -264,7 +264,6 @@ D:\Users\Wel\GitHub\FormulaSalesReport\FormulaSalesReportLib\bin\Debug\DevExpres
 D:\Users\Wel\GitHub\FormulaSalesReport\FormulaSalesReportLib\bin\Debug\DevExpress.XtraPrinting.v17.2.xml
 D:\Users\Wel\GitHub\FormulaSalesReport\FormulaSalesReportLib\bin\Debug\DevExpress.XtraReports.v17.2.xml
 D:\Users\Wel\GitHub\FormulaSalesReport\FormulaSalesReportLib\bin\Debug\DevExpress.XtraReports.v17.2.Extensions.xml
-D:\Users\Wel\GitHub\FormulaSalesReport\FormulaSalesReportLib\bin\Debug\MySql.Data.xml
 D:\Users\Wel\GitHub\FormulaSalesReport\FormulaSalesReportLib\bin\Debug\Newtonsoft.Json.xml
 D:\Users\Wel\GitHub\FormulaSalesReport\FormulaSalesReportLib\bin\Debug\DevExpress.XtraEditors.v17.2.xml
 D:\Users\Wel\GitHub\FormulaSalesReport\FormulaSalesReportLib\bin\Debug\DevExpress.XtraRichEdit.v17.2.xml
@@ -398,9 +397,10 @@ D:\Users\Wel\GitHub\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaRe
 D:\Users\Wel\GitHub\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaReportsLib.rpt_Employee_ActivityLog1.resources
 D:\Users\Wel\GitHub\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaReportsLib.rpt_Employee_CashDrawerActivity.resources
 D:\Users\Wel\GitHub\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaReportsLib.rpt_Employee_DriverReimbursement.resources
+D:\Users\Wel\GitHub\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaReportsLib.rpt_Employee_PayrollReport.resources
 D:\Users\Wel\GitHub\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaReportsLib.rpt_Employee_LaborReport.resources
 D:\Users\Wel\GitHub\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaReportsLib.rpt_Employee_List.resources
-D:\Users\Wel\GitHub\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaReportsLib.rpt_Employee_PayrollReport.resources
+D:\Users\Wel\GitHub\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaReportsLib.rpt_Employee_PayrollReport_old.resources
 D:\Users\Wel\GitHub\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaReportsLib.rpt_History_CardPaymentsByType.resources
 D:\Users\Wel\GitHub\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaReportsLib.rpt_History_PaymentsBySrvcType.resources
 D:\Users\Wel\GitHub\FormulaSalesReport\FormulaSalesReportLib\obj\Debug\FormulaReportsLib.rpt_History_SalesByDay.resources

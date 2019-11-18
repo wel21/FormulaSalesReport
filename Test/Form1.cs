@@ -25,8 +25,8 @@ namespace Test
             comboBox3.SelectedIndex = 0;
 
             WindowState = FormWindowState.Maximized;
-            dtpFrom.Value = Convert.ToDateTime("12/08/2017");
-            dtpTo.Value = Convert.ToDateTime("12/11/2017");
+            dtpFrom.Value = Convert.ToDateTime("3/10/2019");
+            dtpTo.Value = Convert.ToDateTime("4/17/2019");
 
             // #### USAGE ####
 
@@ -42,6 +42,7 @@ namespace Test
             this.Controls.Add(rptcontrol);
             rptcontrol.Dock = DockStyle.Fill;
             rptcontrol.ShowPrintButton = true;
+            rptcontrol.BackColor = this.BackColor;
 
             //add date parameter
             rptcontrol.ParamDate.Add(new ParamDate(dtpFrom.Value, ParameterCondition.AND));

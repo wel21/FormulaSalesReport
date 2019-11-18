@@ -51,7 +51,10 @@
     <Reference Include="DevExpress.XtraPrinting.v17.2, Version=17.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraReports.v17.2, Version=17.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraReports.v17.2.Extensions, Version=17.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="MySql.Data, Version=6.9.9.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL" />
+    <Reference Include="MySql.Data, Version=6.9.8.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files (x86)\MySQL\MySQL Connector Net 6.9.8\Assemblies\v4.5\MySql.Data.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -107,6 +110,12 @@
     <Compile Include="rpt_Employee_DriverReimbursement.Designer.cs">
       <DependentUpon>rpt_Employee_DriverReimbursement.cs</DependentUpon>
     </Compile>
+    <Compile Include="rpt_Employee_PayrollReport.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="rpt_Employee_PayrollReport.Designer.cs">
+      <DependentUpon>rpt_Employee_PayrollReport.cs</DependentUpon>
+    </Compile>
     <Compile Include="rpt_Employee_LaborReport.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -119,11 +128,11 @@
     <Compile Include="rpt_Employee_List.Designer.cs">
       <DependentUpon>rpt_Employee_List.cs</DependentUpon>
     </Compile>
-    <Compile Include="rpt_Employee_PayrollReport.cs">
+    <Compile Include="rpt_Employee_PayrollReport_old.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="rpt_Employee_PayrollReport.Designer.cs">
-      <DependentUpon>rpt_Employee_PayrollReport.cs</DependentUpon>
+    <Compile Include="rpt_Employee_PayrollReport_old.Designer.cs">
+      <DependentUpon>rpt_Employee_PayrollReport_old.cs</DependentUpon>
     </Compile>
     <Compile Include="rpt_History_CardPaymentsByType.cs">
       <SubType>Component</SubType>
@@ -251,14 +260,17 @@
     <EmbeddedResource Include="rpt_Employee_DriverReimbursement.resx">
       <DependentUpon>rpt_Employee_DriverReimbursement.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="rpt_Employee_PayrollReport.resx">
+      <DependentUpon>rpt_Employee_PayrollReport.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="rpt_Employee_LaborReport.resx">
       <DependentUpon>rpt_Employee_LaborReport.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="rpt_Employee_List.resx">
       <DependentUpon>rpt_Employee_List.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="rpt_Employee_PayrollReport.resx">
-      <DependentUpon>rpt_Employee_PayrollReport.cs</DependentUpon>
+    <EmbeddedResource Include="rpt_Employee_PayrollReport_old.resx">
+      <DependentUpon>rpt_Employee_PayrollReport_old.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="rpt_History_CardPaymentsByType.resx">
       <DependentUpon>rpt_History_CardPaymentsByType.cs</DependentUpon>

@@ -86,6 +86,23 @@ namespace FormulaReportsLib
             }
         }
 
+        public static double NullToDbl(string s)
+        {
+            try
+            {
+                if (s != "")
+                    return Convert.ToDouble(s);
+                else
+                {
+                    return 0;
+                }
+            }
+            catch
+            {
+                return 0;
+            }
+        }
+
         public static string LookUpDataTable(DataTable LookIn, string FieldToLook, string Param)
         {
             DataRow[] drarray = null;

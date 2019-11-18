@@ -479,6 +479,10 @@ namespace FormulaReportsLib
                 DataTable data2 = new DataTable();
                 DataTable data3 = new DataTable();
                 DataTable data4 = new DataTable();
+                DataTable data5 = new DataTable();
+                DataTable data6 = new DataTable();
+                DataTable data7 = new DataTable();
+
 
                 Query = "SELECT SUM(payin) AS PayIn, SUM(ccsales) AS CCPayment, SUM(OverShort) AS OverShort, SUM(cctips) AS CCTips, SUM(payouts) AS PayOuts, SUM(expectedcash) AS Expected, SUM(totalcashcounted) AS Actual " +
                                 "FROM bankhistory " +
@@ -502,6 +506,18 @@ namespace FormulaReportsLib
                 Query = Query.Replace("@myparam", _ParamDate);
                 data4 = reportdata.ProcessReportData(Query, sfield, svalue);
 
+                Query = "SELECT SUM(subtotal) AS mediaCash FROM paymenthistory WHERE tendertype = 'CASH' AND @myparam";
+                Query = Query.Replace("@myparam", _ParamDate);
+                data5 = reportdata.ProcessReportData(Query, sfield, svalue);
+
+                Query = "SELECT SUM(subtotal) AS mediaCheck FROM paymenthistory WHERE tendertype = 'CHECK' AND @myparam";
+                Query = Query.Replace("@myparam", _ParamDate);
+                data6 = reportdata.ProcessReportData(Query, sfield, svalue);
+
+                Query = "SELECT SUM(subtotal) AS mediaCredit FROM paymenthistory WHERE tendertype = 'CREDIT' AND @myparam";
+                Query = Query.Replace("@myparam", _ParamDate);
+                data7 = reportdata.ProcessReportData(Query, sfield, svalue);
+
                 //// table
                 //if (ParamDate.Count == 1 && ParamDate[0].date.ToShortDateString() == DateTime.Now.ToShortDateString())
                 //    Query1 = Query1.Replace("@mytable", "tickets");
@@ -518,8 +534,11 @@ namespace FormulaReportsLib
                 float fhouse = 0;
                 float fgc = 0;
                 float fovrshrt = 0;
-                float flbrperc = 0;
+                //float flbrperc = 0;
                 float freim = 0;
+                float fcash = 0;
+                float fcheck = 0;
+                float fcredit = 0;
 
                 if (data1 != null)
                 {
@@ -538,14 +557,25 @@ namespace FormulaReportsLib
                     fgc = GetGC(data2);
                 }
 
-                if (data3 != null)
-                    flbrperc = GetLaborPerc(data3) * 100;
+                //if (data3 != null)
+                //    flbrperc = GetLaborPerc(data3) * 100;
 
                 if (data4 != null)
                     freim = Helpers.NullToFlt(data4.Rows[0]["total"]);
 
+                if (data5 != null)
+                    fcash = Helpers.NullToFlt(data5.Rows[0]["mediaCash"]);
+
+                if (data6 != null)
+                    fcheck = Helpers.NullToFlt(data6.Rows[0]["mediaCheck"]);
+
+                if (data7 != null)
+                    fcredit = Helpers.NullToFlt(data7.Rows[0]["mediaCredit"]);
 
                 list.Add(new ReportData("Total Sales", (fpayins + fccpay + fcctip + fpayout + fexp + fact + fhouse + fgc).ToString()));
+                list.Add(new ReportData("Cash", fcash.ToString()));
+                list.Add(new ReportData("Check", fcheck.ToString()));
+                list.Add(new ReportData("Credit", fcredit.ToString()));
                 list.Add(new ReportData("Total Payins (+)", fpayins.ToString()));
                 list.Add(new ReportData("Total Credit Card Payments (-)", fccpay.ToString()));
                 list.Add(new ReportData("Total Credit Card Tips (-)", fcctip.ToString()));
@@ -556,7 +586,7 @@ namespace FormulaReportsLib
                 list.Add(new ReportData("Adjusted Sales (Expected Cash/Cks)", fexp.ToString()));
                 list.Add(new ReportData("Adjusted Sales (Actual Cash)", fact.ToString()));
                 list.Add(new ReportData("Over / Short Amount", fovrshrt.ToString()));
-                list.Add(new ReportData("Labor Percentage", flbrperc.DecimalPlace() + "%"));
+                //list.Add(new ReportData("Labor Percentage", flbrperc.DecimalPlace() + "%"));
 
                 return list;
 
@@ -768,6 +798,7 @@ namespace FormulaReportsLib
 
         DataTable data1 = new DataTable();
         DataTable data1DlvryStt = new DataTable();
+        DataTable data1DlvryReim = new DataTable();
         DataTable data2 = new DataTable();
         DataTable data3 = new DataTable();
         DataTable data4 = new DataTable();
@@ -818,8 +849,18 @@ namespace FormulaReportsLib
                 Query = Query.Replace("@myparam", _ParamDate);                
                 data1 = reportdata.ProcessReportData(Query, sfield, svalue);
 
-                Query = "SELECT DeliveryFeeAmount, DriverReimbursementAmount FROM deliverysettings";
-                data1DlvryStt = reportdata.ProcessReportData(Query, null, null);
+
+                // Delivery and Reimbursement ############################
+                //Query = "SELECT DeliveryFeeAmount, DriverReimbursementAmount FROM deliverysettings";
+                //data1DlvryStt = reportdata.ProcessReportData(Query, null, null);
+
+                Query = "SELECT a.deliverycharge FROM tickethistory AS a WHERE @myparam ";
+                Query = Query.Replace("@myparam", _ParamDate);
+                data1DlvryStt = reportdata.ProcessReportData(Query, sfield, svalue);
+
+                Query = "SELECT (a.ammountdriverowns - a.ammountdriverkeeps) as reimbursement FROM history_driversummary AS a WHERE @myparam ";
+                Query = Query.Replace("@myparam", _ParamDate);
+                data1DlvryReim = reportdata.ProcessReportData(Query, sfield, svalue);
 
 
 
@@ -898,8 +939,8 @@ namespace FormulaReportsLib
                             perc1 = Convert.ToDecimal((Convert.ToDouble(data1.Rows[i]["Amount"]) / Convert.ToDouble(data1.Rows[i]["Quantity"]))).DecimalPlace();
                         else
                             perc1 = "0";
-                        if (data1.Rows[i]["isDelivery"].ToString() == "1")
-                            fTotalDelivery = Convert.ToDouble(data1.Rows[i]["Quantity"]);
+                        //if (data1.Rows[i]["isDelivery"].ToString() == "1")
+                        //    fTotalDelivery = Convert.ToDouble(data1.Rows[i]["Quantity"]);
 
                         list1.Add(new ReportData(data1.Rows[i]["ServiceTypeName"].ToString(),
                                           Convert.ToDouble(data1.Rows[i]["Quantity"]).ToString(),
@@ -911,8 +952,10 @@ namespace FormulaReportsLib
 
                     AllSalesTotals.rpt1TotalQty = fTotalQty;
                     AllSalesTotals.rpt1TotalAmt = fTotalAmt;
-                    AllSalesTotals.rpt1Delivery = (Convert.ToDouble(data1DlvryStt.Rows[0]["DeliveryFeeAmount"]) * fTotalDelivery);
-                    AllSalesTotals.rpt1Reimbursement = (Convert.ToDouble(data1DlvryStt.Rows[0]["DriverReimbursementAmount"]) * fTotalDelivery);
+                    //AllSalesTotals.rpt1Delivery = (Convert.ToDouble(data1DlvryStt.Rows[0]["DeliveryFeeAmount"]) * fTotalDelivery);
+                    //AllSalesTotals.rpt1Reimbursement = (Convert.ToDouble(data1DlvryStt.Rows[0]["DriverReimbursementAmount"]) * fTotalDelivery);
+                    AllSalesTotals.rpt1Delivery = (Convert.ToDouble(data1DlvryStt.Rows[0]["deliverycharge"]) * fTotalDelivery);
+                    AllSalesTotals.rpt1Reimbursement = (Convert.ToDouble(data1DlvryReim.Rows[0]["reimbursement"]) * fTotalDelivery);
                     AllSalesTotals.rpt1NetSales = fTotalAmt + AllSalesTotals.rpt1Delivery - AllSalesTotals.rpt1Reimbursement;
                     AllSalesTotals.rpt1SalesTax = fTax;
                     AllSalesTotals.rpt1GrossQty = fTotalQty;
